@@ -124,7 +124,7 @@
     <script type="text/babel" data-presets="env,react">
         // --- GLOBAL IMPORTS & DESTRUCTURING ---
         const { useState, useEffect } = React;
-        const { HashRouter, Routes, Route, Link, useLocation, Navigate, useSearchParams } = ReactRouterDOM;
+        const { BrowserRouter, Routes, Route, Link, useLocation, Navigate, useSearchParams } = ReactRouterDOM;
         
         // Destructure Icons from global lucideReact object
         const {
@@ -2281,7 +2281,7 @@
         // App Component
         const App = () => {
             return (
-                <HashRouter>
+                <BrowserRouter>
                     <ScrollToTop />
                     <Layout>
                         <Routes>
@@ -2293,12 +2293,13 @@
                             <Route path="*" element={<NotFound />} />
                         </Routes>
                     </Layout>
-                </HashRouter>
+                </BrowserRouter>
             );
         };
 
         // Mount Application
-        ReactDOM.render(<App />, document.getElementById('root'));
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
     </script>
 </body>
 </html>
