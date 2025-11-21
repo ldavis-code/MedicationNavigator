@@ -123,7 +123,7 @@
 
     <script type="text/babel" data-presets="env,react">
         // --- GLOBAL IMPORTS & DESTRUCTURING ---
-        const { useState, useEffect } = React;
+        const { useState, useEffect, useCallback } = React;
         const { BrowserRouter, Routes, Route, Link, useLocation, Navigate, useSearchParams } = ReactRouterDOM;
         
         // Destructure Icons from global lucideReact object
@@ -1572,18 +1572,18 @@
                 }
             }, [myListIds, setSearchParams]);
 
-            const handleSearch = () => {
+            const handleSearch = useCallback(() => {
                 if (!searchTerm.trim()) {
                     setSearchResult(null);
                     return;
                 }
                 const term = searchTerm.toLowerCase().trim();
-                const internalMatches = MEDICATIONS.filter(med => 
+                const internalMatches = MEDICATIONS.filter(med =>
                     med.brandName.toLowerCase().includes(term) ||
                     med.genericName.toLowerCase().includes(term)
                 );
                 setSearchResult({ internal: internalMatches, showExternalOption: true });
-            };
+            }, [searchTerm]);
 
             useEffect(() => {
                 const timer = setTimeout(() => {
@@ -1591,7 +1591,7 @@
                     else setSearchResult(null);
                 }, 300);
                 return () => clearTimeout(timer);
-            }, [searchTerm]);
+            }, [searchTerm, handleSearch]);
 
             const addInternalToList = (id) => {
                 if (!myListIds.includes(id)) setMyListIds([...myListIds, id]);
@@ -1829,6 +1829,10 @@
                                             </tr>
                                         </tbody>
                                     </table>
+                                </div>
+                                <div className="mt-3 text-xs text-slate-500 italic flex items-start gap-2" role="note">
+                                    <Info size={14} className="flex-shrink-0 mt-0.5" aria-hidden="true" />
+                                    <p>Price estimates are approximate and based on general market research (last updated: November 2024). Always check live prices via the links above for current rates.</p>
                                 </div>
                             </div>
                         )}
@@ -2297,8 +2301,10 @@
             );
         };
 
-        // Mount Application
-        ReactDOM.render(<App />, document.getElementById('root'));
+        // Mount Application (React 18+)
+        const rootElement = document.getElementById('root');
+        const root = ReactDOM.createRoot(rootElement);
+        root.render(<App />);
     </script>
 </body>
 </html>
