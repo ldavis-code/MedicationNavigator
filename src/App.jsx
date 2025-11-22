@@ -623,7 +623,8 @@ const MEDICATIONS = [
         category: 'Iron Supplement (ESRD)',
         manufacturer: 'American Regent',
         stage: TransplantStage.PRE,
-        commonOrgans: [OrganType.KIDNEY]
+        commonOrgans: [OrganType.KIDNEY],
+        papUrl: 'https://www.venofer.com/venaccess'
     },
     {
         id: 'feraheme',
@@ -642,7 +643,8 @@ const MEDICATIONS = [
         category: 'Iron Supplement (ESRD)',
         manufacturer: 'American Regent',
         stage: TransplantStage.PRE,
-        commonOrgans: [OrganType.KIDNEY]
+        commonOrgans: [OrganType.KIDNEY],
+        papUrl: 'https://www.dsiaccesscentral.com/'
     },
     {
         id: 'calcitriol',
@@ -740,7 +742,8 @@ const MEDICATIONS = [
         category: 'Acute Rejection',
         manufacturer: 'Various',
         stage: TransplantStage.POST,
-        commonOrgans: [OrganType.KIDNEY, OrganType.LIVER, OrganType.HEART, OrganType.LUNG]
+        commonOrgans: [OrganType.KIDNEY, OrganType.LIVER, OrganType.HEART, OrganType.LUNG],
+        papUrl: 'https://www.gammagard.com/primary-immunodeficiency/copay-support'
     },
     {
         id: 'soliris',
@@ -1893,11 +1896,17 @@ const DIRECTORY_RESOURCES = [
         description: 'Since 1987, provides assistance programs for life-saving medications, financial assistance with insurance premiums and co-pays, diagnostic testing for rare diseases.', 
         category: 'Foundation' 
     },
-    { 
-        name: 'Cost Plus Drugs', 
-        url: 'https://costplusdrugs.com/', 
-        description: 'A low-cost online pharmacy that cuts out middlemen. Excellent for comparing cash prices against insurance copays.', 
-        category: 'Low-Cost Pharmacy' 
+    {
+        name: 'Cost Plus Drugs',
+        url: 'https://costplusdrugs.com/',
+        description: 'A low-cost online pharmacy that cuts out middlemen. Excellent for comparing cash prices against insurance copays.',
+        category: 'Low-Cost Pharmacy'
+    },
+    {
+        name: 'GoodRx',
+        url: 'https://www.goodrx.com/',
+        description: 'Free prescription discount coupons that work at virtually all pharmacies. Compare prices and get instant coupons for generic and brand medications.',
+        category: 'Discount Program'
     },
     {
         name: 'Medicare.gov',
