@@ -3578,7 +3578,28 @@ const MedicationSearch = () => {
 };
 
 const MedicationCard = ({ med, activeTab, onRemove }) => {
-    const isCostPlusAvailable = med.id !== 'valcyte';
+    // Cost Plus Drugs primarily carries generic oral medications
+    // Excluded: Injectable biologics, IV formulations, specialty inhalers, brand-only medications
+    const costPlusExcluded = [
+        // Injectable/IV biologics and induction agents
+        'simulect', 'thymoglobulin', 'atgam', 'belatacept', 'ivig', 'soliris', 'ultomiris',
+        // IV/Injectable medications
+        'valcyte', 'ganciclovir', 'solumedrol', 'rituximab',
+        // Inhaled corticosteroids and biologics (branded inhalers)
+        'flovent', 'pulmicort', 'qvar', 'alvesco', 'arnuity', 'dupixent', 'nucala',
+        'fasenra', 'cinqair', 'xolair', 'trelegy', 'symbicort', 'advair', 'breo',
+        'anoro', 'spiriva', 'incruse',
+        // Pulmonary hypertension (specialty medications)
+        'opsumit', 'letairis', 'tracleer', 'adempas', 'adcirca', 'orenitram', 'uptravi', 'tyvaso',
+        // Hepatitis C (specialty antivirals)
+        'harvoni', 'epclusa',
+        // ESRD injectable medications
+        'aranesp', 'epogen', 'mircera', 'venofer', 'injectafer', 'feraheme',
+        // Fatty liver disease specialty medications
+        'ocaliva', 'rezdiffra'
+    ];
+
+    const isCostPlusAvailable = !costPlusExcluded.includes(med.id) && med.manufacturer !== 'Various';
     const papLink = med.papUrl || `https://www.drugs.com/search.php?searchterm=${med.brandName.split('/')[0]}`;
     const papLinkText = med.papUrl ? "Visit Manufacturer Program" : "Search for Program on Drugs.com";
 
