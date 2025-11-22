@@ -6,7 +6,8 @@ import {
     Shield, AlertTriangle, AlertCircle, Printer, ExternalLink, Building, PlusCircle,
     Trash2, Globe, List, Info, Copy, Check, Building2, LandPlot, Scale, FileText,
     GraduationCap, Phone, ClipboardList, CheckSquare, Square, Stethoscope,
-    AlertOctagon, Calendar, Pill, ChevronDown, Share2, Home as HomeIcon
+    AlertOctagon, Calendar, Pill, ChevronDown, Share2, Home as HomeIcon,
+    MessageCircle, Send, HelpCircle, Lightbulb, Zap, MinimizeIcon
 } from 'lucide-react';
 
 // --- CONSTANTS & DATA ---
@@ -890,6 +891,353 @@ const ScrollToTop = () => {
     return null;
 };
 
+// --- RULE-BASED ASSISTANT SYSTEM ---
+
+// Knowledge Base for Rule-Based Responses
+const ASSISTANT_KNOWLEDGE_BASE = {
+    greeting: {
+        keywords: ['hello', 'hi', 'hey', 'help'],
+        response: "Hello! I'm here to help you navigate transplant medication assistance. I can help you with:\n\n• Understanding insurance coverage\n• Finding patient assistance programs\n• Navigating the My Path wizard\n• Learning about specific medications\n\nWhat would you like to know?"
+    },
+    insurance: {
+        keywords: ['insurance', 'medicare', 'medicaid', 'commercial', 'coverage'],
+        response: "**Insurance Coverage Options:**\n\n• **Medicare**: Check Part B-ID for immunosuppressants if you're a kidney transplant patient\n• **Medicaid**: State-specific coverage - check your state's program\n• **Commercial**: Use specialty pharmacies and copay cards\n• **Uninsured**: Apply for manufacturer Patient Assistance Programs (PAPs)\n\nNeed help with a specific insurance type?"
+    },
+    pap: {
+        keywords: ['pap', 'patient assistance', 'free medication', 'afford', 'cost'],
+        response: "**Patient Assistance Programs (PAPs):**\n\nManufacturers offer free or low-cost medications to eligible patients. Steps to apply:\n\n1. Find your medication's manufacturer PAP link (use our Search Meds tool)\n2. Check income requirements (usually 200-500% of Federal Poverty Level)\n3. Get doctor to complete forms\n4. Submit financial documents\n\nMost applications take 2-4 weeks. Need help finding a specific program?"
+    },
+    foundation: {
+        keywords: ['foundation', 'healthwell', 'pan', 'copay'],
+        response: "**Copay Assistance Foundations:**\n\nThese organizations help pay for copays and premiums:\n\n• **HealthWell Foundation**: Disease-specific funds\n• **PAN Foundation**: Multiple chronic conditions\n• **Patient Advocate Foundation**: Case management + financial help\n• **American Kidney Fund**: Kidney-specific assistance\n\nFunds open/close based on availability. Apply early!"
+    },
+    specialtyPharmacy: {
+        keywords: ['specialty pharmacy', 'mail order', 'cvs', 'walgreens'],
+        response: "**Specialty Pharmacy Requirements:**\n\nMost commercial insurance requires transplant meds be filled at designated specialty pharmacies (not retail).\n\n**Common specialty pharmacies:**\n• Accredo\n• CVS Specialty\n• Walgreens Specialty\n• Briova/Optum\n\n**Important:** Using the wrong pharmacy = full price! Call your insurance to confirm which one you must use."
+    },
+    medications: {
+        keywords: ['tacrolimus', 'prograf', 'cyclosporine', 'mycophenolate', 'cellcept', 'medication'],
+        response: "**Common Transplant Medications:**\n\n**Immunosuppressants** (prevent rejection):\n• Tacrolimus (Prograf)\n• Cyclosporine (Neoral)\n• Mycophenolate (CellCept)\n\n**Anti-virals** (prevent infection):\n• Valganciclovir (Valcyte)\n• Acyclovir (Zovirax)\n\nUse our **Search Meds** tool to find pricing, manufacturer PAPs, and assistance programs for specific medications."
+    },
+    wizard: {
+        keywords: ['my path', 'wizard', 'quiz', 'start'],
+        response: "**My Path Wizard Guide:**\n\nThe wizard creates a personalized medication assistance plan based on:\n\n1. Your role (patient/carepartner/social worker)\n2. Transplant status (pre/post)\n3. Organ type\n4. Insurance type\n5. Medications you take\n6. Financial situation\n\nIt takes about 3-5 minutes and your data is never stored. Ready to start?"
+    },
+    application: {
+        keywords: ['apply', 'application', 'how to apply', 'documents', 'forms'],
+        response: "**How to Apply for Assistance:**\n\n**Required Documents:**\n• Recent tax return or pay stubs\n• Insurance card (if applicable)\n• Doctor's prescription/letter\n\n**Steps:**\n1. Create account on manufacturer/foundation website\n2. Complete patient portion\n3. Send forms to doctor for completion\n4. Upload financial documents\n5. Wait 2-4 weeks for decision\n\nCheck our **Application Guide** for detailed help and templates!"
+    },
+    faq: {
+        keywords: ['faq', 'questions', 'common'],
+        response: "**Frequently Asked Questions:**\n\nCheck our FAQ page for answers to common questions about:\n\n• Eligibility requirements\n• Application timelines\n• Renewal processes\n• Generic vs brand medications\n• Insurance appeals\n\nWhat specific question do you have?"
+    }
+};
+
+// Quick Actions for the Assistant
+const QUICK_ACTIONS = [
+    {
+        id: 'start-wizard',
+        label: 'Start My Path Wizard',
+        icon: Map,
+        link: '/wizard',
+        description: 'Get personalized assistance recommendations'
+    },
+    {
+        id: 'search-meds',
+        label: 'Search Medications',
+        icon: Search,
+        link: '/medications',
+        description: 'Find pricing and assistance programs'
+    },
+    {
+        id: 'find-pap',
+        label: 'Find PAP Programs',
+        icon: HeartHandshake,
+        topic: 'pap',
+        description: 'Learn about patient assistance programs'
+    },
+    {
+        id: 'insurance-help',
+        label: 'Insurance Help',
+        icon: Shield,
+        topic: 'insurance',
+        description: 'Understand your coverage options'
+    },
+    {
+        id: 'application-guide',
+        label: 'Application Guide',
+        icon: ClipboardList,
+        link: '/application-help',
+        description: 'Get help applying for assistance'
+    }
+];
+
+// Rule-based response generator
+const getAssistantResponse = (userMessage, context = {}) => {
+    const lowerMessage = userMessage.toLowerCase();
+
+    // Check for matches in knowledge base
+    for (const [key, entry] of Object.entries(ASSISTANT_KNOWLEDGE_BASE)) {
+        if (entry.keywords.some(keyword => lowerMessage.includes(keyword))) {
+            return entry.response;
+        }
+    }
+
+    // Context-aware responses based on wizard state
+    if (context.wizardStep) {
+        if (context.wizardStep === 5) {
+            return "**Selecting Medications:**\n\nChoose all medications you currently take or expect to take. Don't worry if you're not sure - you can always update this later.\n\n💡 **Tip:** If you select medications, we'll show you direct links to their manufacturer assistance programs in your results.";
+        }
+        if (context.wizardStep === 6) {
+            return ASSISTANT_KNOWLEDGE_BASE.specialtyPharmacy.response;
+        }
+        if (context.wizardStep === 7) {
+            return "**Financial Status:**\n\nBe honest about your situation - this helps us prioritize the best programs for you:\n\n• **Manageable**: Focus on copay cards and savings\n• **Challenging**: PAPs + foundations recommended\n• **Unaffordable/Crisis**: Immediate PAP applications + Medicaid check\n\nYour answer is never stored or shared.";
+        }
+    }
+
+    // Default helpful response
+    return "I'm here to help! Here are some things I can assist with:\n\n• **Insurance questions** - Medicare, Medicaid, commercial coverage\n• **Patient Assistance Programs (PAPs)** - How to get free medication\n• **Copay foundations** - Organizations that help pay for medications\n• **Application help** - Step-by-step guidance\n• **Medication information** - Pricing and assistance programs\n\nTry asking about any of these topics, or use the Quick Actions below!";
+};
+
+// Smart medication suggestions based on context
+const getMedicationSuggestions = (answers) => {
+    const suggestions = [];
+
+    if (!answers.organs || answers.organs.length === 0) {
+        return suggestions;
+    }
+
+    const isPreTransplant = answers.status === TransplantStatus.PRE_EVAL;
+    const isKidney = answers.organs.includes(OrganType.KIDNEY);
+    const isLiver = answers.organs.includes(OrganType.LIVER);
+    const isHeart = answers.organs.includes(OrganType.HEART);
+    const isLung = answers.organs.includes(OrganType.LUNG);
+
+    // Pre-transplant suggestions
+    if (isPreTransplant) {
+        if (isKidney) {
+            suggestions.push({
+                category: 'ESRD Support',
+                medications: ['procrit', 'renvela', 'sensipar'],
+                reason: 'Common for kidney patients on dialysis'
+            });
+        }
+        if (isLiver) {
+            suggestions.push({
+                category: 'Liver Support',
+                medications: ['xifaxan', 'lactulose'],
+                reason: 'Help manage liver disease symptoms'
+            });
+        }
+        if (isHeart || isLung) {
+            suggestions.push({
+                category: 'Pulmonary Hypertension',
+                medications: ['revatio', 'tracleer'],
+                reason: 'Common for heart/lung candidates'
+            });
+        }
+    }
+
+    // Post-transplant suggestions
+    if (!isPreTransplant) {
+        // Universal post-transplant
+        suggestions.push({
+            category: 'Immunosuppressants',
+            medications: ['tacrolimus', 'mycophenolate', 'prednisone'],
+            reason: 'Core anti-rejection medications for all transplants'
+        });
+
+        suggestions.push({
+            category: 'Anti-viral Prophylaxis',
+            medications: ['valcyte', 'bactrim'],
+            reason: 'Prevent infections after transplant'
+        });
+
+        if (isLiver) {
+            suggestions.push({
+                category: 'Hepatitis Management',
+                medications: ['baraclude', 'vemlidy'],
+                reason: 'May be needed for liver transplant patients'
+            });
+        }
+    }
+
+    return suggestions;
+};
+
+// Chat Widget Component
+const ChatWidget = () => {
+    const [isOpen, setIsOpen] = useState(false);
+    const [messages, setMessages] = useState([
+        {
+            id: 1,
+            type: 'assistant',
+            text: "👋 Hi! I'm your Transplant Medication Navigator assistant. I can help you find medication assistance, understand insurance, and navigate our tools.\n\nWhat can I help you with today?",
+            timestamp: new Date()
+        }
+    ]);
+    const [inputValue, setInputValue] = useState('');
+    const [wizardContext, setWizardContext] = useState({});
+    const messagesEndRef = useCallback(node => {
+        if (node) {
+            node.scrollIntoView({ behavior: 'smooth' });
+        }
+    }, []);
+
+    const handleSendMessage = () => {
+        if (!inputValue.trim()) return;
+
+        // Add user message
+        const userMessage = {
+            id: messages.length + 1,
+            type: 'user',
+            text: inputValue,
+            timestamp: new Date()
+        };
+
+        setMessages(prev => [...prev, userMessage]);
+
+        // Get assistant response
+        const response = getAssistantResponse(inputValue, wizardContext);
+        const assistantMessage = {
+            id: messages.length + 2,
+            type: 'assistant',
+            text: response,
+            timestamp: new Date()
+        };
+
+        setTimeout(() => {
+            setMessages(prev => [...prev, assistantMessage]);
+        }, 500);
+
+        setInputValue('');
+    };
+
+    const handleQuickAction = (action) => {
+        if (action.link) {
+            window.location.href = action.link;
+        } else if (action.topic) {
+            const response = ASSISTANT_KNOWLEDGE_BASE[action.topic]?.response || '';
+            const assistantMessage = {
+                id: messages.length + 1,
+                type: 'assistant',
+                text: response,
+                timestamp: new Date()
+            };
+            setMessages(prev => [...prev, assistantMessage]);
+        }
+    };
+
+    return (
+        <div className="fixed bottom-6 right-6 z-50 no-print">
+            {/* Chat Button */}
+            {!isOpen && (
+                <button
+                    onClick={() => setIsOpen(true)}
+                    className="bg-emerald-600 hover:bg-emerald-700 text-white rounded-full p-4 shadow-lg transition-all duration-300 flex items-center gap-2 group"
+                    aria-label="Open assistant chat"
+                >
+                    <MessageCircle size={24} />
+                    <span className="max-w-0 overflow-hidden group-hover:max-w-xs transition-all duration-300 whitespace-nowrap">
+                        Need help?
+                    </span>
+                </button>
+            )}
+
+            {/* Chat Window */}
+            {isOpen && (
+                <div className="bg-white rounded-2xl shadow-2xl w-96 h-[600px] flex flex-col border border-slate-200 animate-in slide-in-from-bottom-5">
+                    {/* Header */}
+                    <div className="bg-emerald-600 text-white p-4 rounded-t-2xl flex justify-between items-center">
+                        <div className="flex items-center gap-2">
+                            <div className="bg-white/20 p-2 rounded-lg">
+                                <HeartHandshake size={20} />
+                            </div>
+                            <div>
+                                <h3 className="font-bold">Medication Navigator</h3>
+                                <p className="text-xs text-emerald-100">Always here to help</p>
+                            </div>
+                        </div>
+                        <button
+                            onClick={() => setIsOpen(false)}
+                            className="hover:bg-white/20 p-2 rounded-lg transition"
+                            aria-label="Close chat"
+                        >
+                            <X size={20} />
+                        </button>
+                    </div>
+
+                    {/* Messages */}
+                    <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-slate-50">
+                        {messages.map((message, index) => (
+                            <div
+                                key={message.id}
+                                className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}
+                            >
+                                <div
+                                    className={`max-w-[80%] rounded-2xl p-3 ${
+                                        message.type === 'user'
+                                            ? 'bg-emerald-600 text-white'
+                                            : 'bg-white border border-slate-200 text-slate-800'
+                                    }`}
+                                >
+                                    <p className="text-sm whitespace-pre-wrap">{message.text}</p>
+                                </div>
+                            </div>
+                        ))}
+                        <div ref={messagesEndRef} />
+                    </div>
+
+                    {/* Quick Actions */}
+                    <div className="border-t border-slate-200 p-3 bg-white">
+                        <p className="text-xs text-slate-500 mb-2 font-medium">Quick Actions:</p>
+                        <div className="grid grid-cols-2 gap-2">
+                            {QUICK_ACTIONS.slice(0, 4).map(action => {
+                                const Icon = action.icon;
+                                return (
+                                    <button
+                                        key={action.id}
+                                        onClick={() => handleQuickAction(action)}
+                                        className="flex items-center gap-2 p-2 rounded-lg border border-slate-200 hover:bg-emerald-50 hover:border-emerald-300 transition text-left"
+                                        title={action.description}
+                                    >
+                                        <Icon size={16} className="text-emerald-600 flex-shrink-0" />
+                                        <span className="text-xs text-slate-700 truncate">{action.label}</span>
+                                    </button>
+                                );
+                            })}
+                        </div>
+                    </div>
+
+                    {/* Input */}
+                    <div className="border-t border-slate-200 p-4 bg-white rounded-b-2xl">
+                        <div className="flex gap-2">
+                            <input
+                                type="text"
+                                value={inputValue}
+                                onChange={(e) => setInputValue(e.target.value)}
+                                onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+                                placeholder="Ask a question..."
+                                className="flex-1 px-4 py-2 border border-slate-300 rounded-full focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm"
+                                aria-label="Type your message"
+                            />
+                            <button
+                                onClick={handleSendMessage}
+                                disabled={!inputValue.trim()}
+                                className="bg-emerald-600 hover:bg-emerald-700 disabled:bg-slate-300 text-white p-2 rounded-full transition disabled:cursor-not-allowed"
+                                aria-label="Send message"
+                            >
+                                <Send size={20} />
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+        </div>
+    );
+};
+
 // Layout Component
 const Layout = ({ children }) => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -986,13 +1334,16 @@ const Layout = ({ children }) => {
             <footer className="bg-slate-900 text-slate-400 py-8 text-sm no-print" role="contentinfo">
                 <div className="container mx-auto px-4 text-center">
                     <p className="mb-4">
-                        <strong>Disclaimer:</strong> This tool is for educational purposes only. It does not provide medical advice. 
+                        <strong>Disclaimer:</strong> This tool is for educational purposes only. It does not provide medical advice.
                         Prices are estimates. Always verify with your provider and pharmacist.
                     </p>
                     <p>© {new Date().getFullYear()} Transplant Medication Navigator. No data is stored on our servers.</p>
                     <p className="mt-4 text-slate-600 text-xs">Created by Lorrinda Gray-Davis. est August 2025</p>
                 </div>
             </footer>
+
+            {/* Assistant Chat Widget */}
+            <ChatWidget />
         </div>
     );
 };
@@ -1142,6 +1493,127 @@ const Home = () => {
     );
 };
 
+// Contextual Help Component for Wizard
+const WizardHelp = ({ step, answers }) => {
+    const [showHelp, setShowHelp] = useState(false);
+
+    const helpContent = {
+        1: {
+            title: "Choosing Your Role",
+            content: "Select the option that best describes you. This helps us tailor the guidance:\n\n• **Patient**: You're receiving or awaiting a transplant\n• **Carepartner**: You're helping a loved one\n• **Social Worker**: You're assisting patients professionally\n\nAll roles receive the same resources, but the language may be adjusted."
+        },
+        2: {
+            title: "Transplant Status",
+            content: "Your transplant stage determines which medications are relevant:\n\n• **Pre-transplant**: Shows medications for candidates (dialysis support, heart failure meds, etc.)\n• **Post-transplant (1st year)**: Focus on immunosuppressants and anti-infection medications\n• **Post-transplant (1+ years)**: Long-term maintenance medications\n\nDifferent assistance programs may be available at each stage."
+        },
+        3: {
+            title: "Selecting Your Organ",
+            content: "Choose all organs that apply to your situation:\n\n• **Single organ**: We'll show medications specific to that organ\n• **Multi-organ**: Select all relevant organs\n• **Other/Not listed**: Shows general transplant medications\n\nThis filters the medication list to show only relevant options."
+        },
+        4: {
+            title: "Insurance Type",
+            content: "Your insurance determines which assistance programs you can use:\n\n• **Commercial**: Can use manufacturer copay cards + PAPs\n• **Medicare**: Part B-ID important for kidney patients; can use PAPs but NOT copay cards\n• **Medicaid**: May have full coverage; check state formulary\n• **Uninsured**: Manufacturer PAPs are your primary option\n\n💡 Having insurance doesn't mean you can't get additional help!"
+        },
+        5: {
+            title: "Selecting Medications",
+            content: "Choose all medications you currently take or expect to take:\n\n• Don't worry if you're not sure - you can always come back\n• Selecting medications gives you direct links to manufacturer programs\n• You can search for specific meds using the Search Meds tool\n\n💡 If you're pre-transplant, the list shows supportive medications. Post-transplant shows immunosuppressants and prophylaxis."
+        },
+        6: {
+            title: "Specialty Pharmacy",
+            content: "**Why this matters:**\n\nCommercial insurance often requires transplant meds be filled at a designated specialty pharmacy (not your local CVS/Walgreens).\n\n**If you use the wrong pharmacy:**\n• Insurance won't cover it\n• You'll pay full price ($1000s)\n\n**What to do:**\nCall your insurance and ask: 'Which specialty pharmacy must I use for my transplant medications?'\n\nCommon ones: Accredo, CVS Specialty, Walgreens Specialty, Optum"
+        },
+        7: {
+            title: "Financial Status",
+            content: "**Be honest - this helps us prioritize the best help for you:**\n\n• **Manageable**: We'll show copay savings tips\n• **Challenging**: Focus on PAPs and foundations\n• **Unaffordable**: Urgent PAP applications recommended\n• **Crisis**: Immediate assistance pathways\n\nYour answer is NEVER stored or shared. Many people qualify for help even if costs seem manageable now."
+        }
+    };
+
+    const help = helpContent[step];
+    if (!help) return null;
+
+    return (
+        <div className="mb-4">
+            <button
+                onClick={() => setShowHelp(!showHelp)}
+                className="flex items-center gap-2 text-emerald-600 hover:text-emerald-700 text-sm font-medium transition"
+            >
+                <HelpCircle size={18} />
+                {showHelp ? 'Hide Help' : 'Need help with this step?'}
+            </button>
+
+            {showHelp && (
+                <div className="mt-3 bg-blue-50 border border-blue-200 rounded-lg p-4 animate-in slide-in-from-top-2">
+                    <h3 className="font-bold text-blue-900 mb-2 flex items-center gap-2">
+                        <Lightbulb size={18} className="text-blue-600" />
+                        {help.title}
+                    </h3>
+                    <p className="text-sm text-blue-800 whitespace-pre-wrap">{help.content}</p>
+                </div>
+            )}
+        </div>
+    );
+};
+
+// Smart Suggestions Component for Medication Selection
+const MedicationSuggestions = ({ answers, onSelectMedication }) => {
+    const suggestions = getMedicationSuggestions(answers);
+    const [showSuggestions, setShowSuggestions] = useState(true);
+
+    if (suggestions.length === 0) return null;
+
+    return (
+        <div className="mb-6 bg-gradient-to-r from-indigo-50 to-purple-50 border border-indigo-200 rounded-xl p-4">
+            <div className="flex items-start justify-between mb-3">
+                <div className="flex items-center gap-2">
+                    <Zap size={20} className="text-indigo-600" />
+                    <h3 className="font-bold text-indigo-900">Smart Suggestions Based on Your Profile</h3>
+                </div>
+                <button
+                    onClick={() => setShowSuggestions(!showSuggestions)}
+                    className="text-indigo-600 hover:text-indigo-700 text-xs"
+                >
+                    {showSuggestions ? 'Hide' : 'Show'}
+                </button>
+            </div>
+
+            {showSuggestions && (
+                <div className="space-y-3">
+                    {suggestions.map((suggestion, idx) => (
+                        <div key={idx} className="bg-white rounded-lg p-3 border border-indigo-100">
+                            <div className="flex items-center gap-2 mb-2">
+                                <Pill size={16} className="text-indigo-600" />
+                                <span className="font-bold text-sm text-indigo-900">{suggestion.category}</span>
+                            </div>
+                            <p className="text-xs text-slate-600 mb-2">{suggestion.reason}</p>
+                            <div className="flex flex-wrap gap-2">
+                                {suggestion.medications.map(medId => {
+                                    const med = MEDICATIONS.find(m => m.id === medId);
+                                    if (!med) return null;
+                                    const isSelected = answers.medications.includes(medId);
+                                    return (
+                                        <button
+                                            key={medId}
+                                            onClick={() => onSelectMedication(medId)}
+                                            className={`text-xs px-3 py-1 rounded-full border transition ${
+                                                isSelected
+                                                    ? 'bg-indigo-600 text-white border-indigo-600'
+                                                    : 'bg-white text-indigo-700 border-indigo-300 hover:bg-indigo-50'
+                                            }`}
+                                        >
+                                            {isSelected && <Check size={12} className="inline mr-1" />}
+                                            {med.brandName.split('/')[0]}
+                                        </button>
+                                    );
+                                })}
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            )}
+        </div>
+    );
+};
+
 // Wizard Page
 const Wizard = () => {
     const [step, setStep] = useState(1);
@@ -1197,6 +1669,7 @@ const Wizard = () => {
             <div className="max-w-2xl mx-auto">
                 {renderProgress()}
                 <h1 className="text-2xl font-bold mb-6">Step 1: Who are you?</h1>
+                <WizardHelp step={step} answers={answers} />
                 <div className="space-y-3" role="radiogroup" aria-label="Select your role">
                     {Object.values(Role).map((r) => (
                         <button
@@ -1224,6 +1697,7 @@ const Wizard = () => {
                 {renderProgress()}
                 <button onClick={prevStep} className="text-slate-500 mb-4 flex items-center gap-1 text-sm hover:text-emerald-600" aria-label="Go back to previous step"><ChevronLeft size={16} aria-hidden="true" /> Back</button>
                 <h1 className="text-2xl font-bold mb-6">Step 2: Where are you in the process?</h1>
+                <WizardHelp step={step} answers={answers} />
                 <div className="space-y-3" role="radiogroup" aria-label="Select your transplant status">
                     {Object.values(TransplantStatus).map((s) => (
                         <button
@@ -1252,6 +1726,7 @@ const Wizard = () => {
                 <button onClick={prevStep} className="text-slate-500 mb-4 flex items-center gap-1 text-sm hover:text-emerald-600" aria-label="Go back to previous step"><ChevronLeft size={16} aria-hidden="true" /> Back</button>
                 <h1 className="text-2xl font-bold mb-2">Step 3: Organ Type</h1>
                 <p className="text-slate-600 mb-6">Select all that apply.</p>
+                <WizardHelp step={step} answers={answers} />
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8" role="group" aria-label="Select organ types">
                     {Object.values(OrganType).map((o) => (
                         <button
@@ -1287,6 +1762,7 @@ const Wizard = () => {
                 {renderProgress()}
                 <button onClick={prevStep} className="text-slate-500 mb-4 flex items-center gap-1 text-sm hover:text-emerald-600" aria-label="Go back to previous step"><ChevronLeft size={16} aria-hidden="true" /> Back</button>
                 <h1 className="text-2xl font-bold mb-6">Step 4: Primary Insurance</h1>
+                <WizardHelp step={step} answers={answers} />
                 <div className="space-y-3" role="radiogroup" aria-label="Select your insurance type">
                     {Object.values(InsuranceType).map((i) => (
                         <button
@@ -1310,7 +1786,7 @@ const Wizard = () => {
     // Step 5: Meds
     if (step === 5) {
         const isPreTransplant = answers.status === TransplantStatus.PRE_EVAL;
-        
+
         return (
             <div className="max-w-3xl mx-auto">
                 {renderProgress()}
@@ -1321,7 +1797,13 @@ const Wizard = () => {
                         Showing medications relevant for: <strong className="text-emerald-700">{isPreTransplant ? 'Pre-Transplant' : 'Post-Transplant'}</strong>
                     </p>
                 </div>
-                
+                <WizardHelp step={step} answers={answers} />
+
+                <MedicationSuggestions
+                    answers={answers}
+                    onSelectMedication={(medId) => handleMultiSelect('medications', medId)}
+                />
+
                 <div className="space-y-6 mb-8">
                     {(() => {
                         // First, filter all medications by stage and organs
@@ -1421,6 +1903,7 @@ const Wizard = () => {
                 {renderProgress()}
                 <button onClick={prevStep} className="text-slate-500 mb-4 flex items-center gap-1 text-sm hover:text-emerald-600" aria-label="Go back to previous step"><ChevronLeft size={16} aria-hidden="true" /> Back</button>
                 <h1 className="text-2xl font-bold mb-4">Specialty Pharmacy Check</h1>
+                <WizardHelp step={step} answers={answers} />
                 <div className="bg-blue-50 p-4 rounded-lg border border-blue-100 mb-6" role="note">
                     <p className="text-blue-800">
                         Most commercial insurance plans require transplant medications to be filled at a specific "Specialty Pharmacy" (mail order), not a local retail pharmacy like CVS or Walgreens.
@@ -1456,6 +1939,7 @@ const Wizard = () => {
                 <button onClick={() => setStep(answers.insurance === InsuranceType.COMMERCIAL ? 6 : 5)} className="text-slate-500 mb-4 flex items-center gap-1 text-sm hover:text-emerald-600" aria-label="Go back to previous step"><ChevronLeft size={16} aria-hidden="true" /> Back</button>
                 <h1 className="text-2xl font-bold mb-2">Find Your Best Options</h1>
                 <p className="text-slate-600 mb-6">How would you describe your current medication costs?</p>
+                <WizardHelp step={step} answers={answers} />
                 <div className="bg-slate-50 p-4 rounded-lg mb-6 border border-slate-200 text-sm text-slate-600" role="note">
                     This helps us prioritize the best assistance programs for you. We do not store this answer.
                 </div>
