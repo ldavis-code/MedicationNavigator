@@ -3597,7 +3597,9 @@ const MedicationCard = ({ med, activeTab, onRemove }) => {
         // ESRD injectable medications
         'aranesp', 'epogen', 'mircera', 'venofer', 'injectafer', 'feraheme',
         // Fatty liver disease specialty medications
-        'ocaliva', 'rezdiffra'
+        'ocaliva', 'rezdiffra',
+        // DPP-4 inhibitors (brand-only diabetes medications)
+        'vemildy', 'alogliptin'
     ];
 
     const isCostPlusAvailable = !costPlusExcluded.includes(med.id) && med.manufacturer !== 'Various';
@@ -3705,91 +3707,21 @@ const MedicationCard = ({ med, activeTab, onRemove }) => {
                     </div>
                 )}
                 {activeTab === 'PRINT' && (
-                    <div className="fade-in space-y-6">
-                        {/* Overview Section */}
+                    <div className="fade-in space-y-4">
+                        {/* Simplified Medication Listing */}
                         <section>
-                            <h3 className="text-lg font-bold text-slate-900 mb-3 pb-2 border-b-2 border-slate-200">Medication Overview</h3>
                             <div className="space-y-2 text-sm">
                                 <p className="text-slate-700">
-                                    <span className="font-semibold">Manufacturer:</span> {med.manufacturer}
+                                    <span className="font-semibold">Medication:</span> {med.brandName} ({med.genericName})
                                 </p>
                                 <p className="text-slate-700">
                                     <span className="font-semibold">Category:</span> {med.category}
                                 </p>
-                                <p className="text-slate-700">
-                                    <span className="font-semibold">Commonly prescribed for:</span> {med.commonOrgans.join(', ')} recipients
-                                </p>
-                                {med.stage && (
-                                    <p className="text-slate-700">
-                                        <span className="font-semibold">Stage:</span> {med.stage}
+                                {isCostPlusAvailable && (
+                                    <p className="text-emerald-700">
+                                        <span className="font-semibold">Cost Plus Drugs:</span> Available ({med.category === 'Immunosuppressant' ? '$15 - $40' : '$10 - $25'})
                                     </p>
                                 )}
-                            </div>
-                        </section>
-
-                        {/* Price Estimates Section */}
-                        <section>
-                            <h3 className="text-lg font-bold text-slate-900 mb-3 pb-2 border-b-2 border-slate-200">Price Estimates</h3>
-                            <div className="overflow-hidden rounded-lg border border-slate-200">
-                                <table className="w-full text-sm text-left">
-                                    <thead className="bg-slate-100 text-slate-700 font-bold">
-                                        <tr>
-                                            <th scope="col" className="p-3">Pharmacy / Tool</th>
-                                            <th scope="col" className="p-3">Est. Cash Price</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody className="divide-y divide-slate-200">
-                                        <tr className="bg-white">
-                                            <td className="p-3 font-medium text-slate-900">Cost Plus Drugs (Online)</td>
-                                            <td className="p-3 text-emerald-600 font-bold">
-                                                {isCostPlusAvailable ? (med.category === 'Immunosuppressant' ? '$15 - $40' : '$10 - $25') : 'Not Available'}
-                                            </td>
-                                        </tr>
-                                        <tr className="bg-white">
-                                            <td className="p-3 font-medium text-slate-900">GoodRx Coupon (Retail)</td>
-                                            <td className="p-3 text-slate-600">{med.category === 'Immunosuppressant' ? '$40 - $100' : '$20 - $50'}</td>
-                                        </tr>
-                                        <tr className="bg-white">
-                                            <td className="p-3 font-medium text-slate-900">Amazon Pharmacy</td>
-                                            <td className="p-3 text-slate-600">Varies</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <p className="mt-2 text-xs text-slate-500 italic">
-                                Note: Price estimates are approximate and based on general market research (last updated: November 2024).
-                            </p>
-                        </section>
-
-                        {/* Assistance Programs Section */}
-                        <section>
-                            <h3 className="text-lg font-bold text-slate-900 mb-3 pb-2 border-b-2 border-slate-200">Patient Assistance Programs</h3>
-                            <div className="space-y-4">
-                                <div className="border border-emerald-100 rounded-lg p-4 bg-emerald-50/30">
-                                    <h4 className="font-bold text-emerald-800 mb-2">Manufacturer Patient Assistance Program</h4>
-                                    <p className="text-sm text-slate-700 mb-2">
-                                        Many manufacturers offer free medication if you are uninsured or have commercial insurance but can't afford copays.
-                                    </p>
-                                    <p className="text-sm text-slate-900">
-                                        <span className="font-semibold">Program Link:</span>{' '}
-                                        {med.papUrl ? (
-                                            <a href={papLink} className="text-emerald-700 underline">{papLink}</a>
-                                        ) : (
-                                            <span>Search on Drugs.com: {papLink}</span>
-                                        )}
-                                    </p>
-                                </div>
-
-                                <div className="border border-sky-100 rounded-lg p-4 bg-sky-50/30">
-                                    <h4 className="font-bold text-sky-800 mb-2">Copay Assistance Foundations</h4>
-                                    <p className="text-sm text-slate-700 mb-2">
-                                        Check HealthWell Foundation, PAN Foundation, and Patient Advocate Foundation for copay assistance grants.
-                                    </p>
-                                    <p className="text-sm text-slate-900">
-                                        <span className="font-semibold">PAN FundFinder Tool:</span>{' '}
-                                        <a href="https://fundfinder.panfoundation.org/" className="text-sky-700 underline">https://fundfinder.panfoundation.org/</a>
-                                    </p>
-                                </div>
                             </div>
                         </section>
 
@@ -3800,8 +3732,7 @@ const MedicationCard = ({ med, activeTab, onRemove }) => {
                                 <div>
                                     <p className="font-bold text-blue-900 mb-1">Ready to Print</p>
                                     <p className="text-blue-800">
-                                        This summary includes all medication details, pricing information, and assistance program links.
-                                        Use your browser's print function or the Print button above to create a PDF or hard copy.
+                                        This summary lists your medications. Use your browser's print function or the Print button above to create a PDF or hard copy.
                                     </p>
                                 </div>
                             </div>
