@@ -762,6 +762,766 @@ const MEDICATIONS = [
         commonOrgans: [OrganType.KIDNEY],
         papUrl: 'https://alexion.com/our-patients'
     },
+    // Common Cardiovascular Medications (Both)
+    {
+        id: 'lisinopril',
+        brandName: 'Prinivil / Zestril',
+        genericName: 'Lisinopril',
+        category: 'ACE Inhibitor',
+        manufacturer: 'Generic',
+        stage: TransplantStage.BOTH,
+        commonOrgans: [OrganType.HEART, OrganType.KIDNEY, OrganType.LIVER]
+    },
+    {
+        id: 'enalapril',
+        brandName: 'Vasotec',
+        genericName: 'Enalapril',
+        category: 'ACE Inhibitor',
+        manufacturer: 'Generic',
+        stage: TransplantStage.BOTH,
+        commonOrgans: [OrganType.HEART, OrganType.KIDNEY]
+    },
+    {
+        id: 'ramipril',
+        brandName: 'Altace',
+        genericName: 'Ramipril',
+        category: 'ACE Inhibitor',
+        manufacturer: 'Generic',
+        stage: TransplantStage.BOTH,
+        commonOrgans: [OrganType.HEART, OrganType.KIDNEY]
+    },
+    {
+        id: 'losartan',
+        brandName: 'Cozaar',
+        genericName: 'Losartan',
+        category: 'ARB',
+        manufacturer: 'Generic',
+        stage: TransplantStage.BOTH,
+        commonOrgans: [OrganType.HEART, OrganType.KIDNEY]
+    },
+    {
+        id: 'valsartan',
+        brandName: 'Diovan',
+        genericName: 'Valsartan',
+        category: 'ARB',
+        manufacturer: 'Generic',
+        stage: TransplantStage.BOTH,
+        commonOrgans: [OrganType.HEART, OrganType.KIDNEY]
+    },
+    {
+        id: 'olmesartan',
+        brandName: 'Benicar',
+        genericName: 'Olmesartan',
+        category: 'ARB',
+        manufacturer: 'Generic',
+        stage: TransplantStage.BOTH,
+        commonOrgans: [OrganType.HEART, OrganType.KIDNEY]
+    },
+    {
+        id: 'irbesartan',
+        brandName: 'Avapro',
+        genericName: 'Irbesartan',
+        category: 'ARB',
+        manufacturer: 'Generic',
+        stage: TransplantStage.BOTH,
+        commonOrgans: [OrganType.HEART, OrganType.KIDNEY]
+    },
+    {
+        id: 'amlodipine',
+        brandName: 'Norvasc',
+        genericName: 'Amlodipine',
+        category: 'Calcium Channel Blocker',
+        manufacturer: 'Generic',
+        stage: TransplantStage.BOTH,
+        commonOrgans: [OrganType.HEART, OrganType.KIDNEY]
+    },
+    {
+        id: 'diltiazem',
+        brandName: 'Cardizem',
+        genericName: 'Diltiazem',
+        category: 'Calcium Channel Blocker',
+        manufacturer: 'Generic',
+        stage: TransplantStage.BOTH,
+        commonOrgans: [OrganType.HEART]
+    },
+    {
+        id: 'nifedipine',
+        brandName: 'Procardia / Adalat',
+        genericName: 'Nifedipine',
+        category: 'Calcium Channel Blocker',
+        manufacturer: 'Generic',
+        stage: TransplantStage.BOTH,
+        commonOrgans: [OrganType.HEART]
+    },
+    {
+        id: 'atenolol',
+        brandName: 'Tenormin',
+        genericName: 'Atenolol',
+        category: 'Beta Blocker',
+        manufacturer: 'Generic',
+        stage: TransplantStage.BOTH,
+        commonOrgans: [OrganType.HEART]
+    },
+    {
+        id: 'bisoprolol',
+        brandName: 'Zebeta',
+        genericName: 'Bisoprolol',
+        category: 'Beta Blocker',
+        manufacturer: 'Generic',
+        stage: TransplantStage.BOTH,
+        commonOrgans: [OrganType.HEART]
+    },
+    {
+        id: 'atorvastatin',
+        brandName: 'Lipitor',
+        genericName: 'Atorvastatin',
+        category: 'Statin',
+        manufacturer: 'Generic',
+        stage: TransplantStage.BOTH,
+        commonOrgans: [OrganType.HEART, OrganType.LIVER, OrganType.KIDNEY, OrganType.PANCREAS]
+    },
+    {
+        id: 'simvastatin',
+        brandName: 'Zocor',
+        genericName: 'Simvastatin',
+        category: 'Statin',
+        manufacturer: 'Generic',
+        stage: TransplantStage.BOTH,
+        commonOrgans: [OrganType.HEART, OrganType.LIVER, OrganType.KIDNEY]
+    },
+    {
+        id: 'rosuvastatin',
+        brandName: 'Crestor',
+        genericName: 'Rosuvastatin',
+        category: 'Statin',
+        manufacturer: 'Generic',
+        stage: TransplantStage.BOTH,
+        commonOrgans: [OrganType.HEART, OrganType.LIVER, OrganType.KIDNEY]
+    },
+    {
+        id: 'pravastatin',
+        brandName: 'Pravachol',
+        genericName: 'Pravastatin',
+        category: 'Statin',
+        manufacturer: 'Generic',
+        stage: TransplantStage.BOTH,
+        commonOrgans: [OrganType.HEART, OrganType.LIVER]
+    },
+    {
+        id: 'lovastatin',
+        brandName: 'Mevacor',
+        genericName: 'Lovastatin',
+        category: 'Statin',
+        manufacturer: 'Generic',
+        stage: TransplantStage.BOTH,
+        commonOrgans: [OrganType.HEART, OrganType.LIVER]
+    },
+    {
+        id: 'hydrochlorothiazide',
+        brandName: 'Microzide',
+        genericName: 'Hydrochlorothiazide',
+        category: 'Diuretic',
+        manufacturer: 'Generic',
+        stage: TransplantStage.BOTH,
+        commonOrgans: [OrganType.HEART, OrganType.KIDNEY]
+    },
+    {
+        id: 'chlorthalidone',
+        brandName: 'Thalitone',
+        genericName: 'Chlorthalidone',
+        category: 'Diuretic',
+        manufacturer: 'Generic',
+        stage: TransplantStage.BOTH,
+        commonOrgans: [OrganType.HEART, OrganType.KIDNEY]
+    },
+    {
+        id: 'clopidogrel',
+        brandName: 'Plavix',
+        genericName: 'Clopidogrel',
+        category: 'Antiplatelet',
+        manufacturer: 'Generic',
+        stage: TransplantStage.BOTH,
+        commonOrgans: [OrganType.HEART, OrganType.KIDNEY, OrganType.LIVER]
+    },
+    {
+        id: 'aspirin',
+        brandName: 'Ecotrin / Bayer',
+        genericName: 'Aspirin',
+        category: 'Antiplatelet',
+        manufacturer: 'Generic',
+        stage: TransplantStage.BOTH,
+        commonOrgans: [OrganType.HEART, OrganType.KIDNEY, OrganType.LIVER, OrganType.PANCREAS]
+    },
+    {
+        id: 'warfarin',
+        brandName: 'Coumadin',
+        genericName: 'Warfarin',
+        category: 'Anticoagulant',
+        manufacturer: 'Generic',
+        stage: TransplantStage.BOTH,
+        commonOrgans: [OrganType.HEART, OrganType.LUNG, OrganType.LIVER]
+    },
+    {
+        id: 'apixaban',
+        brandName: 'Eliquis',
+        genericName: 'Apixaban',
+        category: 'Anticoagulant',
+        manufacturer: 'Bristol Myers Squibb',
+        stage: TransplantStage.BOTH,
+        commonOrgans: [OrganType.HEART, OrganType.KIDNEY],
+        papUrl: 'https://www.bmsaccesssupport.bmscustomerconnect.com/'
+    },
+    {
+        id: 'rivaroxaban',
+        brandName: 'Xarelto',
+        genericName: 'Rivaroxaban',
+        category: 'Anticoagulant',
+        manufacturer: 'Janssen',
+        stage: TransplantStage.BOTH,
+        commonOrgans: [OrganType.HEART, OrganType.KIDNEY],
+        papUrl: 'https://www.janssencarepath.com/'
+    },
+    {
+        id: 'digoxin',
+        brandName: 'Lanoxin',
+        genericName: 'Digoxin',
+        category: 'Cardiac Glycoside',
+        manufacturer: 'Generic',
+        stage: TransplantStage.BOTH,
+        commonOrgans: [OrganType.HEART]
+    },
+    // Diabetes Medications (Both)
+    {
+        id: 'metformin',
+        brandName: 'Glucophage',
+        genericName: 'Metformin',
+        category: 'Diabetes',
+        manufacturer: 'Generic',
+        stage: TransplantStage.BOTH,
+        commonOrgans: [OrganType.KIDNEY, OrganType.LIVER, OrganType.HEART, OrganType.PANCREAS]
+    },
+    {
+        id: 'glipizide',
+        brandName: 'Glucotrol',
+        genericName: 'Glipizide',
+        category: 'Diabetes',
+        manufacturer: 'Generic',
+        stage: TransplantStage.BOTH,
+        commonOrgans: [OrganType.KIDNEY, OrganType.PANCREAS]
+    },
+    {
+        id: 'glyburide',
+        brandName: 'DiaBeta / Glynase',
+        genericName: 'Glyburide',
+        category: 'Diabetes',
+        manufacturer: 'Generic',
+        stage: TransplantStage.BOTH,
+        commonOrgans: [OrganType.KIDNEY, OrganType.PANCREAS]
+    },
+    {
+        id: 'glimepiride',
+        brandName: 'Amaryl',
+        genericName: 'Glimepiride',
+        category: 'Diabetes',
+        manufacturer: 'Generic',
+        stage: TransplantStage.BOTH,
+        commonOrgans: [OrganType.KIDNEY, OrganType.PANCREAS]
+    },
+    {
+        id: 'sitagliptin',
+        brandName: 'Januvia',
+        genericName: 'Sitagliptin',
+        category: 'Diabetes',
+        manufacturer: 'Merck',
+        stage: TransplantStage.BOTH,
+        commonOrgans: [OrganType.KIDNEY, OrganType.PANCREAS],
+        papUrl: 'https://www.merckhelps.com/'
+    },
+    {
+        id: 'insulin-glargine',
+        brandName: 'Lantus / Basaglar',
+        genericName: 'Insulin Glargine',
+        category: 'Insulin',
+        manufacturer: 'Sanofi / Lilly',
+        stage: TransplantStage.BOTH,
+        commonOrgans: [OrganType.KIDNEY, OrganType.LIVER, OrganType.PANCREAS],
+        papUrl: 'https://www.sanofipatientconnection.com/'
+    },
+    {
+        id: 'insulin-lispro',
+        brandName: 'Humalog',
+        genericName: 'Insulin Lispro',
+        category: 'Insulin',
+        manufacturer: 'Lilly',
+        stage: TransplantStage.BOTH,
+        commonOrgans: [OrganType.KIDNEY, OrganType.LIVER, OrganType.PANCREAS],
+        papUrl: 'https://www.lillycares.com/'
+    },
+    {
+        id: 'insulin-aspart',
+        brandName: 'Novolog',
+        genericName: 'Insulin Aspart',
+        category: 'Insulin',
+        manufacturer: 'Novo Nordisk',
+        stage: TransplantStage.BOTH,
+        commonOrgans: [OrganType.KIDNEY, OrganType.LIVER, OrganType.PANCREAS],
+        papUrl: 'https://www.novocare.com/'
+    },
+    {
+        id: 'semaglutide',
+        brandName: 'Ozempic / Wegovy',
+        genericName: 'Semaglutide',
+        category: 'Diabetes',
+        manufacturer: 'Novo Nordisk',
+        stage: TransplantStage.BOTH,
+        commonOrgans: [OrganType.KIDNEY, OrganType.HEART, OrganType.PANCREAS],
+        papUrl: 'https://www.novocare.com/'
+    },
+    {
+        id: 'dulaglutide',
+        brandName: 'Trulicity',
+        genericName: 'Dulaglutide',
+        category: 'Diabetes',
+        manufacturer: 'Lilly',
+        stage: TransplantStage.BOTH,
+        commonOrgans: [OrganType.KIDNEY, OrganType.HEART, OrganType.PANCREAS],
+        papUrl: 'https://www.lillycares.com/'
+    },
+    // Thyroid Medications (Both)
+    {
+        id: 'levothyroxine',
+        brandName: 'Synthroid / Levoxyl',
+        genericName: 'Levothyroxine',
+        category: 'Thyroid',
+        manufacturer: 'Generic',
+        stage: TransplantStage.BOTH,
+        commonOrgans: [OrganType.HEART, OrganType.KIDNEY, OrganType.LIVER, OrganType.LUNG, OrganType.PANCREAS]
+    },
+    {
+        id: 'liothyronine',
+        brandName: 'Cytomel',
+        genericName: 'Liothyronine',
+        category: 'Thyroid',
+        manufacturer: 'Generic',
+        stage: TransplantStage.BOTH,
+        commonOrgans: [OrganType.HEART, OrganType.KIDNEY, OrganType.LIVER]
+    },
+    // Respiratory Medications (Both)
+    {
+        id: 'albuterol',
+        brandName: 'ProAir / Ventolin / Proventil',
+        genericName: 'Albuterol',
+        category: 'Bronchodilator',
+        manufacturer: 'Generic',
+        stage: TransplantStage.BOTH,
+        commonOrgans: [OrganType.LUNG, OrganType.HEART]
+    },
+    {
+        id: 'fluticasone-salmeterol',
+        brandName: 'Advair',
+        genericName: 'Fluticasone/Salmeterol',
+        category: 'Respiratory',
+        manufacturer: 'GlaxoSmithKline',
+        stage: TransplantStage.BOTH,
+        commonOrgans: [OrganType.LUNG],
+        papUrl: 'https://www.gskforyou.com/'
+    },
+    {
+        id: 'budesonide-formoterol',
+        brandName: 'Symbicort',
+        genericName: 'Budesonide/Formoterol',
+        category: 'Respiratory',
+        manufacturer: 'AstraZeneca',
+        stage: TransplantStage.BOTH,
+        commonOrgans: [OrganType.LUNG],
+        papUrl: 'https://www.azandmeapp.com/'
+    },
+    {
+        id: 'montelukast',
+        brandName: 'Singulair',
+        genericName: 'Montelukast',
+        category: 'Respiratory',
+        manufacturer: 'Generic',
+        stage: TransplantStage.BOTH,
+        commonOrgans: [OrganType.LUNG]
+    },
+    {
+        id: 'tiotropium',
+        brandName: 'Spiriva',
+        genericName: 'Tiotropium',
+        category: 'Bronchodilator',
+        manufacturer: 'Boehringer Ingelheim',
+        stage: TransplantStage.BOTH,
+        commonOrgans: [OrganType.LUNG],
+        papUrl: 'https://www.boehringer-ingelheim.com/us/patient-assistance'
+    },
+    // Gastrointestinal Medications (Both)
+    {
+        id: 'omeprazole',
+        brandName: 'Prilosec',
+        genericName: 'Omeprazole',
+        category: 'Proton Pump Inhibitor',
+        manufacturer: 'Generic',
+        stage: TransplantStage.BOTH,
+        commonOrgans: [OrganType.KIDNEY, OrganType.LIVER, OrganType.HEART, OrganType.LUNG, OrganType.PANCREAS]
+    },
+    {
+        id: 'esomeprazole',
+        brandName: 'Nexium',
+        genericName: 'Esomeprazole',
+        category: 'Proton Pump Inhibitor',
+        manufacturer: 'Generic',
+        stage: TransplantStage.BOTH,
+        commonOrgans: [OrganType.KIDNEY, OrganType.LIVER, OrganType.HEART, OrganType.LUNG]
+    },
+    {
+        id: 'lansoprazole',
+        brandName: 'Prevacid',
+        genericName: 'Lansoprazole',
+        category: 'Proton Pump Inhibitor',
+        manufacturer: 'Generic',
+        stage: TransplantStage.BOTH,
+        commonOrgans: [OrganType.KIDNEY, OrganType.LIVER, OrganType.HEART]
+    },
+    {
+        id: 'famotidine',
+        brandName: 'Pepcid',
+        genericName: 'Famotidine',
+        category: 'H2 Blocker',
+        manufacturer: 'Generic',
+        stage: TransplantStage.BOTH,
+        commonOrgans: [OrganType.KIDNEY, OrganType.LIVER, OrganType.HEART]
+    },
+    {
+        id: 'ranitidine',
+        brandName: 'Zantac',
+        genericName: 'Ranitidine',
+        category: 'H2 Blocker',
+        manufacturer: 'Generic',
+        stage: TransplantStage.BOTH,
+        commonOrgans: [OrganType.KIDNEY, OrganType.LIVER]
+    },
+    // Pain Medications (Both)
+    {
+        id: 'tramadol',
+        brandName: 'Ultram',
+        genericName: 'Tramadol',
+        category: 'Pain Relief',
+        manufacturer: 'Generic',
+        stage: TransplantStage.BOTH,
+        commonOrgans: [OrganType.KIDNEY, OrganType.LIVER, OrganType.HEART, OrganType.LUNG, OrganType.PANCREAS]
+    },
+    {
+        id: 'hydrocodone-acetaminophen',
+        brandName: 'Norco / Vicodin',
+        genericName: 'Hydrocodone/Acetaminophen',
+        category: 'Pain Relief',
+        manufacturer: 'Generic',
+        stage: TransplantStage.BOTH,
+        commonOrgans: [OrganType.KIDNEY, OrganType.LIVER, OrganType.HEART, OrganType.LUNG, OrganType.PANCREAS]
+    },
+    {
+        id: 'oxycodone',
+        brandName: 'OxyContin / Roxicodone',
+        genericName: 'Oxycodone',
+        category: 'Pain Relief',
+        manufacturer: 'Generic',
+        stage: TransplantStage.BOTH,
+        commonOrgans: [OrganType.KIDNEY, OrganType.LIVER, OrganType.HEART, OrganType.LUNG, OrganType.PANCREAS]
+    },
+    {
+        id: 'gabapentin',
+        brandName: 'Neurontin',
+        genericName: 'Gabapentin',
+        category: 'Nerve Pain',
+        manufacturer: 'Generic',
+        stage: TransplantStage.BOTH,
+        commonOrgans: [OrganType.KIDNEY, OrganType.LIVER, OrganType.HEART, OrganType.LUNG, OrganType.PANCREAS]
+    },
+    {
+        id: 'pregabalin',
+        brandName: 'Lyrica',
+        genericName: 'Pregabalin',
+        category: 'Nerve Pain',
+        manufacturer: 'Pfizer',
+        stage: TransplantStage.BOTH,
+        commonOrgans: [OrganType.KIDNEY, OrganType.LIVER, OrganType.HEART],
+        papUrl: 'https://www.pfizerrxpathways.com/'
+    },
+    {
+        id: 'meloxicam',
+        brandName: 'Mobic',
+        genericName: 'Meloxicam',
+        category: 'NSAID',
+        manufacturer: 'Generic',
+        stage: TransplantStage.BOTH,
+        commonOrgans: [OrganType.KIDNEY, OrganType.LIVER]
+    },
+    {
+        id: 'ibuprofen',
+        brandName: 'Motrin / Advil',
+        genericName: 'Ibuprofen',
+        category: 'NSAID',
+        manufacturer: 'Generic',
+        stage: TransplantStage.BOTH,
+        commonOrgans: [OrganType.KIDNEY, OrganType.LIVER]
+    },
+    {
+        id: 'naproxen',
+        brandName: 'Naprosyn / Aleve',
+        genericName: 'Naproxen',
+        category: 'NSAID',
+        manufacturer: 'Generic',
+        stage: TransplantStage.BOTH,
+        commonOrgans: [OrganType.KIDNEY, OrganType.LIVER]
+    },
+    // Mental Health Medications (Both)
+    {
+        id: 'sertraline',
+        brandName: 'Zoloft',
+        genericName: 'Sertraline',
+        category: 'Antidepressant',
+        manufacturer: 'Generic',
+        stage: TransplantStage.BOTH,
+        commonOrgans: [OrganType.KIDNEY, OrganType.LIVER, OrganType.HEART, OrganType.LUNG, OrganType.PANCREAS]
+    },
+    {
+        id: 'escitalopram',
+        brandName: 'Lexapro',
+        genericName: 'Escitalopram',
+        category: 'Antidepressant',
+        manufacturer: 'Generic',
+        stage: TransplantStage.BOTH,
+        commonOrgans: [OrganType.KIDNEY, OrganType.LIVER, OrganType.HEART, OrganType.LUNG, OrganType.PANCREAS]
+    },
+    {
+        id: 'fluoxetine',
+        brandName: 'Prozac',
+        genericName: 'Fluoxetine',
+        category: 'Antidepressant',
+        manufacturer: 'Generic',
+        stage: TransplantStage.BOTH,
+        commonOrgans: [OrganType.KIDNEY, OrganType.LIVER, OrganType.HEART, OrganType.LUNG]
+    },
+    {
+        id: 'citalopram',
+        brandName: 'Celexa',
+        genericName: 'Citalopram',
+        category: 'Antidepressant',
+        manufacturer: 'Generic',
+        stage: TransplantStage.BOTH,
+        commonOrgans: [OrganType.KIDNEY, OrganType.LIVER, OrganType.HEART]
+    },
+    {
+        id: 'duloxetine',
+        brandName: 'Cymbalta',
+        genericName: 'Duloxetine',
+        category: 'Antidepressant',
+        manufacturer: 'Generic',
+        stage: TransplantStage.BOTH,
+        commonOrgans: [OrganType.KIDNEY, OrganType.LIVER, OrganType.HEART]
+    },
+    {
+        id: 'venlafaxine',
+        brandName: 'Effexor',
+        genericName: 'Venlafaxine',
+        category: 'Antidepressant',
+        manufacturer: 'Generic',
+        stage: TransplantStage.BOTH,
+        commonOrgans: [OrganType.KIDNEY, OrganType.LIVER, OrganType.HEART]
+    },
+    {
+        id: 'bupropion',
+        brandName: 'Wellbutrin / Zyban',
+        genericName: 'Bupropion',
+        category: 'Antidepressant',
+        manufacturer: 'Generic',
+        stage: TransplantStage.BOTH,
+        commonOrgans: [OrganType.KIDNEY, OrganType.LIVER, OrganType.HEART]
+    },
+    {
+        id: 'trazodone',
+        brandName: 'Desyrel',
+        genericName: 'Trazodone',
+        category: 'Antidepressant/Sleep',
+        manufacturer: 'Generic',
+        stage: TransplantStage.BOTH,
+        commonOrgans: [OrganType.KIDNEY, OrganType.LIVER, OrganType.HEART, OrganType.LUNG]
+    },
+    {
+        id: 'alprazolam',
+        brandName: 'Xanax',
+        genericName: 'Alprazolam',
+        category: 'Anxiety',
+        manufacturer: 'Generic',
+        stage: TransplantStage.BOTH,
+        commonOrgans: [OrganType.KIDNEY, OrganType.LIVER, OrganType.HEART, OrganType.LUNG]
+    },
+    {
+        id: 'lorazepam',
+        brandName: 'Ativan',
+        genericName: 'Lorazepam',
+        category: 'Anxiety',
+        manufacturer: 'Generic',
+        stage: TransplantStage.BOTH,
+        commonOrgans: [OrganType.KIDNEY, OrganType.LIVER, OrganType.HEART]
+    },
+    {
+        id: 'clonazepam',
+        brandName: 'Klonopin',
+        genericName: 'Clonazepam',
+        category: 'Anxiety',
+        manufacturer: 'Generic',
+        stage: TransplantStage.BOTH,
+        commonOrgans: [OrganType.KIDNEY, OrganType.LIVER, OrganType.HEART]
+    },
+    {
+        id: 'buspirone',
+        brandName: 'BuSpar',
+        genericName: 'Buspirone',
+        category: 'Anxiety',
+        manufacturer: 'Generic',
+        stage: TransplantStage.BOTH,
+        commonOrgans: [OrganType.KIDNEY, OrganType.LIVER]
+    },
+    {
+        id: 'zolpidem',
+        brandName: 'Ambien',
+        genericName: 'Zolpidem',
+        category: 'Sleep Aid',
+        manufacturer: 'Generic',
+        stage: TransplantStage.BOTH,
+        commonOrgans: [OrganType.KIDNEY, OrganType.LIVER, OrganType.HEART, OrganType.LUNG]
+    },
+    {
+        id: 'quetiapine',
+        brandName: 'Seroquel',
+        genericName: 'Quetiapine',
+        category: 'Antipsychotic',
+        manufacturer: 'Generic',
+        stage: TransplantStage.BOTH,
+        commonOrgans: [OrganType.KIDNEY, OrganType.LIVER, OrganType.HEART]
+    },
+    // Common Antibiotics (Both)
+    {
+        id: 'amoxicillin',
+        brandName: 'Amoxil',
+        genericName: 'Amoxicillin',
+        category: 'Antibiotic',
+        manufacturer: 'Generic',
+        stage: TransplantStage.BOTH,
+        commonOrgans: [OrganType.KIDNEY, OrganType.LIVER, OrganType.HEART, OrganType.LUNG, OrganType.PANCREAS]
+    },
+    {
+        id: 'azithromycin',
+        brandName: 'Zithromax / Z-Pak',
+        genericName: 'Azithromycin',
+        category: 'Antibiotic',
+        manufacturer: 'Generic',
+        stage: TransplantStage.BOTH,
+        commonOrgans: [OrganType.KIDNEY, OrganType.LIVER, OrganType.HEART, OrganType.LUNG]
+    },
+    {
+        id: 'ciprofloxacin',
+        brandName: 'Cipro',
+        genericName: 'Ciprofloxacin',
+        category: 'Antibiotic',
+        manufacturer: 'Generic',
+        stage: TransplantStage.BOTH,
+        commonOrgans: [OrganType.KIDNEY, OrganType.LIVER, OrganType.HEART]
+    },
+    {
+        id: 'levofloxacin',
+        brandName: 'Levaquin',
+        genericName: 'Levofloxacin',
+        category: 'Antibiotic',
+        manufacturer: 'Generic',
+        stage: TransplantStage.BOTH,
+        commonOrgans: [OrganType.KIDNEY, OrganType.LIVER, OrganType.LUNG]
+    },
+    {
+        id: 'doxycycline',
+        brandName: 'Vibramycin',
+        genericName: 'Doxycycline',
+        category: 'Antibiotic',
+        manufacturer: 'Generic',
+        stage: TransplantStage.BOTH,
+        commonOrgans: [OrganType.KIDNEY, OrganType.LIVER, OrganType.LUNG]
+    },
+    {
+        id: 'cephalexin',
+        brandName: 'Keflex',
+        genericName: 'Cephalexin',
+        category: 'Antibiotic',
+        manufacturer: 'Generic',
+        stage: TransplantStage.BOTH,
+        commonOrgans: [OrganType.KIDNEY, OrganType.LIVER]
+    },
+    // Allergy Medications (Both)
+    {
+        id: 'cetirizine',
+        brandName: 'Zyrtec',
+        genericName: 'Cetirizine',
+        category: 'Antihistamine',
+        manufacturer: 'Generic',
+        stage: TransplantStage.BOTH,
+        commonOrgans: [OrganType.KIDNEY, OrganType.LIVER, OrganType.HEART, OrganType.LUNG]
+    },
+    {
+        id: 'loratadine',
+        brandName: 'Claritin',
+        genericName: 'Loratadine',
+        category: 'Antihistamine',
+        manufacturer: 'Generic',
+        stage: TransplantStage.BOTH,
+        commonOrgans: [OrganType.KIDNEY, OrganType.LIVER, OrganType.LUNG]
+    },
+    {
+        id: 'fexofenadine',
+        brandName: 'Allegra',
+        genericName: 'Fexofenadine',
+        category: 'Antihistamine',
+        manufacturer: 'Generic',
+        stage: TransplantStage.BOTH,
+        commonOrgans: [OrganType.KIDNEY, OrganType.LIVER, OrganType.LUNG]
+    },
+    // Other Common Medications (Both)
+    {
+        id: 'vitamin-d',
+        brandName: 'Calciferol',
+        genericName: 'Vitamin D',
+        category: 'Vitamin',
+        manufacturer: 'Generic',
+        stage: TransplantStage.BOTH,
+        commonOrgans: [OrganType.KIDNEY, OrganType.LIVER, OrganType.HEART, OrganType.PANCREAS]
+    },
+    {
+        id: 'folic-acid',
+        brandName: 'Folate',
+        genericName: 'Folic Acid',
+        category: 'Vitamin',
+        manufacturer: 'Generic',
+        stage: TransplantStage.BOTH,
+        commonOrgans: [OrganType.KIDNEY, OrganType.LIVER, OrganType.HEART]
+    },
+    {
+        id: 'allopurinol',
+        brandName: 'Zyloprim',
+        genericName: 'Allopurinol',
+        category: 'Gout',
+        manufacturer: 'Generic',
+        stage: TransplantStage.BOTH,
+        commonOrgans: [OrganType.KIDNEY, OrganType.HEART]
+    },
+    {
+        id: 'colchicine',
+        brandName: 'Colcrys',
+        genericName: 'Colchicine',
+        category: 'Gout',
+        manufacturer: 'Generic',
+        stage: TransplantStage.BOTH,
+        commonOrgans: [OrganType.KIDNEY, OrganType.HEART]
+    },
 ];
 
 const DIRECTORY_RESOURCES = [
