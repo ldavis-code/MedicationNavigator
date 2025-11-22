@@ -2237,7 +2237,22 @@ const Home = () => {
 
             {/* Mission & Vision Section */}
             <section className="bg-emerald-900 rounded-3xl overflow-hidden shadow-2xl text-white my-16 max-w-6xl mx-auto" aria-labelledby="mission-heading">
-                
+
+                {/* 988 Mental Health Hotline Banner */}
+                <div className="bg-gradient-to-r from-blue-600 to-blue-700 border-b-2 border-blue-800 px-6 py-4">
+                    <div className="flex items-center justify-center gap-3 text-center">
+                        <Phone size={24} className="text-white flex-shrink-0" aria-hidden="true" />
+                        <div>
+                            <p className="text-white font-bold text-lg">
+                                Mental Health Crisis? Call or Text <a href="tel:988" className="underline hover:text-blue-200 transition-colors">988</a>
+                            </p>
+                            <p className="text-blue-100 text-sm">
+                                24/7 Suicide & Crisis Lifeline - You are not alone
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
                 {/* Centered Badge Header */}
                 <div className="pt-10 pb-2 text-center">
                     <div className="inline-flex items-center gap-2 bg-emerald-950/60 border border-emerald-700/50 px-5 py-2 rounded-full text-emerald-100 text-sm font-bold shadow-lg">
