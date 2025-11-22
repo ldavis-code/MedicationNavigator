@@ -7,7 +7,7 @@ import {
     Trash2, Globe, List, Info, Copy, Check, Building2, LandPlot, Scale, FileText,
     GraduationCap, Phone, ClipboardList, CheckSquare, Square, Stethoscope,
     AlertOctagon, Calendar, Pill, ChevronDown, Share2, Home as HomeIcon,
-    MessageCircle, Send, HelpCircle, Lightbulb, Zap, MinimizeIcon
+    MessageCircle, Send, HelpCircle, Lightbulb, Zap, MinimizeIcon, Users, TrendingUp, Clock
 } from 'lucide-react';
 
 // --- CONSTANTS & DATA ---
@@ -3342,6 +3342,75 @@ const Wizard = () => {
     return <div>Loading...</div>;
 };
 
+// --- PRICE REPORTING HELPERS ---
+const PRICE_REPORTS_KEY = 'transplant_med_price_reports';
+const PRICE_ESTIMATES_LAST_UPDATED = '2024-11-01'; // November 2024
+
+const getPriceReports = () => {
+    try {
+        const stored = localStorage.getItem(PRICE_REPORTS_KEY);
+        return stored ? JSON.parse(stored) : {};
+    } catch (e) {
+        console.error('Error reading price reports:', e);
+        return {};
+    }
+};
+
+const savePriceReport = (medicationId, source, price, location, date) => {
+    try {
+        const reports = getPriceReports();
+        const key = `${medicationId}_${source}`;
+
+        if (!reports[key]) {
+            reports[key] = [];
+        }
+
+        reports[key].push({
+            price: parseFloat(price),
+            location,
+            date,
+            timestamp: new Date().toISOString()
+        });
+
+        // Keep only last 50 reports per medication-source combo
+        if (reports[key].length > 50) {
+            reports[key] = reports[key].slice(-50);
+        }
+
+        localStorage.setItem(PRICE_REPORTS_KEY, JSON.stringify(reports));
+        return true;
+    } catch (e) {
+        console.error('Error saving price report:', e);
+        return false;
+    }
+};
+
+const getCommunityPriceStats = (medicationId, source) => {
+    const reports = getPriceReports();
+    const key = `${medicationId}_${source}`;
+    const priceData = reports[key] || [];
+
+    if (priceData.length === 0) return null;
+
+    const prices = priceData.map(r => r.price);
+    const min = Math.min(...prices);
+    const max = Math.max(...prices);
+    const avg = prices.reduce((a, b) => a + b, 0) / prices.length;
+
+    // Only show community prices from last 90 days
+    const ninetyDaysAgo = new Date();
+    ninetyDaysAgo.setDate(ninetyDaysAgo.getDate() - 90);
+    const recentReports = priceData.filter(r => new Date(r.timestamp) > ninetyDaysAgo);
+
+    return {
+        min: min.toFixed(2),
+        max: max.toFixed(2),
+        avg: avg.toFixed(2),
+        count: recentReports.length,
+        total: priceData.length
+    };
+};
+
 // MedicationSearch Page
 const MedicationSearch = () => {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -3351,6 +3420,7 @@ const MedicationSearch = () => {
     const [myCustomMeds, setMyCustomMeds] = useState([]);
     const [activeTab, setActiveTab] = useState('PRICE');
     const [linkCopied, setLinkCopied] = useState(false);
+    const [priceReportRefresh, setPriceReportRefresh] = useState(0);
 
     useEffect(() => {
         const ids = searchParams.get('ids');
@@ -3566,7 +3636,7 @@ const MedicationSearch = () => {
                 ) : (
                     <>
                         {displayListInternal.map(med => (
-                            <MedicationCard key={med.id} med={med} activeTab={activeTab} onRemove={() => removeInternalFromList(med.id)} />
+                            <MedicationCard key={med.id} med={med} activeTab={activeTab} onRemove={() => removeInternalFromList(med.id)} onPriceReportSubmit={() => setPriceReportRefresh(prev => prev + 1)} />
                         ))}
                         {myCustomMeds.map((name, idx) => (
                             <ExternalMedCard key={`${name}-${idx}`} name={name} onRemove={() => removeCustomFromList(name)} />
@@ -3578,7 +3648,134 @@ const MedicationSearch = () => {
     );
 };
 
-const MedicationCard = ({ med, activeTab, onRemove }) => {
+// Price Report Modal Component
+const PriceReportModal = ({ isOpen, onClose, medicationId, medicationName, source, onSubmit }) => {
+    const [price, setPrice] = useState('');
+    const [location, setLocation] = useState('');
+    const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
+    const [submitting, setSubmitting] = useState(false);
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if (!price || parseFloat(price) <= 0) {
+            alert('Please enter a valid price');
+            return;
+        }
+
+        setSubmitting(true);
+        const success = savePriceReport(medicationId, source, price, location, date);
+
+        if (success) {
+            onSubmit();
+            setPrice('');
+            setLocation('');
+            setDate(new Date().toISOString().split('T')[0]);
+            onClose();
+        } else {
+            alert('Error saving price report. Please try again.');
+        }
+        setSubmitting(false);
+    };
+
+    if (!isOpen) return null;
+
+    return (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4" onClick={onClose}>
+            <div className="bg-white rounded-xl shadow-xl max-w-md w-full p-6" onClick={e => e.stopPropagation()}>
+                <div className="flex justify-between items-start mb-4">
+                    <div>
+                        <h3 className="text-lg font-bold text-slate-900 flex items-center gap-2">
+                            <Users size={20} className="text-emerald-600" />
+                            Report a Price
+                        </h3>
+                        <p className="text-sm text-slate-600 mt-1">{medicationName} via {source}</p>
+                    </div>
+                    <button onClick={onClose} className="text-slate-400 hover:text-slate-600">
+                        <X size={20} />
+                    </button>
+                </div>
+
+                <form onSubmit={handleSubmit} className="space-y-4">
+                    <div>
+                        <label htmlFor="price" className="block text-sm font-medium text-slate-700 mb-1">
+                            Price Paid (USD) <span className="text-red-500">*</span>
+                        </label>
+                        <div className="relative">
+                            <span className="absolute left-3 top-2.5 text-slate-500">$</span>
+                            <input
+                                id="price"
+                                type="number"
+                                step="0.01"
+                                min="0"
+                                value={price}
+                                onChange={(e) => setPrice(e.target.value)}
+                                className="w-full pl-8 pr-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                                placeholder="0.00"
+                                required
+                            />
+                        </div>
+                    </div>
+
+                    <div>
+                        <label htmlFor="location" className="block text-sm font-medium text-slate-700 mb-1">
+                            Pharmacy/Location (Optional)
+                        </label>
+                        <input
+                            id="location"
+                            type="text"
+                            value={location}
+                            onChange={(e) => setLocation(e.target.value)}
+                            className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                            placeholder="e.g., CVS in Seattle, WA"
+                        />
+                    </div>
+
+                    <div>
+                        <label htmlFor="date" className="block text-sm font-medium text-slate-700 mb-1">
+                            Date Purchased
+                        </label>
+                        <input
+                            id="date"
+                            type="date"
+                            value={date}
+                            onChange={(e) => setDate(e.target.value)}
+                            max={new Date().toISOString().split('T')[0]}
+                            className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                            required
+                        />
+                    </div>
+
+                    <div className="bg-blue-50 p-3 rounded-lg text-xs text-blue-800 flex items-start gap-2">
+                        <Info size={14} className="mt-0.5 flex-shrink-0" />
+                        <p>Your report helps other transplant patients estimate costs. Data is stored locally on your device only.</p>
+                    </div>
+
+                    <div className="flex gap-3 pt-2">
+                        <button
+                            type="button"
+                            onClick={onClose}
+                            className="flex-1 px-4 py-2 border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 transition"
+                        >
+                            Cancel
+                        </button>
+                        <button
+                            type="submit"
+                            disabled={submitting}
+                            className="flex-1 px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                            {submitting ? 'Submitting...' : 'Submit Report'}
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    );
+};
+
+const MedicationCard = ({ med, activeTab, onRemove, onPriceReportSubmit }) => {
+    const [reportModalOpen, setReportModalOpen] = useState(false);
+    const [reportModalData, setReportModalData] = useState(null);
+
     // Cost Plus Drugs primarily carries generic oral medications
     // Excluded: Injectable biologics, IV formulations, specialty inhalers, brand-only medications
     const costPlusExcluded = [
@@ -3606,7 +3803,38 @@ const MedicationCard = ({ med, activeTab, onRemove }) => {
     const papLink = med.papUrl || `https://www.drugs.com/search.php?searchterm=${med.brandName.split('/')[0]}`;
     const papLinkText = med.papUrl ? "Visit Manufacturer Program" : "Search for Program on Drugs.com";
 
+    // Get community price stats for each source
+    const costPlusStats = getCommunityPriceStats(med.id, 'costplus');
+    const goodRxStats = getCommunityPriceStats(med.id, 'goodrx');
+    const amazonStats = getCommunityPriceStats(med.id, 'amazon');
+
+    const openReportModal = (source, sourceName) => {
+        setReportModalData({ source, sourceName });
+        setReportModalOpen(true);
+    };
+
+    const handleReportSubmit = () => {
+        if (onPriceReportSubmit) {
+            onPriceReportSubmit();
+        }
+    };
+
     return (
+        <>
+        {reportModalOpen && reportModalData && (
+            <PriceReportModal
+                isOpen={reportModalOpen}
+                onClose={() => {
+                    setReportModalOpen(false);
+                    setReportModalData(null);
+                }}
+                medicationId={med.id}
+                medicationName={med.brandName}
+                source={reportModalData.source}
+                onSubmit={handleReportSubmit}
+            />
+        )}
+
         <article className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden transition hover:shadow-md break-inside-avoid" aria-labelledby={`med-${med.id}-title`}>
             <header className="bg-slate-50 px-6 py-4 border-b border-slate-100 flex justify-between items-start md:items-center">
                 <div>
@@ -3682,27 +3910,121 @@ const MedicationCard = ({ med, activeTab, onRemove }) => {
                                     <tr><th scope="col" className="p-3">Pharmacy / Tool</th><th scope="col" className="p-3">Est. Cash Price</th><th scope="col" className="p-3 no-print">Action</th></tr>
                                 </thead>
                                 <tbody className="divide-y divide-slate-200">
+                                    {/* Cost Plus Drugs Row */}
                                     <tr className="bg-white hover:bg-slate-50">
-                                        <td className="p-3 font-medium text-slate-900">Cost Plus Drugs (Online)</td>
-                                        <td className="p-3 text-emerald-600 font-bold">{isCostPlusAvailable ? (med.category === 'Immunosuppressant' ? '$15 - $40' : '$10 - $25') : <span className="text-slate-400 font-normal">Not Available</span>}</td>
-                                        <td className="p-3 no-print">{isCostPlusAvailable ? (<a href="https://costplusdrugs.com/" target="_blank" rel="noreferrer" className="text-blue-600 hover:underline font-medium flex items-center gap-1" aria-label="Check live price on Cost Plus Drugs (opens in new tab)">Check Live <ExternalLink size={12} aria-hidden="true" /></a>) : (<span className="text-slate-400 text-xs">Try alternatives below</span>)}</td>
+                                        <td className="p-3">
+                                            <div className="font-medium text-slate-900">Cost Plus Drugs (Online)</div>
+                                            {costPlusStats && (
+                                                <div className="text-xs text-emerald-700 flex items-center gap-1 mt-1">
+                                                    <Users size={12} />
+                                                    Community: ${costPlusStats.min}-${costPlusStats.max} ({costPlusStats.count} reports)
+                                                </div>
+                                            )}
+                                        </td>
+                                        <td className="p-3">
+                                            <div className="text-emerald-600 font-bold">
+                                                {isCostPlusAvailable ? (med.category === 'Immunosuppressant' ? '$15 - $40' : '$10 - $25') : <span className="text-slate-400 font-normal">Not Available</span>}
+                                            </div>
+                                            {isCostPlusAvailable && (
+                                                <div className="text-xs text-slate-500 flex items-center gap-1 mt-1">
+                                                    <Clock size={10} />
+                                                    Est. updated Nov 2024
+                                                </div>
+                                            )}
+                                        </td>
+                                        <td className="p-3 no-print">
+                                            {isCostPlusAvailable ? (
+                                                <div className="flex flex-col gap-1">
+                                                    <a href={`https://costplusdrugs.com/search?q=${encodeURIComponent(med.genericName)}`} target="_blank" rel="noreferrer" className="text-blue-600 hover:underline font-medium flex items-center gap-1" aria-label="Check live price on Cost Plus Drugs (opens in new tab)">
+                                                        Check Live <ExternalLink size={12} aria-hidden="true" />
+                                                    </a>
+                                                    <button onClick={() => openReportModal('costplus', 'Cost Plus Drugs')} className="text-emerald-600 hover:underline text-xs flex items-center gap-1">
+                                                        <TrendingUp size={10} /> Report Price
+                                                    </button>
+                                                </div>
+                                            ) : (
+                                                <span className="text-slate-400 text-xs">Try alternatives below</span>
+                                            )}
+                                        </td>
                                     </tr>
+
+                                    {/* GoodRx Row */}
                                     <tr className="bg-white hover:bg-slate-50">
-                                        <td className="p-3 font-medium text-slate-900">GoodRx Coupon (Retail)</td>
-                                        <td className="p-3 text-slate-600">{med.category === 'Immunosuppressant' ? '$40 - $100' : '$20 - $50'}</td>
-                                        <td className="p-3 no-print"><a href={`https://www.goodrx.com/${med.genericName.split(' ')[0]}`} target="_blank" rel="noreferrer" className="text-blue-600 hover:underline font-medium flex items-center gap-1" aria-label={`Check live price on GoodRx for ${med.genericName} (opens in new tab)`}>Check Live <ExternalLink size={12} aria-hidden="true" /></a></td>
+                                        <td className="p-3">
+                                            <div className="font-medium text-slate-900">GoodRx Coupon (Retail)</div>
+                                            {goodRxStats && (
+                                                <div className="text-xs text-emerald-700 flex items-center gap-1 mt-1">
+                                                    <Users size={12} />
+                                                    Community: ${goodRxStats.min}-${goodRxStats.max} ({goodRxStats.count} reports)
+                                                </div>
+                                            )}
+                                        </td>
+                                        <td className="p-3">
+                                            <div className="text-slate-600">
+                                                {med.category === 'Immunosuppressant' ? '$40 - $100' : '$20 - $50'}
+                                            </div>
+                                            <div className="text-xs text-slate-500 flex items-center gap-1 mt-1">
+                                                <Clock size={10} />
+                                                Est. updated Nov 2024
+                                            </div>
+                                        </td>
+                                        <td className="p-3 no-print">
+                                            <div className="flex flex-col gap-1">
+                                                <a href={`https://www.goodrx.com/${encodeURIComponent(med.genericName.split(' ')[0].toLowerCase())}`} target="_blank" rel="noreferrer" className="text-blue-600 hover:underline font-medium flex items-center gap-1" aria-label={`Check live price on GoodRx for ${med.genericName} (opens in new tab)`}>
+                                                    Check Live <ExternalLink size={12} aria-hidden="true" />
+                                                </a>
+                                                <button onClick={() => openReportModal('goodrx', 'GoodRx')} className="text-emerald-600 hover:underline text-xs flex items-center gap-1">
+                                                    <TrendingUp size={10} /> Report Price
+                                                </button>
+                                            </div>
+                                        </td>
                                     </tr>
+
+                                    {/* Amazon Pharmacy Row */}
                                     <tr className="bg-white hover:bg-slate-50">
-                                        <td className="p-3 font-medium text-slate-900">Amazon Pharmacy</td>
-                                        <td className="p-3 text-slate-600">Varies</td>
-                                        <td className="p-3 no-print"><a href={`https://pharmacy.amazon.com/search?q=${med.brandName}`} target="_blank" rel="noreferrer" className="text-blue-600 hover:underline font-medium flex items-center gap-1" aria-label={`Check live price on Amazon Pharmacy for ${med.brandName} (opens in new tab)`}>Check Live <ExternalLink size={12} aria-hidden="true" /></a></td>
+                                        <td className="p-3">
+                                            <div className="font-medium text-slate-900">Amazon Pharmacy</div>
+                                            {amazonStats && (
+                                                <div className="text-xs text-emerald-700 flex items-center gap-1 mt-1">
+                                                    <Users size={12} />
+                                                    Community: ${amazonStats.min}-${amazonStats.max} ({amazonStats.count} reports)
+                                                </div>
+                                            )}
+                                        </td>
+                                        <td className="p-3">
+                                            <div className="text-slate-600">Varies</div>
+                                            <div className="text-xs text-slate-500 flex items-center gap-1 mt-1">
+                                                <Clock size={10} />
+                                                Check for current pricing
+                                            </div>
+                                        </td>
+                                        <td className="p-3 no-print">
+                                            <div className="flex flex-col gap-1">
+                                                <a href={`https://pharmacy.amazon.com/search?q=${encodeURIComponent(med.brandName)}`} target="_blank" rel="noreferrer" className="text-blue-600 hover:underline font-medium flex items-center gap-1" aria-label={`Check live price on Amazon Pharmacy for ${med.brandName} (opens in new tab)`}>
+                                                    Check Live <ExternalLink size={12} aria-hidden="true" />
+                                                </a>
+                                                <button onClick={() => openReportModal('amazon', 'Amazon Pharmacy')} className="text-emerald-600 hover:underline text-xs flex items-center gap-1">
+                                                    <TrendingUp size={10} /> Report Price
+                                                </button>
+                                            </div>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
-                        <div className="mt-3 text-xs text-slate-500 italic flex items-start gap-2" role="note">
-                            <Info size={14} className="flex-shrink-0 mt-0.5" aria-hidden="true" />
-                            <p>Price estimates are approximate and based on general market research (last updated: November 2024). Always check live prices via the links above for current rates.</p>
+
+                        {/* Price Info Footer */}
+                        <div className="mt-3 space-y-2">
+                            <div className="text-xs text-slate-500 italic flex items-start gap-2" role="note">
+                                <Info size={14} className="flex-shrink-0 mt-0.5" aria-hidden="true" />
+                                <p>Price estimates are approximate ranges based on general market research (last updated: November 2024). Always check live prices via the links above for current rates.</p>
+                            </div>
+                            {(costPlusStats || goodRxStats || amazonStats) && (
+                                <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-3 text-xs text-emerald-800 flex items-start gap-2">
+                                    <Users size={14} className="flex-shrink-0 mt-0.5" />
+                                    <p><strong>Community prices</strong> are real prices reported by other users in the last 90 days. Help others by reporting prices you've paid!</p>
+                                </div>
+                            )}
                         </div>
                     </div>
                 )}
@@ -3713,6 +4035,7 @@ const MedicationCard = ({ med, activeTab, onRemove }) => {
                 )}
             </div>
         </article>
+        </>
     );
 };
 
