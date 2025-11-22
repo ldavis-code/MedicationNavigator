@@ -494,14 +494,272 @@ const MEDICATIONS = [
         stage: TransplantStage.BOTH, 
         commonOrgans: [OrganType.HEART] 
     },
-    { 
-        id: 'protonix', 
-        brandName: 'Protonix', 
-        genericName: 'Pantoprazole', 
-        category: 'Stomach Protection', 
-        manufacturer: 'Generic', 
-        stage: TransplantStage.POST, 
-        commonOrgans: [OrganType.KIDNEY, OrganType.LIVER, OrganType.HEART, OrganType.LUNG, OrganType.PANCREAS] 
+    {
+        id: 'protonix',
+        brandName: 'Protonix',
+        genericName: 'Pantoprazole',
+        category: 'Stomach Protection',
+        manufacturer: 'Generic',
+        stage: TransplantStage.POST,
+        commonOrgans: [OrganType.KIDNEY, OrganType.LIVER, OrganType.HEART, OrganType.LUNG, OrganType.PANCREAS]
+    },
+    // Pulmonary Hypertension (Pre)
+    {
+        id: 'revatio',
+        brandName: 'Revatio / Viagra',
+        genericName: 'Sildenafil',
+        category: 'Pulmonary Hypertension',
+        manufacturer: 'Pfizer',
+        stage: TransplantStage.PRE,
+        commonOrgans: [OrganType.LUNG, OrganType.HEART],
+        papUrl: 'https://www.pfizerrxpathways.com/'
+    },
+    {
+        id: 'tracleer',
+        brandName: 'Tracleer',
+        genericName: 'Bosentan',
+        category: 'Pulmonary Hypertension',
+        manufacturer: 'Actelion/Janssen',
+        stage: TransplantStage.PRE,
+        commonOrgans: [OrganType.LUNG, OrganType.HEART],
+        papUrl: 'https://www.janssencarepath.com/'
+    },
+    {
+        id: 'letairis',
+        brandName: 'Letairis',
+        genericName: 'Ambrisentan',
+        category: 'Pulmonary Hypertension',
+        manufacturer: 'Gilead',
+        stage: TransplantStage.PRE,
+        commonOrgans: [OrganType.LUNG, OrganType.HEART],
+        papUrl: 'https://www.gileadadvancingaccess.com/'
+    },
+    {
+        id: 'opsumit',
+        brandName: 'Opsumit',
+        genericName: 'Macitentan',
+        category: 'Pulmonary Hypertension',
+        manufacturer: 'Actelion/Janssen',
+        stage: TransplantStage.PRE,
+        commonOrgans: [OrganType.LUNG, OrganType.HEART],
+        papUrl: 'https://www.janssencarepath.com/'
+    },
+    {
+        id: 'adempas',
+        brandName: 'Adempas',
+        genericName: 'Riociguat',
+        category: 'Pulmonary Hypertension',
+        manufacturer: 'Bayer',
+        stage: TransplantStage.PRE,
+        commonOrgans: [OrganType.LUNG, OrganType.HEART],
+        papUrl: 'https://www.adempas.com/savings-support'
+    },
+    {
+        id: 'uptravi',
+        brandName: 'Uptravi',
+        genericName: 'Selexipag',
+        category: 'Pulmonary Hypertension',
+        manufacturer: 'Actelion/Janssen',
+        stage: TransplantStage.PRE,
+        commonOrgans: [OrganType.LUNG, OrganType.HEART],
+        papUrl: 'https://www.janssencarepath.com/'
+    },
+    {
+        id: 'flolan',
+        brandName: 'Flolan',
+        genericName: 'Epoprostenol',
+        category: 'Pulmonary Hypertension',
+        manufacturer: 'GlaxoSmithKline',
+        stage: TransplantStage.PRE,
+        commonOrgans: [OrganType.LUNG, OrganType.HEART],
+        papUrl: 'https://www.gskforyou.com/'
+    },
+    {
+        id: 'remodulin',
+        brandName: 'Remodulin',
+        genericName: 'Treprostinil',
+        category: 'Pulmonary Hypertension',
+        manufacturer: 'United Therapeutics',
+        stage: TransplantStage.PRE,
+        commonOrgans: [OrganType.LUNG, OrganType.HEART],
+        papUrl: 'https://www.unither.com/responsibility/patient-assistance/'
+    },
+    // ESRD/Dialysis Support (Pre)
+    {
+        id: 'procrit',
+        brandName: 'Procrit / Epogen',
+        genericName: 'Epoetin Alfa',
+        category: 'Anemia (ESRD)',
+        manufacturer: 'Janssen / Amgen',
+        stage: TransplantStage.PRE,
+        commonOrgans: [OrganType.KIDNEY],
+        papUrl: 'https://www.janssencarepath.com/'
+    },
+    {
+        id: 'aranesp',
+        brandName: 'Aranesp',
+        genericName: 'Darbepoetin Alfa',
+        category: 'Anemia (ESRD)',
+        manufacturer: 'Amgen',
+        stage: TransplantStage.PRE,
+        commonOrgans: [OrganType.KIDNEY],
+        papUrl: 'https://www.amgenfirststep.com/'
+    },
+    {
+        id: 'mircera',
+        brandName: 'Mircera',
+        genericName: 'Methoxy Polyethylene Glycol-Epoetin Beta',
+        category: 'Anemia (ESRD)',
+        manufacturer: 'Vifor Pharma',
+        stage: TransplantStage.PRE,
+        commonOrgans: [OrganType.KIDNEY],
+        papUrl: 'https://www.viforpharma.com/en/patient-support'
+    },
+    {
+        id: 'venofer',
+        brandName: 'Venofer',
+        genericName: 'Iron Sucrose',
+        category: 'Iron Supplement (ESRD)',
+        manufacturer: 'American Regent',
+        stage: TransplantStage.PRE,
+        commonOrgans: [OrganType.KIDNEY]
+    },
+    {
+        id: 'feraheme',
+        brandName: 'Feraheme',
+        genericName: 'Ferumoxytol',
+        category: 'Iron Supplement (ESRD)',
+        manufacturer: 'AMAG',
+        stage: TransplantStage.PRE,
+        commonOrgans: [OrganType.KIDNEY],
+        papUrl: 'https://www.feraheme.com/support'
+    },
+    {
+        id: 'injectafer',
+        brandName: 'Injectafer',
+        genericName: 'Ferric Carboxymaltose',
+        category: 'Iron Supplement (ESRD)',
+        manufacturer: 'American Regent',
+        stage: TransplantStage.PRE,
+        commonOrgans: [OrganType.KIDNEY]
+    },
+    {
+        id: 'calcitriol',
+        brandName: 'Rocaltrol / Calcijex',
+        genericName: 'Calcitriol',
+        category: 'Vitamin D (ESRD)',
+        manufacturer: 'Generic',
+        stage: TransplantStage.PRE,
+        commonOrgans: [OrganType.KIDNEY]
+    },
+    {
+        id: 'zemplar',
+        brandName: 'Zemplar',
+        genericName: 'Paricalcitol',
+        category: 'Vitamin D (ESRD)',
+        manufacturer: 'AbbVie',
+        stage: TransplantStage.PRE,
+        commonOrgans: [OrganType.KIDNEY],
+        papUrl: 'https://www.abbvie.com/patients/patient-assistance.html'
+    },
+    {
+        id: 'hectorol',
+        brandName: 'Hectorol',
+        genericName: 'Doxercalciferol',
+        category: 'Vitamin D (ESRD)',
+        manufacturer: 'Sanofi',
+        stage: TransplantStage.PRE,
+        commonOrgans: [OrganType.KIDNEY],
+        papUrl: 'https://www.sanofipatientconnection.com/'
+    },
+    {
+        id: 'sensipar',
+        brandName: 'Sensipar',
+        genericName: 'Cinacalcet',
+        category: 'Hyperparathyroidism (ESRD)',
+        manufacturer: 'Amgen',
+        stage: TransplantStage.PRE,
+        commonOrgans: [OrganType.KIDNEY],
+        papUrl: 'https://www.amgenfirststep.com/'
+    },
+    {
+        id: 'parsabiv',
+        brandName: 'Parsabiv',
+        genericName: 'Etelcalcetide',
+        category: 'Hyperparathyroidism (ESRD)',
+        manufacturer: 'Amgen',
+        stage: TransplantStage.PRE,
+        commonOrgans: [OrganType.KIDNEY],
+        papUrl: 'https://www.amgenfirststep.com/'
+    },
+    {
+        id: 'auryxia',
+        brandName: 'Auryxia',
+        genericName: 'Ferric Citrate',
+        category: 'Phosphate Binder (ESRD)',
+        manufacturer: 'Akebia',
+        stage: TransplantStage.PRE,
+        commonOrgans: [OrganType.KIDNEY],
+        papUrl: 'https://www.auryxia.com/phosphate-binder/savings-support'
+    },
+    {
+        id: 'phoslo',
+        brandName: 'PhosLo',
+        genericName: 'Calcium Acetate',
+        category: 'Phosphate Binder (ESRD)',
+        manufacturer: 'Generic',
+        stage: TransplantStage.PRE,
+        commonOrgans: [OrganType.KIDNEY]
+    },
+    // Acute Rejection (Post)
+    {
+        id: 'campath',
+        brandName: 'Campath / Lemtrada',
+        genericName: 'Alemtuzumab',
+        category: 'Acute Rejection',
+        manufacturer: 'Sanofi',
+        stage: TransplantStage.POST,
+        commonOrgans: [OrganType.KIDNEY, OrganType.LIVER, OrganType.HEART],
+        papUrl: 'https://www.sanofipatientconnection.com/'
+    },
+    {
+        id: 'rituxan',
+        brandName: 'Rituxan',
+        genericName: 'Rituximab',
+        category: 'Acute Rejection',
+        manufacturer: 'Genentech',
+        stage: TransplantStage.POST,
+        commonOrgans: [OrganType.KIDNEY, OrganType.LIVER, OrganType.HEART],
+        papUrl: 'https://www.genentech-access.com/patient.html'
+    },
+    {
+        id: 'ivig',
+        brandName: 'Gammagard / Privigen / Octagam',
+        genericName: 'Intravenous Immunoglobulin (IVIG)',
+        category: 'Acute Rejection',
+        manufacturer: 'Various',
+        stage: TransplantStage.POST,
+        commonOrgans: [OrganType.KIDNEY, OrganType.LIVER, OrganType.HEART, OrganType.LUNG]
+    },
+    {
+        id: 'soliris',
+        brandName: 'Soliris',
+        genericName: 'Eculizumab',
+        category: 'Antibody-Mediated Rejection',
+        manufacturer: 'Alexion',
+        stage: TransplantStage.POST,
+        commonOrgans: [OrganType.KIDNEY],
+        papUrl: 'https://alexion.com/our-patients'
+    },
+    {
+        id: 'ultomiris',
+        brandName: 'Ultomiris',
+        genericName: 'Ravulizumab',
+        category: 'Antibody-Mediated Rejection',
+        manufacturer: 'Alexion',
+        stage: TransplantStage.POST,
+        commonOrgans: [OrganType.KIDNEY],
+        papUrl: 'https://alexion.com/our-patients'
     },
 ];
 
