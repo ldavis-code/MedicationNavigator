@@ -1322,55 +1322,84 @@ const Wizard = () => {
                 </div>
                 
                 <div className="space-y-6 mb-8">
-                    {['Immunosuppressant', 'Induction', 'Anti-viral', 'Anti-fungal', 'Hepatitis B', 'Hepatitis C', 'Steroid', 'Antibiotic', 'Liver Support', 'Diuretic', 'Beta Blocker'].map(cat => {
-                        let medsInCat = MEDICATIONS.filter(m => m.category === cat);
-                        
-                        medsInCat = medsInCat.filter(m => {
+                    {(() => {
+                        // First, filter all medications by stage and organs
+                        const userOrgans = answers.organs;
+                        const showAllOrgans = userOrgans.includes(OrganType.OTHER) || userOrgans.includes(OrganType.MULTI);
+
+                        let filteredMeds = MEDICATIONS.filter(m => {
+                            // Filter by stage
                             if (m.stage === TransplantStage.BOTH) return true;
                             if (isPreTransplant && m.stage === TransplantStage.PRE) return true;
                             if (!isPreTransplant && m.stage === TransplantStage.POST) return true;
                             return false;
                         });
 
-                        const userOrgans = answers.organs;
-                        const showAllOrgans = userOrgans.includes(OrganType.OTHER) || userOrgans.includes(OrganType.MULTI);
-
+                        // Filter by organs
                         if (!showAllOrgans) {
-                            medsInCat = medsInCat.filter(m => {
+                            filteredMeds = filteredMeds.filter(m => {
                                 return m.commonOrgans.some(o => userOrgans.includes(o));
                             });
                         }
 
-                        if (medsInCat.length === 0) return null;
+                        // Get unique categories from filtered medications
+                        const categories = [...new Set(filteredMeds.map(m => m.category))];
 
-                        return (
-                            <div key={cat}>
-                                <h2 className="text-sm font-bold text-slate-500 uppercase tracking-wide mb-2">{cat}s</h2>
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-3" role="group" aria-label={`${cat} medications`}>
-                                     {medsInCat.map((m) => (
-                                        <button
-                                        key={m.id}
-                                        onClick={() => handleMultiSelect('medications', m.id)}
-                                        className={`p-3 text-left rounded-lg border transition flex items-start gap-3 ${
-                                            answers.medications.includes(m.id) ? 'border-emerald-500 bg-emerald-50 ring-1 ring-emerald-500' : 'border-slate-200 hover:bg-slate-50'
-                                        }`}
-                                        role="checkbox"
-                                        aria-checked={answers.medications.includes(m.id)}
-                                        aria-label={`${m.brandName} - ${m.genericName}`}
-                                        >
-                                        <div className={`w-5 h-5 mt-1 rounded border flex items-center justify-center flex-shrink-0 ${answers.medications.includes(m.id) ? 'bg-emerald-500 border-emerald-500' : 'border-slate-300 bg-white'}`} aria-hidden="true">
-                                            {answers.medications.includes(m.id) && <CheckCircle size={14} className="text-white" />}
-                                        </div>
-                                        <div>
-                                            <div className="font-bold text-slate-800">{m.brandName}</div>
-                                            <div className="text-sm text-slate-500">{m.genericName}</div>
-                                        </div>
-                                        </button>
-                                    ))}
+                        // Define category order for better UX
+                        const categoryOrder = [
+                            'Immunosuppressant', 'Induction', 'Steroid',
+                            'Anti-viral', 'Anti-fungal', 'Antibiotic',
+                            'Hepatitis B', 'Hepatitis C',
+                            'Liver Support', 'Heart Failure', 'Heart/Kidney Support', 'Kidney Support',
+                            'Pulmonary Hypertension', 'Diuretic', 'Beta Blocker',
+                            'Enzymes', 'Stomach Protection',
+                            'Anemia (ESRD)', 'Iron Supplement (ESRD)', 'Vitamin D (ESRD)',
+                            'Hyperparathyroidism (ESRD)', 'Phosphate Binder (ESRD)',
+                            'Acute Rejection', 'Antibody-Mediated Rejection'
+                        ];
+
+                        // Sort categories based on defined order, with unknown categories at the end
+                        const sortedCategories = categories.sort((a, b) => {
+                            const indexA = categoryOrder.indexOf(a);
+                            const indexB = categoryOrder.indexOf(b);
+                            if (indexA === -1 && indexB === -1) return a.localeCompare(b);
+                            if (indexA === -1) return 1;
+                            if (indexB === -1) return -1;
+                            return indexA - indexB;
+                        });
+
+                        return sortedCategories.map(cat => {
+                            const medsInCat = filteredMeds.filter(m => m.category === cat);
+
+                            return (
+                                <div key={cat}>
+                                    <h2 className="text-sm font-bold text-slate-500 uppercase tracking-wide mb-2">{cat}s</h2>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3" role="group" aria-label={`${cat} medications`}>
+                                         {medsInCat.map((m) => (
+                                            <button
+                                            key={m.id}
+                                            onClick={() => handleMultiSelect('medications', m.id)}
+                                            className={`p-3 text-left rounded-lg border transition flex items-start gap-3 ${
+                                                answers.medications.includes(m.id) ? 'border-emerald-500 bg-emerald-50 ring-1 ring-emerald-500' : 'border-slate-200 hover:bg-slate-50'
+                                            }`}
+                                            role="checkbox"
+                                            aria-checked={answers.medications.includes(m.id)}
+                                            aria-label={`${m.brandName} - ${m.genericName}`}
+                                            >
+                                            <div className={`w-5 h-5 mt-1 rounded border flex items-center justify-center flex-shrink-0 ${answers.medications.includes(m.id) ? 'bg-emerald-500 border-emerald-500' : 'border-slate-300 bg-white'}`} aria-hidden="true">
+                                                {answers.medications.includes(m.id) && <CheckCircle size={14} className="text-white" />}
+                                            </div>
+                                            <div>
+                                                <div className="font-bold text-slate-800">{m.brandName}</div>
+                                                <div className="text-sm text-slate-500">{m.genericName}</div>
+                                            </div>
+                                            </button>
+                                        ))}
+                                    </div>
                                 </div>
-                            </div>
-                        )
-                    })}
+                            );
+                        });
+                    })()}
                 </div>
 
                 <button
