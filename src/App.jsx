@@ -819,11 +819,29 @@ const DIRECTORY_RESOURCES = [
         description: 'A low-cost online pharmacy that cuts out middlemen. Excellent for comparing cash prices against insurance copays.', 
         category: 'Low-Cost Pharmacy' 
     },
-    { 
-        name: 'Medicare.gov', 
-        url: 'https://www.medicare.gov', 
-        description: 'The official U.S. government site for Medicare. Use this to compare Part D plans and check Part B-ID eligibility.', 
-        category: 'Government' 
+    {
+        name: 'Medicare.gov',
+        url: 'https://www.medicare.gov',
+        description: 'The official U.S. government site for Medicare. Use this to compare Part D plans and check Part B-ID eligibility.',
+        category: 'Government'
+    },
+    {
+        name: 'TRIO (Transplant Recipients International Organization)',
+        url: 'https://www.trioweb.org/',
+        description: 'The nation\'s largest organization of transplant recipients, living donors, donor families, and candidates. Offers local chapters, peer mentoring, and educational resources.',
+        category: 'Support Group'
+    },
+    {
+        name: 'UNOS Patient Support',
+        url: 'https://www.unos.org/community/patient-support/',
+        description: 'United Network for Organ Sharing provides patient education, community forums, and support resources for transplant candidates and recipients.',
+        category: 'Support Group'
+    },
+    {
+        name: 'Donate Life America',
+        url: 'https://www.donatelife.net/patient-services/',
+        description: 'Connects transplant recipients with local resources, events, and community support programs across the United States.',
+        category: 'Support Group'
     },
 ];
 
@@ -2634,7 +2652,6 @@ const Education = () => {
                     <TabButton id="INSURANCE" label="Insurance" icon={Shield} />
                     <TabButton id="SPECIALTY" label="Specialty Pharmacy" icon={Pill} />
                     <TabButton id="DIRECTORY" label="Directory" icon={Search} />
-                    <TabButton id="SUPPORT" label="Support Groups" icon={MessageCircle} />
                     <TabButton id="MENTAL" label="Mental Health" icon={Heart} />
                     <TabButton id="MEDICAID" label="Medicaid" icon={Building2} />
                     <TabButton id="IHS" label="Indian Health" icon={LandPlot} />
@@ -2701,7 +2718,7 @@ const Education = () => {
                                         <h3 className="font-bold text-lg text-slate-900 group-hover:text-emerald-700 pr-2">{res.name}</h3>
                                         <ExternalLink size={16} className="opacity-50 group-hover:opacity-100 text-slate-400 flex-shrink-0 mt-1" aria-hidden="true" />
                                     </div>
-                                    <span className={`text-xs px-2 py-1 rounded-full font-bold mb-3 inline-block ${res.category === 'Foundation' ? 'bg-rose-50 text-rose-700' : res.category === 'Government' ? 'bg-purple-50 text-purple-700' : 'bg-blue-50 text-blue-700'}`}>{res.category}</span>
+                                    <span className={`text-xs px-2 py-1 rounded-full font-bold mb-3 inline-block ${res.category === 'Foundation' ? 'bg-rose-50 text-rose-700' : res.category === 'Government' ? 'bg-purple-50 text-purple-700' : res.category === 'Support Group' ? 'bg-emerald-50 text-emerald-700' : 'bg-blue-50 text-blue-700'}`}>{res.category}</span>
                                     <p className="text-slate-600 text-sm leading-relaxed">{res.description}</p>
                                 </a>
                             ))}
@@ -2847,96 +2864,6 @@ const Education = () => {
                             </a>
                             <section className="bg-white p-6 rounded-xl border border-slate-200" aria-labelledby="ihs-strategy"><h3 id="ihs-strategy" className="font-bold text-slate-900 mb-4">Best Strategy</h3><p className="text-slate-600 text-sm">Use your local IHS or Urban Indian Program — usually $0 cost.</p></section>
                         </div>
-                    </div>
-                )}
-                {activeTab === 'SUPPORT' && (
-                    <div className="max-w-4xl mx-auto space-y-8">
-                        <div className="text-center mb-8">
-                            <h2 className="text-2xl font-bold text-slate-900 mb-4">Support Groups & Community Resources</h2>
-                            <p className="text-lg text-slate-600">Connect with others who understand your journey and find peer support in the transplant community.</p>
-                        </div>
-
-                        <div className="grid md:grid-cols-2 gap-6">
-                            <a href="https://www.trioweb.org/" target="_blank" rel="noreferrer" className="group block bg-gradient-to-br from-emerald-50 to-teal-50 p-6 rounded-xl border-2 border-emerald-200 hover:border-emerald-400 hover:shadow-lg transition h-full" aria-label="Visit TRIO (opens in new tab)">
-                                <div className="flex justify-between items-start mb-3">
-                                    <div>
-                                        <h3 className="font-bold text-xl text-slate-900 group-hover:text-emerald-700 mb-1">TRIO</h3>
-                                        <span className="text-xs px-2 py-1 rounded-full font-bold bg-emerald-100 text-emerald-700">Featured</span>
-                                    </div>
-                                    <ExternalLink size={18} className="opacity-50 group-hover:opacity-100 text-slate-400 flex-shrink-0" aria-hidden="true" />
-                                </div>
-                                <p className="text-slate-700 text-sm leading-relaxed mb-4">
-                                    <strong>Transplant Recipients International Organization</strong> - The nation's largest organization of transplant recipients, living donors, donor families, and candidates. Offers local chapters, peer mentoring, and educational resources.
-                                </p>
-                                <span className="inline-flex items-center gap-2 text-emerald-700 font-bold text-sm">
-                                    Visit TRIO <ArrowRight size={16} aria-hidden="true" />
-                                </span>
-                            </a>
-
-                            <a href="https://www.unos.org/community/patient-support/" target="_blank" rel="noreferrer" className="group block bg-white p-6 rounded-xl border border-slate-200 hover:border-emerald-300 hover:shadow-md transition h-full" aria-label="Visit UNOS Patient Support (opens in new tab)">
-                                <div className="flex justify-between items-start mb-3">
-                                    <h3 className="font-bold text-lg text-slate-900 group-hover:text-emerald-700">UNOS Patient Support</h3>
-                                    <ExternalLink size={16} className="opacity-50 group-hover:opacity-100 text-slate-400 flex-shrink-0" aria-hidden="true" />
-                                </div>
-                                <p className="text-slate-600 text-sm leading-relaxed mb-4">
-                                    United Network for Organ Sharing provides patient education, community forums, and support resources for transplant candidates and recipients.
-                                </p>
-                                <span className="inline-flex items-center gap-2 text-emerald-600 font-medium text-sm">
-                                    Learn More <ArrowRight size={14} aria-hidden="true" />
-                                </span>
-                            </a>
-
-                            <a href="https://www.facebook.com/groups/" target="_blank" rel="noreferrer" className="group block bg-white p-6 rounded-xl border border-slate-200 hover:border-blue-300 hover:shadow-md transition h-full" aria-label="Find Facebook Support Groups (opens in new tab)">
-                                <div className="flex justify-between items-start mb-3">
-                                    <h3 className="font-bold text-lg text-slate-900 group-hover:text-blue-700">Online Support Groups</h3>
-                                    <ExternalLink size={16} className="opacity-50 group-hover:opacity-100 text-slate-400 flex-shrink-0" aria-hidden="true" />
-                                </div>
-                                <p className="text-slate-600 text-sm leading-relaxed mb-4">
-                                    Facebook groups for specific organs (kidney, liver, heart, lung transplant) offer 24/7 peer support and shared experiences from thousands of members.
-                                </p>
-                                <span className="inline-flex items-center gap-2 text-blue-600 font-medium text-sm">
-                                    Find Groups <ArrowRight size={14} aria-hidden="true" />
-                                </span>
-                            </a>
-
-                            <a href="https://www.donatelife.net/patient-services/" target="_blank" rel="noreferrer" className="group block bg-white p-6 rounded-xl border border-slate-200 hover:border-emerald-300 hover:shadow-md transition h-full" aria-label="Visit Donate Life America (opens in new tab)">
-                                <div className="flex justify-between items-start mb-3">
-                                    <h3 className="font-bold text-lg text-slate-900 group-hover:text-emerald-700">Donate Life America</h3>
-                                    <ExternalLink size={16} className="opacity-50 group-hover:opacity-100 text-slate-400 flex-shrink-0" aria-hidden="true" />
-                                </div>
-                                <p className="text-slate-600 text-sm leading-relaxed mb-4">
-                                    Connects transplant recipients with local resources, events, and community support programs across the United States.
-                                </p>
-                                <span className="inline-flex items-center gap-2 text-emerald-600 font-medium text-sm">
-                                    Explore Resources <ArrowRight size={14} aria-hidden="true" />
-                                </span>
-                            </a>
-                        </div>
-
-                        <aside className="bg-sky-50 border-l-4 border-sky-500 p-6 rounded-r-lg" role="note">
-                            <h3 className="font-bold text-sky-900 mb-3 flex items-center gap-2">
-                                <MessageCircle size={20} aria-hidden="true" />
-                                Why Join a Support Group?
-                            </h3>
-                            <ul className="space-y-2 text-sky-900 text-sm">
-                                <li className="flex items-start gap-2">
-                                    <CheckCircle size={16} className="text-sky-600 flex-shrink-0 mt-0.5" aria-hidden="true" />
-                                    <span>Share experiences with people who truly understand the transplant journey</span>
-                                </li>
-                                <li className="flex items-start gap-2">
-                                    <CheckCircle size={16} className="text-sky-600 flex-shrink-0 mt-0.5" aria-hidden="true" />
-                                    <span>Learn practical tips for managing medications, side effects, and lifestyle changes</span>
-                                </li>
-                                <li className="flex items-start gap-2">
-                                    <CheckCircle size={16} className="text-sky-600 flex-shrink-0 mt-0.5" aria-hidden="true" />
-                                    <span>Find emotional support during challenging times</span>
-                                </li>
-                                <li className="flex items-start gap-2">
-                                    <CheckCircle size={16} className="text-sky-600 flex-shrink-0 mt-0.5" aria-hidden="true" />
-                                    <span>Stay motivated and celebrate milestones together</span>
-                                </li>
-                            </ul>
-                        </aside>
                     </div>
                 )}
                 {activeTab === 'MENTAL' && (
