@@ -2630,10 +2630,12 @@ const Education = () => {
             </header>
             <nav className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-x-auto" role="tablist" aria-label="Education topics">
                 <div className="flex min-w-max">
-                    <TabButton id="OOP" label="Out-of-Pocket" icon={Heart} />
+                    <TabButton id="OOP" label="Out-of-Pocket" icon={DollarSign} />
                     <TabButton id="INSURANCE" label="Insurance" icon={Shield} />
                     <TabButton id="SPECIALTY" label="Specialty Pharmacy" icon={Pill} />
                     <TabButton id="DIRECTORY" label="Directory" icon={Search} />
+                    <TabButton id="SUPPORT" label="Support Groups" icon={MessageCircle} />
+                    <TabButton id="MENTAL" label="Mental Health" icon={Heart} />
                     <TabButton id="MEDICAID" label="Medicaid" icon={Building2} />
                     <TabButton id="IHS" label="Indian Health" icon={LandPlot} />
                 </div>
@@ -2845,6 +2847,209 @@ const Education = () => {
                             </a>
                             <section className="bg-white p-6 rounded-xl border border-slate-200" aria-labelledby="ihs-strategy"><h3 id="ihs-strategy" className="font-bold text-slate-900 mb-4">Best Strategy</h3><p className="text-slate-600 text-sm">Use your local IHS or Urban Indian Program — usually $0 cost.</p></section>
                         </div>
+                    </div>
+                )}
+                {activeTab === 'SUPPORT' && (
+                    <div className="max-w-4xl mx-auto space-y-8">
+                        <div className="text-center mb-8">
+                            <h2 className="text-2xl font-bold text-slate-900 mb-4">Support Groups & Community Resources</h2>
+                            <p className="text-lg text-slate-600">Connect with others who understand your journey and find peer support in the transplant community.</p>
+                        </div>
+
+                        <div className="grid md:grid-cols-2 gap-6">
+                            <a href="https://www.trioweb.org/" target="_blank" rel="noreferrer" className="group block bg-gradient-to-br from-emerald-50 to-teal-50 p-6 rounded-xl border-2 border-emerald-200 hover:border-emerald-400 hover:shadow-lg transition h-full" aria-label="Visit TRIO (opens in new tab)">
+                                <div className="flex justify-between items-start mb-3">
+                                    <div>
+                                        <h3 className="font-bold text-xl text-slate-900 group-hover:text-emerald-700 mb-1">TRIO</h3>
+                                        <span className="text-xs px-2 py-1 rounded-full font-bold bg-emerald-100 text-emerald-700">Featured</span>
+                                    </div>
+                                    <ExternalLink size={18} className="opacity-50 group-hover:opacity-100 text-slate-400 flex-shrink-0" aria-hidden="true" />
+                                </div>
+                                <p className="text-slate-700 text-sm leading-relaxed mb-4">
+                                    <strong>Transplant Recipients International Organization</strong> - The nation's largest organization of transplant recipients, living donors, donor families, and candidates. Offers local chapters, peer mentoring, and educational resources.
+                                </p>
+                                <span className="inline-flex items-center gap-2 text-emerald-700 font-bold text-sm">
+                                    Visit TRIO <ArrowRight size={16} aria-hidden="true" />
+                                </span>
+                            </a>
+
+                            <a href="https://www.unos.org/community/patient-support/" target="_blank" rel="noreferrer" className="group block bg-white p-6 rounded-xl border border-slate-200 hover:border-emerald-300 hover:shadow-md transition h-full" aria-label="Visit UNOS Patient Support (opens in new tab)">
+                                <div className="flex justify-between items-start mb-3">
+                                    <h3 className="font-bold text-lg text-slate-900 group-hover:text-emerald-700">UNOS Patient Support</h3>
+                                    <ExternalLink size={16} className="opacity-50 group-hover:opacity-100 text-slate-400 flex-shrink-0" aria-hidden="true" />
+                                </div>
+                                <p className="text-slate-600 text-sm leading-relaxed mb-4">
+                                    United Network for Organ Sharing provides patient education, community forums, and support resources for transplant candidates and recipients.
+                                </p>
+                                <span className="inline-flex items-center gap-2 text-emerald-600 font-medium text-sm">
+                                    Learn More <ArrowRight size={14} aria-hidden="true" />
+                                </span>
+                            </a>
+
+                            <a href="https://www.facebook.com/groups/" target="_blank" rel="noreferrer" className="group block bg-white p-6 rounded-xl border border-slate-200 hover:border-blue-300 hover:shadow-md transition h-full" aria-label="Find Facebook Support Groups (opens in new tab)">
+                                <div className="flex justify-between items-start mb-3">
+                                    <h3 className="font-bold text-lg text-slate-900 group-hover:text-blue-700">Online Support Groups</h3>
+                                    <ExternalLink size={16} className="opacity-50 group-hover:opacity-100 text-slate-400 flex-shrink-0" aria-hidden="true" />
+                                </div>
+                                <p className="text-slate-600 text-sm leading-relaxed mb-4">
+                                    Facebook groups for specific organs (kidney, liver, heart, lung transplant) offer 24/7 peer support and shared experiences from thousands of members.
+                                </p>
+                                <span className="inline-flex items-center gap-2 text-blue-600 font-medium text-sm">
+                                    Find Groups <ArrowRight size={14} aria-hidden="true" />
+                                </span>
+                            </a>
+
+                            <a href="https://www.donatelife.net/patient-services/" target="_blank" rel="noreferrer" className="group block bg-white p-6 rounded-xl border border-slate-200 hover:border-emerald-300 hover:shadow-md transition h-full" aria-label="Visit Donate Life America (opens in new tab)">
+                                <div className="flex justify-between items-start mb-3">
+                                    <h3 className="font-bold text-lg text-slate-900 group-hover:text-emerald-700">Donate Life America</h3>
+                                    <ExternalLink size={16} className="opacity-50 group-hover:opacity-100 text-slate-400 flex-shrink-0" aria-hidden="true" />
+                                </div>
+                                <p className="text-slate-600 text-sm leading-relaxed mb-4">
+                                    Connects transplant recipients with local resources, events, and community support programs across the United States.
+                                </p>
+                                <span className="inline-flex items-center gap-2 text-emerald-600 font-medium text-sm">
+                                    Explore Resources <ArrowRight size={14} aria-hidden="true" />
+                                </span>
+                            </a>
+                        </div>
+
+                        <aside className="bg-sky-50 border-l-4 border-sky-500 p-6 rounded-r-lg" role="note">
+                            <h3 className="font-bold text-sky-900 mb-3 flex items-center gap-2">
+                                <MessageCircle size={20} aria-hidden="true" />
+                                Why Join a Support Group?
+                            </h3>
+                            <ul className="space-y-2 text-sky-900 text-sm">
+                                <li className="flex items-start gap-2">
+                                    <CheckCircle size={16} className="text-sky-600 flex-shrink-0 mt-0.5" aria-hidden="true" />
+                                    <span>Share experiences with people who truly understand the transplant journey</span>
+                                </li>
+                                <li className="flex items-start gap-2">
+                                    <CheckCircle size={16} className="text-sky-600 flex-shrink-0 mt-0.5" aria-hidden="true" />
+                                    <span>Learn practical tips for managing medications, side effects, and lifestyle changes</span>
+                                </li>
+                                <li className="flex items-start gap-2">
+                                    <CheckCircle size={16} className="text-sky-600 flex-shrink-0 mt-0.5" aria-hidden="true" />
+                                    <span>Find emotional support during challenging times</span>
+                                </li>
+                                <li className="flex items-start gap-2">
+                                    <CheckCircle size={16} className="text-sky-600 flex-shrink-0 mt-0.5" aria-hidden="true" />
+                                    <span>Stay motivated and celebrate milestones together</span>
+                                </li>
+                            </ul>
+                        </aside>
+                    </div>
+                )}
+                {activeTab === 'MENTAL' && (
+                    <div className="max-w-4xl mx-auto space-y-8">
+                        <div className="text-center mb-8">
+                            <h2 className="text-2xl font-bold text-slate-900 mb-4">Mental Health Resources</h2>
+                            <p className="text-lg text-slate-600">Your mental health matters. Access free, confidential support when you need it.</p>
+                        </div>
+
+                        <section className="bg-gradient-to-br from-rose-50 to-pink-50 border-2 border-rose-300 rounded-2xl p-8 shadow-lg text-center" aria-labelledby="crisis-hotline">
+                            <div className="bg-rose-600 text-white w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 shadow-md" aria-hidden="true">
+                                <Phone size={40} />
+                            </div>
+                            <h3 id="crisis-hotline" className="text-3xl font-extrabold text-slate-900 mb-3">
+                                Need to Talk to Someone Right Now?
+                            </h3>
+                            <div className="mb-6">
+                                <a href="tel:988" className="inline-block text-6xl md:text-7xl font-black text-rose-600 hover:text-rose-700 transition mb-2 tracking-tight">
+                                    988
+                                </a>
+                                <p className="text-lg font-bold text-slate-700">National Suicide & Crisis Lifeline</p>
+                                <p className="text-sm text-slate-600 mt-2">24/7 • Free • Confidential</p>
+                            </div>
+                            <div className="grid md:grid-cols-2 gap-4 text-left max-w-2xl mx-auto">
+                                <div className="bg-white/80 p-4 rounded-lg">
+                                    <p className="font-bold text-slate-900 mb-1">Call or Text</p>
+                                    <p className="text-sm text-slate-600">Dial or text <strong>988</strong> from any phone</p>
+                                </div>
+                                <div className="bg-white/80 p-4 rounded-lg">
+                                    <p className="font-bold text-slate-900 mb-1">Online Chat</p>
+                                    <a href="https://988lifeline.org/chat/" target="_blank" rel="noreferrer" className="text-sm text-rose-600 font-medium hover:underline flex items-center gap-1">
+                                        988lifeline.org/chat <ExternalLink size={12} aria-hidden="true" />
+                                    </a>
+                                </div>
+                            </div>
+                        </section>
+
+                        <div className="grid md:grid-cols-2 gap-6">
+                            <a href="https://www.samhsa.gov/find-support" target="_blank" rel="noreferrer" className="group block bg-white p-6 rounded-xl border-2 border-indigo-200 hover:border-indigo-400 hover:shadow-lg transition h-full" aria-label="Visit SAMHSA (opens in new tab)">
+                                <div className="flex justify-between items-start mb-4">
+                                    <div>
+                                        <h3 className="font-bold text-xl text-slate-900 group-hover:text-indigo-700 mb-1">SAMHSA</h3>
+                                        <span className="text-xs px-2 py-1 rounded-full font-bold bg-indigo-100 text-indigo-700">Government Resource</span>
+                                    </div>
+                                    <ExternalLink size={18} className="opacity-50 group-hover:opacity-100 text-slate-400 flex-shrink-0" aria-hidden="true" />
+                                </div>
+                                <p className="text-slate-700 text-sm leading-relaxed mb-4">
+                                    <strong>Substance Abuse and Mental Health Services Administration</strong> - Find treatment facilities, support groups, and mental health services in your area.
+                                </p>
+                                <div className="space-y-2 text-sm">
+                                    <p className="text-slate-600">
+                                        <strong className="text-slate-900">Helpline:</strong>{' '}
+                                        <a href="tel:1-800-662-4357" className="text-indigo-600 font-bold hover:underline">1-800-662-HELP (4357)</a>
+                                    </p>
+                                    <p className="text-slate-500 text-xs">Treatment referral and information service (24/7)</p>
+                                </div>
+                            </a>
+
+                            <section className="bg-white p-6 rounded-xl border border-slate-200 h-full" aria-labelledby="transplant-mental-health">
+                                <h3 id="transplant-mental-health" className="font-bold text-lg text-slate-900 mb-4">Transplant & Mental Health</h3>
+                                <p className="text-slate-600 text-sm leading-relaxed mb-4">
+                                    It's normal to experience anxiety, depression, or emotional challenges during your transplant journey. You're not alone.
+                                </p>
+                                <ul className="space-y-2 text-sm text-slate-700">
+                                    <li className="flex items-start gap-2">
+                                        <CheckCircle size={16} className="text-emerald-600 flex-shrink-0 mt-0.5" aria-hidden="true" />
+                                        <span>Ask your transplant team about counseling services</span>
+                                    </li>
+                                    <li className="flex items-start gap-2">
+                                        <CheckCircle size={16} className="text-emerald-600 flex-shrink-0 mt-0.5" aria-hidden="true" />
+                                        <span>Many transplant centers have social workers and psychologists</span>
+                                    </li>
+                                    <li className="flex items-start gap-2">
+                                        <CheckCircle size={16} className="text-emerald-600 flex-shrink-0 mt-0.5" aria-hidden="true" />
+                                        <span>Medicare and most insurance plans cover mental health services</span>
+                                    </li>
+                                </ul>
+                            </section>
+
+                            <a href="https://www.nami.org/Support-Education/Support-Groups" target="_blank" rel="noreferrer" className="group block bg-white p-6 rounded-xl border border-slate-200 hover:border-purple-300 hover:shadow-md transition h-full" aria-label="Visit NAMI Support Groups (opens in new tab)">
+                                <div className="flex justify-between items-start mb-3">
+                                    <h3 className="font-bold text-lg text-slate-900 group-hover:text-purple-700">NAMI Support Groups</h3>
+                                    <ExternalLink size={16} className="opacity-50 group-hover:opacity-100 text-slate-400 flex-shrink-0" aria-hidden="true" />
+                                </div>
+                                <p className="text-slate-600 text-sm leading-relaxed mb-4">
+                                    National Alliance on Mental Illness offers free peer support groups for people living with mental health conditions and their families.
+                                </p>
+                                <p className="text-slate-600 text-sm">
+                                    <strong className="text-slate-900">Helpline:</strong>{' '}
+                                    <a href="tel:1-800-950-6264" className="text-purple-600 font-bold hover:underline">1-800-950-NAMI (6264)</a>
+                                </p>
+                            </a>
+
+                            <a href="https://www.mentalhealth.gov/get-help" target="_blank" rel="noreferrer" className="group block bg-white p-6 rounded-xl border border-slate-200 hover:border-emerald-300 hover:shadow-md transition h-full" aria-label="Visit MentalHealth.gov (opens in new tab)">
+                                <div className="flex justify-between items-start mb-3">
+                                    <h3 className="font-bold text-lg text-slate-900 group-hover:text-emerald-700">MentalHealth.gov</h3>
+                                    <ExternalLink size={16} className="opacity-50 group-hover:opacity-100 text-slate-400 flex-shrink-0" aria-hidden="true" />
+                                </div>
+                                <p className="text-slate-600 text-sm leading-relaxed">
+                                    Government resource to help you understand mental health conditions, find treatment options, and locate services in your community.
+                                </p>
+                            </a>
+                        </div>
+
+                        <aside className="bg-amber-50 border-l-4 border-amber-500 p-6 rounded-r-lg" role="note">
+                            <h3 className="font-bold text-amber-900 mb-3 flex items-center gap-2">
+                                <Heart size={20} aria-hidden="true" />
+                                Remember
+                            </h3>
+                            <p className="text-amber-900 text-sm leading-relaxed">
+                                Seeking help for mental health is a sign of strength, not weakness. The transplant journey is physically and emotionally demanding. Taking care of your mental health is just as important as taking your medications. If you're struggling, reach out—there are people who want to help.
+                            </p>
+                        </aside>
                     </div>
                 )}
             </div>
