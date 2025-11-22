@@ -1522,6 +1522,46 @@ const MEDICATIONS = [
         stage: TransplantStage.BOTH,
         commonOrgans: [OrganType.KIDNEY, OrganType.HEART]
     },
+    // Fatty Liver Disease (NAFLD/NASH) (Both)
+    {
+        id: 'vitamin-e',
+        brandName: 'Aqua Gem-E / d-Alpha-Tocopherol',
+        genericName: 'Vitamin E',
+        category: 'Fatty Liver Disease (NASH)',
+        manufacturer: 'Generic',
+        stage: TransplantStage.BOTH,
+        commonOrgans: [OrganType.LIVER]
+    },
+    {
+        id: 'pioglitazone',
+        brandName: 'Actos',
+        genericName: 'Pioglitazone',
+        category: 'Fatty Liver Disease (NASH)',
+        manufacturer: 'Takeda',
+        stage: TransplantStage.BOTH,
+        commonOrgans: [OrganType.LIVER, OrganType.KIDNEY, OrganType.PANCREAS],
+        papUrl: 'https://www.takeda.com/en-us/what-we-do/patient-services/'
+    },
+    {
+        id: 'resmetirom',
+        brandName: 'Rezdiffra',
+        genericName: 'Resmetirom',
+        category: 'Fatty Liver Disease (NASH)',
+        manufacturer: 'Madrigal',
+        stage: TransplantStage.BOTH,
+        commonOrgans: [OrganType.LIVER],
+        papUrl: 'https://www.rezdiffra.com/patient-support'
+    },
+    {
+        id: 'obeticholic-acid',
+        brandName: 'Ocaliva',
+        genericName: 'Obeticholic Acid',
+        category: 'Fatty Liver Disease (PBC/NASH)',
+        manufacturer: 'Intercept',
+        stage: TransplantStage.BOTH,
+        commonOrgans: [OrganType.LIVER],
+        papUrl: 'https://www.ocaliva.com/patient-support'
+    },
 ];
 
 const DIRECTORY_RESOURCES = [
