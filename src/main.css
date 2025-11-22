@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@media print {
+    header, footer, button.no-print, .no-print {
+        display: none !important;
+    }
+    body {
+        background: white;
+    }
+    main {
+        padding: 0 !important;
+    }
+    * {
+        color: black !important;
+    }
+}
+
+/* Loading animation */
+.fade-in {
+    animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Smooth scrolling */
+html {
+    scroll-behavior: smooth;
+}
