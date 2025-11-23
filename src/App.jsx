@@ -2038,7 +2038,7 @@ const ASSISTANT_KNOWLEDGE_BASE = {
 const QUICK_ACTIONS = [
     {
         id: 'start-wizard',
-        label: 'Start My Path Wizard',
+        label: 'Start My Path Quiz',
         icon: Map,
         link: '/wizard',
         description: 'Get personalized assistance recommendations'
@@ -2346,7 +2346,7 @@ const Layout = ({ children }) => {
 
     const navLinks = [
         { path: '/', label: 'Home', ariaLabel: 'Go to home page' },
-        { path: '/wizard', label: 'My Path', ariaLabel: 'Start medication path wizard' },
+        { path: '/wizard', label: 'My Path Quiz', ariaLabel: 'Start medication path wizard' },
         { path: '/medications', label: 'Search Meds', ariaLabel: 'Search for medications' },
         { path: '/application-help', label: 'Application Guide', ariaLabel: 'View application help guide' },
         { path: '/education', label: 'Resources & Education', ariaLabel: 'Browse resources and education' },
@@ -2469,7 +2469,7 @@ const Home = () => {
                         aria-label="Start your personalized medication path"
                     >
                         <Map size={20} aria-hidden="true" />
-                        Start My Medication Path
+                        Start My Medication Path Quiz
                     </Link>
                     <Link
                         to="/medications"
