@@ -5108,6 +5108,35 @@ const FAQ = () => {
             ]
         },
         {
+            category: 'Prescription Discount Cards (GoodRx, SingleCare, etc.)',
+            questions: [
+                {
+                    q: 'What are GoodRx and its competitors?',
+                    a: 'GoodRx, SingleCare, Blink Health, Optum Perks, and similar services are prescription discount card companies—NOT insurance. They negotiate lower "cash prices" with pharmacies and Pharmacy Benefit Managers (PBMs). When you use their coupon or card, you pay the discounted cash price instead of using your insurance. While this might save money on a single prescription, it can cost transplant patients significantly more over time.'
+                },
+                {
+                    q: 'What is the "Deductible Trap" with discount cards?',
+                    a: 'This is the critical issue for transplant patients: When you use a discount card like GoodRx or SingleCare, the money you pay does NOT count toward your insurance deductible or out-of-pocket maximum (OOPM). Transplant patients typically have high medication costs that help them reach their OOPM within a few months—after which insurance pays 100% of covered costs for the rest of the year. Using discount cards delays reaching your OOPM, meaning you pay out-of-pocket for much longer. A small savings today can lead to thousands of dollars in extra costs over the year.'
+                },
+                {
+                    q: 'Can I use a discount card AND my insurance at the same time?',
+                    a: 'No. You cannot use a discount card and your insurance simultaneously. It\'s an either/or choice. If you choose the discount card route, you forfeit the benefit of having that payment count toward your annual deductible and out-of-pocket maximum.'
+                },
+                {
+                    q: 'When should transplant patients use discount cards?',
+                    a: 'Discount cards should only be used in very specific, limited scenarios: (1) For a drug NOT covered by your insurance and with no generic alternative available, (2) For non-transplant-related, one-time, low-cost medications (like a short antibiotic course) where the discount price is cheaper than your copay, (3) If you have an extremely high deductible AND the cash price is lower—but even then, carefully weigh the cost of not reaching your out-of-pocket maximum. NEVER use discount cards for your chronic, lifelong transplant immunosuppressants like Tacrolimus, Mycophenolate, or Cyclosporine.'
+                },
+                {
+                    q: 'What are better alternatives to discount cards for transplant patients?',
+                    a: 'For high-cost transplant medications, these alternatives are far superior: (1) Patient Assistance Programs (PAPs)—pharmaceutical manufacturers offer free or deeply discounted medications based on income. These are the gold standard for uninsured/underinsured patients. (2) Copay Assistance Foundations—nonprofits like HealthWell Foundation and American Transplant Foundation help pay insurance copays, coinsurance, and deductibles, and these payments often DO count toward your out-of-pocket maximum. (3) Medicare Extra Help—for Medicare beneficiaries with limited income. Search our medication database or check NeedyMeds.org and the Partnership for Prescription Assistance to find programs for your specific drugs.'
+                },
+                {
+                    q: 'Why is hitting my out-of-pocket maximum so important?',
+                    a: 'Once you hit your annual out-of-pocket maximum (OOPM), your insurance pays 100% of covered costs for the rest of the year. For transplant patients on expensive immunosuppressants, this typically happens within the first few months of the year. After that, your medications are essentially free. The goal is not the lowest price today—it\'s the lowest total cost for the entire year. Every dollar spent via discount cards is a dollar that doesn\'t bring you closer to free medications for the rest of the year.'
+                }
+            ]
+        },
+        {
             category: 'Using This Site',
             questions: [
                 {
