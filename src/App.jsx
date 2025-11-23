@@ -4087,7 +4087,7 @@ const ExternalMedCard = ({ name, onRemove }) => {
 
 // Education Page
 const Education = () => {
-    const [activeTab, setActiveTab] = useState('OOP');
+    const [activeTab, setActiveTab] = useState('DEDUCTIBLE_TRAP');
     const [selectedState, setSelectedState] = useState("");
     const [appealName, setAppealName] = useState("");
     const [appealDrug, setAppealDrug] = useState("");
@@ -4139,12 +4139,12 @@ const Education = () => {
             </header>
             <nav className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-x-auto" role="tablist" aria-label="Education topics">
                 <div className="flex min-w-max">
+                    <TabButton id="DEDUCTIBLE_TRAP" label="Deductible Trap" icon={AlertTriangle} />
                     <TabButton id="OOP" label="Out-of-Pocket" icon={DollarSign} />
                     <TabButton id="INSURANCE" label="Insurance(s)" icon={Shield} />
                     <TabButton id="SPECIALTY" label="Specialty Pharmacy" icon={Stethoscope} />
-                    <TabButton id="DIRECTORY" label="Directory" icon={Search} />
                     <TabButton id="MENTAL" label="Mental Health" icon={Heart} />
-                    <TabButton id="DEDUCTIBLE_TRAP" label="Deductible Trap" icon={AlertTriangle} />
+                    <TabButton id="DIRECTORY" label="Directory" icon={Search} />
                 </div>
             </nav>
             <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 md:p-8 min-h-[500px]" role="tabpanel" id={`${activeTab}-panel`} aria-labelledby={`${activeTab}-tab`}>
