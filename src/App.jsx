@@ -4140,12 +4140,11 @@ const Education = () => {
             <nav className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-x-auto" role="tablist" aria-label="Education topics">
                 <div className="flex min-w-max">
                     <TabButton id="OOP" label="Out-of-Pocket" icon={DollarSign} />
-                    <TabButton id="INSURANCE" label="Insurance" icon={Shield} />
+                    <TabButton id="INSURANCE" label="Insurance(s)" icon={Shield} />
                     <TabButton id="SPECIALTY" label="Specialty Pharmacy" icon={Stethoscope} />
                     <TabButton id="DIRECTORY" label="Directory" icon={Search} />
                     <TabButton id="MENTAL" label="Mental Health" icon={Heart} />
-                    <TabButton id="MEDICAID" label="Medicaid" icon={Building2} />
-                    <TabButton id="IHS" label="Indian Health" icon={LandPlot} />
+                    <TabButton id="DEDUCTIBLE_TRAP" label="Deductible Trap" icon={AlertTriangle} />
                 </div>
             </nav>
             <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 md:p-8 min-h-[500px]" role="tabpanel" id={`${activeTab}-panel`} aria-labelledby={`${activeTab}-tab`}>
@@ -4437,6 +4436,41 @@ const Education = () => {
                             <h2 id="no-insurance" className="font-bold bg-slate-50 p-3 border-b border-slate-200 text-slate-800">No Insurance</h2>
                             <div className="p-6 bg-white"><p className="text-slate-700 mb-4">For uninsured patients.</p><h3 className="font-bold text-emerald-700 mb-2">Best Strategy</h3><ul className="list-disc pl-5 text-slate-600 text-sm space-y-1"><li>Start with manufacturer PAPs</li><li>Compare Cost Plus pricing</li><li>Use discount tools (GoodRx, SingleCare, etc.)</li><li>Explore Medicaid or Marketplace enrollment</li></ul><a href="https://www.healthcare.gov/" target="_blank" rel="noreferrer" className="text-blue-600 hover:underline text-sm flex items-center gap-1 mt-4" aria-label="Explore Insurance Options on Healthcare.gov (opens in new tab)">Explore Insurance Options <ExternalLink size={12} aria-hidden="true" /></a></div>
                         </section>
+
+                        <section aria-labelledby="medicaid-section">
+                            <h2 id="medicaid-section" className="text-2xl font-bold text-slate-900 mb-6 pb-2 border-b border-slate-200">Medicaid (State-Based)</h2>
+                            <p className="text-slate-600 mb-6">Low-income program; coverage varies by state.</p>
+                            <div className="bg-slate-50 p-8 rounded-xl border border-slate-200">
+                                <label htmlFor="state-select" className="block font-bold text-slate-700 mb-2">Select your State:</label>
+                                <div className="relative">
+                                    <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none" size={20} aria-hidden="true" />
+                                    <select id="state-select" className="w-full appearance-none p-4 pr-10 rounded-lg border border-slate-300 text-lg bg-white focus:ring-2 focus:ring-emerald-500 outline-none" onChange={(e) => setSelectedState(e.target.value)} value={selectedState}>
+                                        <option value="">-- Choose a State --</option>
+                                        {STATES.map(s => <option key={s.name} value={s.url}>{s.name}</option>)}
+                                    </select>
+                                </div>
+                                {selectedState && (
+                                    <div className="mt-6 text-center fade-in">
+                                        <a href={selectedState} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition" aria-label="Visit your state's Medicaid website (opens in new tab)">Go to Official Site <ExternalLink size={18} aria-hidden="true" /></a>
+                                        <p className="text-xs text-slate-500 mt-3">You are leaving this app to visit a government website.</p>
+                                    </div>
+                                )}
+                            </div>
+                        </section>
+
+                        <section aria-labelledby="ihs-section">
+                            <h2 id="ihs-section" className="text-2xl font-bold text-slate-900 mb-6 pb-2 border-b border-slate-200">Indian Health Service / Tribal Programs</h2>
+                            <p className="text-slate-600 mb-6">For eligible American Indian and Alaska Native patients.</p>
+                            <div className="grid md:grid-cols-2 gap-6">
+                                <a href="https://www.ihs.gov/findhealthcare/" target="_blank" rel="noreferrer" className="bg-white p-6 rounded-xl border-2 border-emerald-100 hover:border-emerald-200 transition text-center group" aria-label="Find an IHS facility (opens in new tab)">
+                                    <div className="bg-emerald-50 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 text-emerald-700" aria-hidden="true"><LandPlot size={32} /></div>
+                                    <h3 className="font-bold text-lg text-slate-900 mb-2">Find a Facility</h3>
+                                    <p className="text-sm text-slate-600 mb-6">Use the official IHS locator to find clinics and pharmacies near you.</p>
+                                    <span className="inline-block w-full bg-emerald-600 group-hover:bg-emerald-700 text-white font-bold py-2 rounded-lg">Open IHS Locator</span>
+                                </a>
+                                <section className="bg-white p-6 rounded-xl border border-slate-200" aria-labelledby="ihs-strategy"><h3 id="ihs-strategy" className="font-bold text-slate-900 mb-4">Best Strategy</h3><p className="text-slate-600 text-sm">Use your local IHS or Urban Indian Program — usually $0 cost.</p></section>
+                            </div>
+                        </section>
                     </div>
                 )}
                 {activeTab === 'SPECIALTY' && (
@@ -4476,39 +4510,165 @@ const Education = () => {
                         </div>
                     </div>
                 )}
-                {activeTab === 'MEDICAID' && (
-                    <div className="max-w-3xl mx-auto space-y-8">
-                        <div><h2 className="text-2xl font-bold text-slate-900 mb-4">Medicaid (State-Based)</h2><p className="text-slate-600">Low-income program; coverage varies by state.</p></div>
-                        <div className="bg-slate-50 p-8 rounded-xl border border-slate-200">
-                            <label htmlFor="state-select" className="block font-bold text-slate-700 mb-2">Select your State:</label>
-                            <div className="relative">
-                                <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none" size={20} aria-hidden="true" />
-                                <select id="state-select" className="w-full appearance-none p-4 pr-10 rounded-lg border border-slate-300 text-lg bg-white focus:ring-2 focus:ring-emerald-500 outline-none" onChange={(e) => setSelectedState(e.target.value)} value={selectedState}>
-                                    <option value="">-- Choose a State --</option>
-                                    {STATES.map(s => <option key={s.name} value={s.url}>{s.name}</option>)}
-                                </select>
-                            </div>
-                            {selectedState && (
-                                <div className="mt-6 text-center fade-in">
-                                    <a href={selectedState} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition" aria-label="Visit your state's Medicaid website (opens in new tab)">Go to Official Site <ExternalLink size={18} aria-hidden="true" /></a>
-                                    <p className="text-xs text-slate-500 mt-3">You are leaving this app to visit a government website.</p>
+                {activeTab === 'DEDUCTIBLE_TRAP' && (
+                    <div className="max-w-4xl mx-auto space-y-8">
+                        <div className="text-center mb-8">
+                            <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">The Deductible Trap</h1>
+                            <p className="text-xl text-slate-600">Why Prescription Discount Cards Can Cost Transplant Patients More</p>
+                        </div>
+
+                        <div className="bg-gradient-to-br from-red-50 to-orange-50 border-4 border-red-300 rounded-2xl p-8 shadow-lg">
+                            <div className="flex items-start gap-4 mb-4">
+                                <div className="bg-red-600 text-white p-3 rounded-full flex-shrink-0" aria-hidden="true">
+                                    <AlertTriangle size={32} />
                                 </div>
-                            )}
+                                <div>
+                                    <h2 className="text-2xl font-bold text-red-900 mb-2">⚠️ Critical Warning for Transplant Patients</h2>
+                                    <p className="text-lg font-bold text-red-800">Using discount cards like GoodRx or SingleCare can cost you THOUSANDS of extra dollars per year.</p>
+                                </div>
+                            </div>
+                            <div className="bg-white/80 p-6 rounded-xl border-2 border-red-200 mt-4">
+                                <h3 className="font-bold text-red-900 text-xl mb-3">The Problem:</h3>
+                                <p className="text-red-900 text-lg leading-relaxed mb-4">When you use a discount card, <span className="font-bold bg-yellow-200 px-2 py-1 rounded">the money you pay does NOT count toward your insurance deductible or out-of-pocket maximum (OOPM)</span>.</p>
+                                <p className="text-slate-800 leading-relaxed">Transplant patients typically have high medication costs that help them reach their OOPM within a few months—after which insurance pays 100% of covered costs for the rest of the year. Using discount cards delays reaching your OOPM, meaning you pay out-of-pocket for much longer.</p>
+                            </div>
                         </div>
-                    </div>
-                )}
-                {activeTab === 'IHS' && (
-                    <div className="max-w-3xl mx-auto space-y-8">
-                        <div><h2 className="text-2xl font-bold text-slate-900 mb-4">Indian Health Service / Tribal Programs</h2><p className="text-slate-600">For eligible American Indian and Alaska Native patients.</p></div>
-                        <div className="grid md:grid-cols-2 gap-6">
-                            <a href="https://www.ihs.gov/findhealthcare/" target="_blank" rel="noreferrer" className="bg-white p-6 rounded-xl border-2 border-emerald-100 hover:border-emerald-200 transition text-center group" aria-label="Find an IHS facility (opens in new tab)">
-                                <div className="bg-emerald-50 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 text-emerald-700" aria-hidden="true"><LandPlot size={32} /></div>
-                                <h3 className="font-bold text-lg text-slate-900 mb-2">Find a Facility</h3>
-                                <p className="text-sm text-slate-600 mb-6">Use the official IHS locator to find clinics and pharmacies near you.</p>
-                                <span className="inline-block w-full bg-emerald-600 group-hover:bg-emerald-700 text-white font-bold py-2 rounded-lg">Open IHS Locator</span>
-                            </a>
-                            <section className="bg-white p-6 rounded-xl border border-slate-200" aria-labelledby="ihs-strategy"><h3 id="ihs-strategy" className="font-bold text-slate-900 mb-4">Best Strategy</h3><p className="text-slate-600 text-sm">Use your local IHS or Urban Indian Program — usually $0 cost.</p></section>
-                        </div>
+
+                        <section className="bg-slate-50 p-8 rounded-xl border border-slate-200" aria-labelledby="real-example">
+                            <h2 id="real-example" className="text-2xl font-bold text-slate-900 mb-6 flex items-center gap-2">
+                                <DollarSign className="text-emerald-600" size={28} aria-hidden="true" />
+                                Real-World Example
+                            </h2>
+                            <div className="grid md:grid-cols-2 gap-6">
+                                <div className="bg-white p-6 rounded-xl border-2 border-emerald-200">
+                                    <div className="bg-emerald-100 text-emerald-800 font-bold px-3 py-1 rounded-full inline-block mb-3">✅ The Right Way</div>
+                                    <h3 className="font-bold text-lg text-slate-900 mb-4">Using Insurance</h3>
+                                    <ul className="space-y-3 text-slate-700">
+                                        <li className="flex items-start gap-2">
+                                            <span className="font-bold text-slate-900">Month 1-3:</span>
+                                            <span>Pay $2,000 out-of-pocket (reaching your deductible/OOPM)</span>
+                                        </li>
+                                        <li className="flex items-start gap-2">
+                                            <span className="font-bold text-slate-900">Month 4-12:</span>
+                                            <span>Insurance pays 100% = $0 out-of-pocket</span>
+                                        </li>
+                                        <li className="pt-3 border-t-2 border-emerald-200">
+                                            <span className="font-bold text-emerald-700 text-xl">Total Annual Cost: $2,000</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div className="bg-white p-6 rounded-xl border-2 border-red-200">
+                                    <div className="bg-red-100 text-red-800 font-bold px-3 py-1 rounded-full inline-block mb-3">❌ The Discount Card Trap</div>
+                                    <h3 className="font-bold text-lg text-slate-900 mb-4">Using GoodRx/SingleCare</h3>
+                                    <ul className="space-y-3 text-slate-700">
+                                        <li className="flex items-start gap-2">
+                                            <span className="font-bold text-slate-900">Month 1-12:</span>
+                                            <span>Pay discounted price (~$200/month) but NONE counts toward OOPM</span>
+                                        </li>
+                                        <li className="flex items-start gap-2">
+                                            <span className="font-bold text-slate-900">Result:</span>
+                                            <span>You NEVER reach your OOPM, so you pay all year long</span>
+                                        </li>
+                                        <li className="pt-3 border-t-2 border-red-200">
+                                            <span className="font-bold text-red-700 text-xl">Total Annual Cost: $2,400</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div className="mt-6 bg-yellow-50 border-l-4 border-yellow-500 p-6 rounded-r-lg">
+                                <p className="text-yellow-900 font-bold text-lg">Small savings today = thousands of dollars in extra costs over the year.</p>
+                            </div>
+                        </section>
+
+                        <section className="bg-gradient-to-r from-blue-50 to-indigo-50 p-8 rounded-xl border border-blue-200" aria-labelledby="when-to-use">
+                            <h2 id="when-to-use" className="text-2xl font-bold text-slate-900 mb-6">When Should Transplant Patients Use Discount Cards?</h2>
+                            <div className="space-y-4">
+                                <div className="bg-white p-5 rounded-lg shadow-sm border border-slate-200">
+                                    <h3 className="font-bold text-emerald-700 mb-2 flex items-center gap-2">
+                                        <CheckCircle size={20} aria-hidden="true" />
+                                        Scenario 1: Drug NOT Covered by Insurance
+                                    </h3>
+                                    <p className="text-slate-700 text-sm">For a medication NOT on your insurance formulary with no generic alternative available.</p>
+                                </div>
+                                <div className="bg-white p-5 rounded-lg shadow-sm border border-slate-200">
+                                    <h3 className="font-bold text-emerald-700 mb-2 flex items-center gap-2">
+                                        <CheckCircle size={20} aria-hidden="true" />
+                                        Scenario 2: One-Time, Low-Cost Medications
+                                    </h3>
+                                    <p className="text-slate-700 text-sm">For non-transplant-related, temporary medications (like a short antibiotic course) where the discount price is cheaper than your copay.</p>
+                                </div>
+                                <div className="bg-white p-5 rounded-lg shadow-sm border border-slate-200">
+                                    <h3 className="font-bold text-emerald-700 mb-2 flex items-center gap-2">
+                                        <CheckCircle size={20} aria-hidden="true" />
+                                        Scenario 3: Extremely High Deductible
+                                    </h3>
+                                    <p className="text-slate-700 text-sm">If you have an extremely high deductible AND the cash price is significantly lower—but even then, carefully weigh the cost of not reaching your OOPM.</p>
+                                </div>
+                            </div>
+                            <div className="mt-6 bg-red-100 border-2 border-red-300 rounded-lg p-6">
+                                <h3 className="font-bold text-red-900 text-lg mb-3 flex items-center gap-2">
+                                    🛑 NEVER Use Discount Cards For:
+                                </h3>
+                                <p className="text-red-900 font-bold text-lg">Your chronic, lifelong transplant immunosuppressants like Tacrolimus, Mycophenolate, or Cyclosporine.</p>
+                                <p className="text-red-800 mt-2">These are the medications that will help you reach your OOPM quickly.</p>
+                            </div>
+                        </section>
+
+                        <section className="bg-white p-8 rounded-xl border border-slate-200 shadow-sm" aria-labelledby="better-alternatives">
+                            <h2 id="better-alternatives" className="text-2xl font-bold text-slate-900 mb-6 flex items-center gap-2">
+                                <HeartHandshake className="text-emerald-600" size={28} aria-hidden="true" />
+                                Better Alternatives
+                            </h2>
+                            <div className="grid md:grid-cols-3 gap-6">
+                                <div className="bg-emerald-50 p-6 rounded-xl border border-emerald-200">
+                                    <h3 className="font-bold text-emerald-900 text-lg mb-3">Patient Assistance Programs (PAPs)</h3>
+                                    <p className="text-slate-700 text-sm mb-4">Free or low-cost medications directly from drug manufacturers.</p>
+                                    <p className="text-emerald-800 font-bold text-sm">✅ Counts toward your OOPM</p>
+                                </div>
+                                <div className="bg-blue-50 p-6 rounded-xl border border-blue-200">
+                                    <h3 className="font-bold text-blue-900 text-lg mb-3">Co-pay Foundations</h3>
+                                    <p className="text-slate-700 text-sm mb-4">Non-profit organizations that help cover copays and deductibles.</p>
+                                    <p className="text-blue-800 font-bold text-sm">✅ Counts toward your OOPM</p>
+                                </div>
+                                <div className="bg-purple-50 p-6 rounded-xl border border-purple-200">
+                                    <h3 className="font-bold text-purple-900 text-lg mb-3">Manufacturer Copay Cards</h3>
+                                    <p className="text-slate-700 text-sm mb-4">Drug company assistance for brand-name medications (not available for Medicare).</p>
+                                    <p className="text-purple-800 font-bold text-sm">✅ Counts toward your OOPM</p>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section className="bg-gradient-to-r from-amber-50 to-yellow-50 p-8 rounded-xl border-2 border-amber-300" aria-labelledby="key-takeaways">
+                            <h2 id="key-takeaways" className="text-2xl font-bold text-slate-900 mb-6">Key Takeaways</h2>
+                            <ul className="space-y-4">
+                                <li className="flex items-start gap-3">
+                                    <div className="bg-amber-600 text-white rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0 font-bold">1</div>
+                                    <p className="text-slate-800 pt-1"><span className="font-bold">Your goal every year is to hit your out-of-pocket maximum (OOPM).</span> Once you reach it, insurance pays 100% for the rest of the year.</p>
+                                </li>
+                                <li className="flex items-start gap-3">
+                                    <div className="bg-amber-600 text-white rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0 font-bold">2</div>
+                                    <p className="text-slate-800 pt-1"><span className="font-bold">Discount cards prevent your payments from counting toward this goal.</span> They may save you a few dollars per prescription, but cost you thousands over the year.</p>
+                                </li>
+                                <li className="flex items-start gap-3">
+                                    <div className="bg-amber-600 text-white rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0 font-bold">3</div>
+                                    <p className="text-slate-800 pt-1"><span className="font-bold">Always prioritize PAPs and co-pay foundations.</span> These programs help you pay for medications AND help you reach your OOPM faster.</p>
+                                </li>
+                                <li className="flex items-start gap-3">
+                                    <div className="bg-amber-600 text-white rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0 font-bold">4</div>
+                                    <p className="text-slate-800 pt-1"><span className="font-bold">Talk to your transplant team.</span> They can connect you with financial counselors who understand these programs and can help you navigate the system.</p>
+                                </li>
+                            </ul>
+                        </section>
+
+                        <aside className="bg-emerald-50 border-l-4 border-emerald-500 p-6 rounded-r-lg" role="note">
+                            <h3 className="font-bold text-emerald-900 mb-3 flex items-center gap-2 text-lg">
+                                <Info size={24} aria-hidden="true" />
+                                Questions?
+                            </h3>
+                            <p className="text-emerald-900 leading-relaxed">
+                                If you're unsure whether a discount card is right for your situation, ask your transplant center's financial counselor or social worker. They can review your specific insurance plan and help you make the best choice.
+                            </p>
+                        </aside>
                     </div>
                 )}
                 {activeTab === 'MENTAL' && (
