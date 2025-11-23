@@ -378,7 +378,7 @@ const MEDICATIONS = [
         manufacturer: 'Bausch Health', 
         stage: TransplantStage.PRE, 
         commonOrgans: [OrganType.LIVER],
-        papUrl: 'https://www.xifaxan.com/savings-support'
+        papUrl: 'https://xifaxan.copaysavingsprogram.com/'
     },
     { 
         id: 'lactulose', 
@@ -583,7 +583,7 @@ const MEDICATIONS = [
         manufacturer: 'United Therapeutics',
         stage: TransplantStage.PRE,
         commonOrgans: [OrganType.LUNG, OrganType.HEART],
-        papUrl: 'https://www.unither.com/responsibility/patient-assistance/'
+        papUrl: 'https://unitedtherapeuticscares.com/'
     },
     // ESRD/Dialysis Support (Pre)
     {
@@ -1306,7 +1306,7 @@ const MEDICATIONS = [
         manufacturer: 'Regeneron / Sanofi',
         stage: TransplantStage.BOTH,
         commonOrgans: [OrganType.LUNG],
-        papUrl: 'https://www.dupixentmyway.com/'
+        papUrl: 'https://www.dupixent.com/support-savings/dupixent-my-way'
     },
     {
         id: 'tezepelumab',
@@ -1833,7 +1833,7 @@ const MEDICATIONS = [
         manufacturer: 'Madrigal',
         stage: TransplantStage.BOTH,
         commonOrgans: [OrganType.LIVER],
-        papUrl: 'https://www.rezdiffra.com/patient-support'
+        papUrl: 'https://madrigalpatientsupport.com/'
     },
     {
         id: 'obeticholic-acid',
@@ -1843,7 +1843,7 @@ const MEDICATIONS = [
         manufacturer: 'Intercept',
         stage: TransplantStage.BOTH,
         commonOrgans: [OrganType.LIVER],
-        papUrl: 'https://www.ocaliva.com/patient-support'
+        papUrl: 'https://www.ocaliva.com/support-for-ocaliva/'
     },
 ];
 
@@ -1935,7 +1935,7 @@ const STATES = [
     { name: "Arkansas", url: "https://humanservices.arkansas.gov/divisions-shared-services/medical-services/" },
     { name: "California", url: "https://www.medi-cal.ca.gov/" },
     { name: "Colorado", url: "https://hcpf.colorado.gov/" },
-    { name: "Connecticut", url: "https://portal.ct.gov/dss/health-and-pharmacy-care" },
+    { name: "Connecticut", url: "https://portal.ct.gov/dss/find-benefits-and-support/healthcare-coverage" },
     { name: "Delaware", url: "https://dhss.delaware.gov/dhss/dmma/" },
     { name: "Florida", url: "https://www.myflfamilies.com/service-programs/access/" },
     { name: "Georgia", url: "https://medicaid.georgia.gov/" },
@@ -1946,7 +1946,7 @@ const STATES = [
     { name: "Iowa", url: "https://dhs.iowa.gov/ime/members" },
     { name: "Kansas", url: "https://www.kancare.ks.gov/" },
     { name: "Kentucky", url: "https://chfs.ky.gov/agencies/dms/Pages/default.aspx" },
-    { name: "Louisiana", url: "https://ldh.la.gov/subhome/1" },
+    { name: "Louisiana", url: "https://ldh.la.gov/microsite/1" },
     { name: "Maine", url: "https://www.maine.gov/dhhs/ofi/programs-services/health-care-assistance" },
     { name: "Maryland", url: "https://health.maryland.gov/mmcp/Pages/home.aspx" },
     { name: "Massachusetts", url: "https://www.mass.gov/topics/masshealth" },
