@@ -1,0 +1,37 @@
+[
+  {
+    "id": "start-wizard",
+    "label": "Start My Path Quiz",
+    "icon": "Map",
+    "link": "/wizard",
+    "description": "Get personalized assistance recommendations"
+  },
+  {
+    "id": "search-meds",
+    "label": "Search Medications",
+    "icon": "Search",
+    "link": "/medications",
+    "description": "Find pricing and assistance programs"
+  },
+  {
+    "id": "find-pap",
+    "label": "Find PAP Programs",
+    "icon": "HeartHandshake",
+    "topic": "pap",
+    "description": "Learn about patient assistance programs"
+  },
+  {
+    "id": "insurance-help",
+    "label": "Insurance Help",
+    "icon": "Shield",
+    "topic": "insurance",
+    "description": "Understand your coverage options"
+  },
+  {
+    "id": "application-guide",
+    "label": "Application Guide",
+    "icon": "ClipboardList",
+    "link": "/application-help",
+    "description": "Get help applying for assistance"
+  }
+]

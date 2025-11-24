@@ -1,0 +1,202 @@
+[
+  {
+    "name": "Alabama",
+    "url": "https://medicaid.alabama.gov/"
+  },
+  {
+    "name": "Alaska",
+    "url": "https://health.alaska.gov/dpa/Pages/medicaid/default.aspx"
+  },
+  {
+    "name": "Arizona",
+    "url": "https://www.azahcccs.gov/"
+  },
+  {
+    "name": "Arkansas",
+    "url": "https://humanservices.arkansas.gov/divisions-shared-services/medical-services/"
+  },
+  {
+    "name": "California",
+    "url": "https://www.medi-cal.ca.gov/"
+  },
+  {
+    "name": "Colorado",
+    "url": "https://hcpf.colorado.gov/"
+  },
+  {
+    "name": "Connecticut",
+    "url": "https://portal.ct.gov/dss/find-benefits-and-support/healthcare-coverage"
+  },
+  {
+    "name": "Delaware",
+    "url": "https://dhss.delaware.gov/dhss/dmma/"
+  },
+  {
+    "name": "Florida",
+    "url": "https://www.myflfamilies.com/service-programs/access/"
+  },
+  {
+    "name": "Georgia",
+    "url": "https://medicaid.georgia.gov/"
+  },
+  {
+    "name": "Hawaii",
+    "url": "https://medquest.hawaii.gov/"
+  },
+  {
+    "name": "Idaho",
+    "url": "https://healthandwelfare.idaho.gov/services-programs/medicaid-health"
+  },
+  {
+    "name": "Illinois",
+    "url": "https://hfs.illinois.gov/"
+  },
+  {
+    "name": "Indiana",
+    "url": "https://www.in.gov/medicaid/"
+  },
+  {
+    "name": "Iowa",
+    "url": "https://dhs.iowa.gov/ime/members"
+  },
+  {
+    "name": "Kansas",
+    "url": "https://www.kancare.ks.gov/"
+  },
+  {
+    "name": "Kentucky",
+    "url": "https://chfs.ky.gov/agencies/dms/Pages/default.aspx"
+  },
+  {
+    "name": "Louisiana",
+    "url": "https://ldh.la.gov/microsite/1"
+  },
+  {
+    "name": "Maine",
+    "url": "https://www.maine.gov/dhhs/ofi/programs-services/health-care-assistance"
+  },
+  {
+    "name": "Maryland",
+    "url": "https://health.maryland.gov/mmcp/Pages/home.aspx"
+  },
+  {
+    "name": "Massachusetts",
+    "url": "https://www.mass.gov/topics/masshealth"
+  },
+  {
+    "name": "Michigan",
+    "url": "https://www.michigan.gov/mdhhs/assistance-programs/medicaid"
+  },
+  {
+    "name": "Minnesota",
+    "url": "https://mn.gov/dhs/people-we-serve/adults/health-care/"
+  },
+  {
+    "name": "Mississippi",
+    "url": "https://medicaid.ms.gov/"
+  },
+  {
+    "name": "Missouri",
+    "url": "https://mydss.mo.gov/healthcare"
+  },
+  {
+    "name": "Montana",
+    "url": "https://dphhs.mt.gov/montanahealthcareprograms/index"
+  },
+  {
+    "name": "Nebraska",
+    "url": "https://dhhs.ne.gov/Pages/Medicaid-and-Long-Term-Care.aspx"
+  },
+  {
+    "name": "Nevada",
+    "url": "https://dhcfp.nv.gov/"
+  },
+  {
+    "name": "New Hampshire",
+    "url": "https://www.dhhs.nh.gov/programs-services/medicaid"
+  },
+  {
+    "name": "New Jersey",
+    "url": "https://www.nj.gov/humanservices/dmahs/home/"
+  },
+  {
+    "name": "New Mexico",
+    "url": "https://www.hsd.state.nm.us/lookingforassistance/centennial_care_overview/"
+  },
+  {
+    "name": "New York",
+    "url": "https://www.health.ny.gov/health_care/medicaid/"
+  },
+  {
+    "name": "North Carolina",
+    "url": "https://medicaid.ncdhhs.gov/"
+  },
+  {
+    "name": "North Dakota",
+    "url": "https://www.hhs.nd.gov/healthcare/medicaid"
+  },
+  {
+    "name": "Ohio",
+    "url": "https://medicaid.ohio.gov/"
+  },
+  {
+    "name": "Oklahoma",
+    "url": "https://oklahoma.gov/ohca.html"
+  },
+  {
+    "name": "Oregon",
+    "url": "https://www.oregon.gov/oha/hsd/ohp/pages/index.aspx"
+  },
+  {
+    "name": "Pennsylvania",
+    "url": "https://www.dhs.pa.gov/Services/Assistance/Pages/Medical-Assistance.aspx"
+  },
+  {
+    "name": "Rhode Island",
+    "url": "https://eohhs.ri.gov/"
+  },
+  {
+    "name": "South Carolina",
+    "url": "https://www.scdhhs.gov/"
+  },
+  {
+    "name": "South Dakota",
+    "url": "https://dss.sd.gov/medicaid/"
+  },
+  {
+    "name": "Tennessee",
+    "url": "https://www.tn.gov/tenncare.html"
+  },
+  {
+    "name": "Texas",
+    "url": "https://www.hhs.texas.gov/services/health/medicaid-chip"
+  },
+  {
+    "name": "Utah",
+    "url": "https://medicaid.utah.gov/"
+  },
+  {
+    "name": "Vermont",
+    "url": "https://dvha.vermont.gov/"
+  },
+  {
+    "name": "Virginia",
+    "url": "https://www.dmas.virginia.gov/"
+  },
+  {
+    "name": "Washington",
+    "url": "https://www.hca.wa.gov/free-or-low-cost-health-care"
+  },
+  {
+    "name": "West Virginia",
+    "url": "https://dhhr.wv.gov/bms/Pages/default.aspx"
+  },
+  {
+    "name": "Wisconsin",
+    "url": "https://www.dhs.wisconsin.gov/medicaid/index.htm"
+  },
+  {
+    "name": "Wyoming",
+    "url": "https://health.wyo.gov/healthcarefin/medicaid/"
+  }
+]
