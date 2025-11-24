@@ -1997,7 +1997,7 @@ const MedicationCard = ({ med, activeTab, onRemove, onPriceReportSubmit }) => {
                                         <td className="p-3 no-print">
                                             {isCostPlusAvailable ? (
                                                 <div className="flex flex-col gap-1">
-                                                    <a href={`https://costplusdrugs.com/search?q=${encodeURIComponent(med.genericName)}`} target="_blank" rel="noreferrer" className="text-blue-600 hover:underline font-medium flex items-center gap-1" aria-label="Check live price on Cost Plus Drugs (opens in new tab)">
+                                                    <a href={`https://costplusdrugs.com/medications/?query=${encodeURIComponent(med.genericName)}`} target="_blank" rel="noreferrer" className="text-blue-600 hover:underline font-medium flex items-center gap-1" aria-label="Check live price on Cost Plus Drugs (opens in new tab)">
                                                         Check Live <ExternalLink size={14} aria-hidden="true" />
                                                     </a>
                                                     <button onClick={() => openReportModal('costplus', 'Cost Plus Drugs')} className="text-emerald-600 hover:underline text-sm flex items-center gap-1 min-h-[44px] px-2">
@@ -2032,7 +2032,7 @@ const MedicationCard = ({ med, activeTab, onRemove, onPriceReportSubmit }) => {
                                         </td>
                                         <td className="p-3 no-print">
                                             <div className="flex flex-col gap-1">
-                                                <a href={`https://www.goodrx.com/${encodeURIComponent(med.genericName.split(' ')[0].toLowerCase())}`} target="_blank" rel="noreferrer" className="text-blue-600 hover:underline font-medium flex items-center gap-1" aria-label={`Check live price on GoodRx for ${med.genericName} (opens in new tab)`}>
+                                                <a href={`https://www.goodrx.com/search?s=${encodeURIComponent(med.genericName)}`} target="_blank" rel="noreferrer" className="text-blue-600 hover:underline font-medium flex items-center gap-1" aria-label={`Check live price on GoodRx for ${med.genericName} (opens in new tab)`}>
                                                     Check Live <ExternalLink size={14} aria-hidden="true" />
                                                 </a>
                                                 <button onClick={() => openReportModal('goodrx', 'GoodRx')} className="text-emerald-600 hover:underline text-sm flex items-center gap-1 min-h-[44px] px-2">
@@ -2062,7 +2062,7 @@ const MedicationCard = ({ med, activeTab, onRemove, onPriceReportSubmit }) => {
                                         </td>
                                         <td className="p-3 no-print">
                                             <div className="flex flex-col gap-1">
-                                                <a href={`https://pharmacy.amazon.com/search?q=${encodeURIComponent(med.brandName)}`} target="_blank" rel="noreferrer" className="text-blue-600 hover:underline font-medium flex items-center gap-1" aria-label={`Check live price on Amazon Pharmacy for ${med.brandName} (opens in new tab)`}>
+                                                <a href={`https://pharmacy.amazon.com/s?k=${encodeURIComponent(med.genericName)}`} target="_blank" rel="noreferrer" className="text-blue-600 hover:underline font-medium flex items-center gap-1" aria-label={`Check live price on Amazon Pharmacy for ${med.genericName} (opens in new tab)`}>
                                                     Check Live <ExternalLink size={14} aria-hidden="true" />
                                                 </a>
                                                 <button onClick={() => openReportModal('amazon', 'Amazon Pharmacy')} className="text-emerald-600 hover:underline text-sm flex items-center gap-1 min-h-[44px] px-2">
