@@ -454,6 +454,9 @@ const Layout = ({ children }) => {
                         <strong>Disclaimer:</strong> This tool is for educational purposes only. It does not provide medical advice.
                         Prices are estimates. Always verify with your provider and pharmacist.
                     </p>
+                    <p className="mb-4 text-slate-400 text-sm max-w-3xl mx-auto">
+                        This product uses publicly available data from the U.S. National Library of Medicine (NLM), National Institutes of Health, Department of Health and Human Services; NLM is not responsible for the product and does not endorse or recommend this or any other product.
+                    </p>
                     <p>© {new Date().getFullYear()} Transplant Medication Navigator. No data is stored on our servers.</p>
                     <p className="mt-4 text-slate-300 text-sm">Created by Lorrinda Gray-Davis. est August 2025</p>
                 </div>
