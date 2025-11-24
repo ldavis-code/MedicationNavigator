@@ -30,34 +30,143 @@
     <meta property="twitter:image" content="https://transplantmedicationnavigator.com/twitter-image.png" />
 
     <!-- Structured Data / Schema.org -->
+    <!-- Organization Schema - TRIO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "NGO",
+      "name": "Transplant Recipients International Organization",
+      "alternateName": "TRIO",
+      "url": "https://www.trioweb.org/",
+      "logo": "https://transplantmedicationnavigator.com/og-image.png",
+      "description": "Transplant Recipients International Organization (TRIO) is a nonprofit organization dedicated to improving the quality of life for transplant candidates, recipients, their families, and the professionals who serve them.",
+      "foundingDate": "1988",
+      "nonprofitStatus": "NonprofitANBI",
+      "areaServed": {
+        "@type": "Country",
+        "name": "United States"
+      },
+      "knowsAbout": [
+        "Organ Transplantation",
+        "Patient Assistance Programs",
+        "Medication Access",
+        "Transplant Education",
+        "Healthcare Advocacy"
+      ],
+      "memberOf": {
+        "@type": "Organization",
+        "name": "National Transplant Community"
+      }
+    }
+    </script>
+
+    <!-- WebApplication Schema -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "WebApplication",
       "name": "Transplant Medication Navigator",
-      "description": "Free guide for transplant patients to find affordable medications and assistance programs",
+      "alternateName": "Medication Navigator",
+      "description": "Free, comprehensive guide helping transplant patients find affordable medications through Patient Assistance Programs, copay foundations, and other financial assistance resources. Search medications, compare prices, and learn how to apply for help.",
       "url": "https://transplantmedicationnavigator.com/",
       "applicationCategory": "HealthApplication",
       "operatingSystem": "Any",
+      "browserRequirements": "Requires JavaScript. HTML5.",
       "offers": {
         "@type": "Offer",
         "price": "0",
-        "priceCurrency": "USD"
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/InStock",
+        "description": "Free healthcare resource for transplant patients"
       },
-      "author": {
+      "creator": {
         "@type": "Person",
         "name": "Lorrinda Gray-Davis",
         "jobTitle": "President",
         "affiliation": {
-          "@type": "Organization",
-          "name": "Transplant Recipients International Organization"
+          "@type": "NGO",
+          "name": "Transplant Recipients International Organization",
+          "alternateName": "TRIO"
         }
+      },
+      "publisher": {
+        "@type": "NGO",
+        "name": "Transplant Recipients International Organization",
+        "alternateName": "TRIO"
       },
       "audience": {
         "@type": "MedicalAudience",
-        "audienceType": "Transplant Patients"
+        "audienceType": ["Transplant Patients", "Transplant Recipients", "Caregivers", "Social Workers"],
+        "healthCondition": {
+          "@type": "MedicalCondition",
+          "name": "Organ Transplant"
+        }
       },
-      "keywords": "transplant medication, patient assistance programs, medication costs, immunosuppressants, copay assistance"
+      "featureList": [
+        "Personalized medication assistance path finder",
+        "Medication search and price comparison",
+        "Patient Assistance Program (PAP) directory",
+        "Application guidance and templates",
+        "Educational resources on insurance and coverage",
+        "Copay foundation information",
+        "Interactive checklist for applications"
+      ],
+      "isAccessibleForFree": true,
+      "keywords": "transplant medication, patient assistance programs, PAP, medication costs, immunosuppressants, copay assistance, financial assistance, transplant drugs, tacrolimus, mycophenolate, prednisone"
+    }
+    </script>
+
+    <!-- MedicalWebPage Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "MedicalWebPage",
+      "name": "Transplant Medication Navigator",
+      "description": "Healthcare resource providing guidance on accessing affordable transplant medications through patient assistance programs and financial aid options.",
+      "url": "https://transplantmedicationnavigator.com/",
+      "specialty": {
+        "@type": "MedicalSpecialty",
+        "name": "Transplant Medicine"
+      },
+      "about": {
+        "@type": "MedicalTherapy",
+        "name": "Immunosuppressive Therapy for Transplant Patients"
+      },
+      "audience": {
+        "@type": "PeopleAudience",
+        "audienceType": "Transplant Patients and Caregivers"
+      },
+      "medicalAudience": {
+        "@type": "MedicalAudience",
+        "audienceType": ["Patient", "Caregiver"]
+      },
+      "lastReviewed": "2025-11-24",
+      "reviewedBy": {
+        "@type": "Organization",
+        "name": "Transplant Recipients International Organization"
+      }
+    }
+    </script>
+
+    <!-- WebSite Schema with Search -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Transplant Medication Navigator",
+      "url": "https://transplantmedicationnavigator.com/",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://transplantmedicationnavigator.com/medications?search={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+      },
+      "publisher": {
+        "@type": "NGO",
+        "name": "Transplant Recipients International Organization"
+      }
     }
     </script>
 
