@@ -258,7 +258,7 @@ const ChatWidget = () => {
             {/* Chat Window */}
             {isOpen && (
                 <div
-                    className="bg-white rounded-2xl shadow-2xl w-96 h-[600px] flex flex-col border border-slate-200 animate-in slide-in-from-bottom-5"
+                    className="bg-white rounded-2xl shadow-2xl w-[calc(100vw-2rem)] sm:w-96 h-[80vh] sm:h-[600px] max-h-[600px] flex flex-col border border-slate-200 animate-in slide-in-from-bottom-5"
                     role="dialog"
                     aria-modal="true"
                     aria-labelledby="chat-widget-title"
@@ -1947,8 +1947,8 @@ const MedicationCard = ({ med, activeTab, onRemove, onPriceReportSubmit }) => {
                 )}
                 {activeTab === 'PRICE' && (
                     <div className="fade-in">
-                        <div className="overflow-hidden rounded-lg border border-slate-200">
-                            <table className="w-full text-sm text-left">
+                        <div className="overflow-x-auto rounded-lg border border-slate-200">
+                            <table className="w-full text-sm text-left min-w-[500px]">
                                 <caption className="sr-only">Price estimates for {med.brandName}</caption>
                                 <thead className="bg-slate-100 text-slate-700 font-bold">
                                     <tr><th scope="col" className="p-3">Pharmacy / Tool</th><th scope="col" className="p-3">Est. Cash Price</th><th scope="col" className="p-3 no-print">Action</th></tr>
@@ -1960,7 +1960,7 @@ const MedicationCard = ({ med, activeTab, onRemove, onPriceReportSubmit }) => {
                                             <div className="font-medium text-slate-900">Cost Plus Drugs (Online)</div>
                                             {costPlusStats && (
                                                 <div className="text-xs text-emerald-700 flex items-center gap-1 mt-1">
-                                                    <Users size={12} />
+                                                    <Users size={14} />
                                                     Community: ${costPlusStats.min}-${costPlusStats.max} ({costPlusStats.count} reports)
                                                 </div>
                                             )}
@@ -1971,7 +1971,7 @@ const MedicationCard = ({ med, activeTab, onRemove, onPriceReportSubmit }) => {
                                             </div>
                                             {isCostPlusAvailable && (
                                                 <div className="text-xs text-slate-600 flex items-center gap-1 mt-1">
-                                                    <Clock size={10} />
+                                                    <Clock size={14} />
                                                     Est. updated Nov 2024
                                                 </div>
                                             )}
@@ -1980,10 +1980,10 @@ const MedicationCard = ({ med, activeTab, onRemove, onPriceReportSubmit }) => {
                                             {isCostPlusAvailable ? (
                                                 <div className="flex flex-col gap-1">
                                                     <a href={`https://costplusdrugs.com/search?q=${encodeURIComponent(med.genericName)}`} target="_blank" rel="noreferrer" className="text-blue-600 hover:underline font-medium flex items-center gap-1" aria-label="Check live price on Cost Plus Drugs (opens in new tab)">
-                                                        Check Live <ExternalLink size={12} aria-hidden="true" />
+                                                        Check Live <ExternalLink size={14} aria-hidden="true" />
                                                     </a>
                                                     <button onClick={() => openReportModal('costplus', 'Cost Plus Drugs')} className="text-emerald-600 hover:underline text-sm flex items-center gap-1 min-h-[44px] px-2">
-                                                        <TrendingUp size={12} aria-hidden="true" /> Report Price
+                                                        <TrendingUp size={14} aria-hidden="true" /> Report Price
                                                     </button>
                                                 </div>
                                             ) : (
@@ -1998,7 +1998,7 @@ const MedicationCard = ({ med, activeTab, onRemove, onPriceReportSubmit }) => {
                                             <div className="font-medium text-slate-900">GoodRx Coupon (Retail)</div>
                                             {goodRxStats && (
                                                 <div className="text-xs text-emerald-700 flex items-center gap-1 mt-1">
-                                                    <Users size={12} />
+                                                    <Users size={14} />
                                                     Community: ${goodRxStats.min}-${goodRxStats.max} ({goodRxStats.count} reports)
                                                 </div>
                                             )}
@@ -2008,17 +2008,17 @@ const MedicationCard = ({ med, activeTab, onRemove, onPriceReportSubmit }) => {
                                                 {med.category === 'Immunosuppressant' ? '$40 - $100' : '$20 - $50'}
                                             </div>
                                             <div className="text-xs text-slate-600 flex items-center gap-1 mt-1">
-                                                <Clock size={10} />
+                                                <Clock size={14} />
                                                 Est. updated Nov 2024
                                             </div>
                                         </td>
                                         <td className="p-3 no-print">
                                             <div className="flex flex-col gap-1">
                                                 <a href={`https://www.goodrx.com/${encodeURIComponent(med.genericName.split(' ')[0].toLowerCase())}`} target="_blank" rel="noreferrer" className="text-blue-600 hover:underline font-medium flex items-center gap-1" aria-label={`Check live price on GoodRx for ${med.genericName} (opens in new tab)`}>
-                                                    Check Live <ExternalLink size={12} aria-hidden="true" />
+                                                    Check Live <ExternalLink size={14} aria-hidden="true" />
                                                 </a>
                                                 <button onClick={() => openReportModal('goodrx', 'GoodRx')} className="text-emerald-600 hover:underline text-sm flex items-center gap-1 min-h-[44px] px-2">
-                                                    <TrendingUp size={12} aria-hidden="true" /> Report Price
+                                                    <TrendingUp size={14} aria-hidden="true" /> Report Price
                                                 </button>
                                             </div>
                                         </td>
@@ -2030,7 +2030,7 @@ const MedicationCard = ({ med, activeTab, onRemove, onPriceReportSubmit }) => {
                                             <div className="font-medium text-slate-900">Amazon Pharmacy</div>
                                             {amazonStats && (
                                                 <div className="text-xs text-emerald-700 flex items-center gap-1 mt-1">
-                                                    <Users size={12} />
+                                                    <Users size={14} />
                                                     Community: ${amazonStats.min}-${amazonStats.max} ({amazonStats.count} reports)
                                                 </div>
                                             )}
@@ -2038,17 +2038,17 @@ const MedicationCard = ({ med, activeTab, onRemove, onPriceReportSubmit }) => {
                                         <td className="p-3">
                                             <div className="text-slate-600">Varies</div>
                                             <div className="text-xs text-slate-600 flex items-center gap-1 mt-1">
-                                                <Clock size={10} />
+                                                <Clock size={14} />
                                                 Check for current pricing
                                             </div>
                                         </td>
                                         <td className="p-3 no-print">
                                             <div className="flex flex-col gap-1">
                                                 <a href={`https://pharmacy.amazon.com/search?q=${encodeURIComponent(med.brandName)}`} target="_blank" rel="noreferrer" className="text-blue-600 hover:underline font-medium flex items-center gap-1" aria-label={`Check live price on Amazon Pharmacy for ${med.brandName} (opens in new tab)`}>
-                                                    Check Live <ExternalLink size={12} aria-hidden="true" />
+                                                    Check Live <ExternalLink size={14} aria-hidden="true" />
                                                 </a>
                                                 <button onClick={() => openReportModal('amazon', 'Amazon Pharmacy')} className="text-emerald-600 hover:underline text-sm flex items-center gap-1 min-h-[44px] px-2">
-                                                    <TrendingUp size={12} aria-hidden="true" /> Report Price
+                                                    <TrendingUp size={14} aria-hidden="true" /> Report Price
                                                 </button>
                                             </div>
                                         </td>
@@ -2166,14 +2166,15 @@ const Education = () => {
             role="tab"
             aria-selected={activeTab === id}
             aria-controls={`${id}-panel`}
-            className={`flex items-center gap-2 px-5 py-3 font-bold text-base transition-all border-b-4 whitespace-nowrap min-h-[48px] ${
+            aria-label={label}
+            className={`flex items-center gap-2 px-3 sm:px-5 py-3 font-bold text-sm sm:text-base transition-all border-b-4 whitespace-nowrap min-h-[48px] ${
                 activeTab === id
                     ? 'border-emerald-600 text-emerald-800 bg-emerald-50'
                     : 'border-transparent text-slate-800 hover:text-emerald-700 hover:bg-slate-100'
             }`}
         >
             <Icon size={20} aria-hidden="true" />
-            {label}
+            <span className="hidden sm:inline">{label}</span>
         </button>
     );
 
