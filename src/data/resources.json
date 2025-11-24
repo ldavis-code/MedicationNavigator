@@ -1,0 +1,80 @@
+[
+  {
+    "name": "PhRMA's Medicine Assistance Tool (MAT)",
+    "url": "https://medicineassistancetool.org/",
+    "description": "Free SEARCH ENGINE for biopharmaceutical industry programs. MAT is not its own patient assistance program, but rather a search engine for many patient assistance resources.",
+    "category": "Search Engine"
+  },
+  {
+    "name": "American Kidney Fund (AKF)",
+    "url": "https://www.kidneyfund.org/",
+    "description": "Provides treatment-related financial assistance to dialysis and transplant patients who meet eligibility criteria.",
+    "category": "Foundation"
+  },
+  {
+    "name": "HealthWell Foundation",
+    "url": "https://www.healthwellfoundation.org/",
+    "description": "Reduces financial barriers to care for underinsured patients with chronic or life-altering diseases. Includes copays, travel costs, pediatric and insurance premiums.",
+    "category": "Foundation"
+  },
+  {
+    "name": "PAN Foundation FundFinder",
+    "url": "https://fundfinder.panfoundation.org/",
+    "description": "Directory of more than 150 patient advocacy organizations providing helplines, peer counseling, disease-specific education, and more.",
+    "category": "Foundation Directory"
+  },
+  {
+    "name": "PAN Foundation",
+    "url": "https://www.panfoundation.org/",
+    "description": "Helps underinsured people with life-threatening, chronic and rare diseases get medications by assisting with out-of-pocket costs and advocating for access.",
+    "category": "Foundation"
+  },
+  {
+    "name": "Patient Advocate Foundation (PAF)",
+    "url": "https://www.patientadvocate.org/",
+    "description": "Provides direct services to patients with chronic, life threatening and debilitating diseases to help access care and treatment recommended by their doctor.",
+    "category": "Foundation"
+  },
+  {
+    "name": "Patient Services Inc (PSI)",
+    "url": "https://www.patientservicesinc.org/",
+    "description": "Helps pay for medication, provides health insurance premium and copay assistance, navigates insurance plans, gives legal advice, and supports every step of the way.",
+    "category": "Foundation"
+  },
+  {
+    "name": "NORD RareCare",
+    "url": "https://rarediseases.org/",
+    "description": "Since 1987, provides assistance programs for life-saving medications, financial assistance with insurance premiums and co-pays, diagnostic testing for rare diseases.",
+    "category": "Foundation"
+  },
+  {
+    "name": "Cost Plus Drugs",
+    "url": "https://costplusdrugs.com/",
+    "description": "A low-cost online pharmacy that cuts out middlemen. Excellent for comparing cash prices against insurance copays.",
+    "category": "Low-Cost Pharmacy"
+  },
+  {
+    "name": "GoodRx",
+    "url": "https://www.goodrx.com/",
+    "description": "Free prescription discount coupons that work at virtually all pharmacies. Compare prices and get instant coupons for generic and brand medications.",
+    "category": "Discount Program"
+  },
+  {
+    "name": "Medicare.gov",
+    "url": "https://www.medicare.gov",
+    "description": "The official U.S. government site for Medicare. Use this to compare Part D plans and check Part B-ID eligibility.",
+    "category": "Government"
+  },
+  {
+    "name": "TRIO (Transplant Recipients International Organization)",
+    "url": "https://www.trioweb.org/",
+    "description": "The nation's largest organization of transplant recipients, living donors, donor families, and candidates. Offers local chapters, peer mentoring, and educational resources.",
+    "category": "Support Group"
+  },
+  {
+    "name": "Donate Life America",
+    "url": "https://www.donatelife.net/patient-services/",
+    "description": "Connects transplant recipients with local resources, events, and community support programs across the United States.",
+    "category": "Support Group"
+  }
+]

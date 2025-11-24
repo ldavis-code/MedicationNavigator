@@ -1,0 +1,2379 @@
+[
+  {
+    "id": "tacrolimus",
+    "brandName": "Prograf / Envarsus XR / Astagraf XL",
+    "genericName": "Tacrolimus",
+    "category": "Immunosuppressant",
+    "manufacturer": "Astellas / Veloxis",
+    "stage": "Post-transplant",
+    "commonOrgans": [
+      "Kidney",
+      "Liver",
+      "Heart",
+      "Lung",
+      "Pancreas"
+    ],
+    "papUrl": "https://www.astellaspharmasupportsolutions.com/"
+  },
+  {
+    "id": "cyclosporine",
+    "brandName": "Neoral / Sandimmune / Gengraf",
+    "genericName": "Cyclosporine",
+    "category": "Immunosuppressant",
+    "manufacturer": "Novartis",
+    "stage": "Post-transplant",
+    "commonOrgans": [
+      "Kidney",
+      "Heart",
+      "Liver",
+      "Lung"
+    ],
+    "papUrl": "https://www.novartis.com/us-en/patients-and-caregivers/patient-assistance"
+  },
+  {
+    "id": "mycophenolate",
+    "brandName": "CellCept",
+    "genericName": "Mycophenolate Mofetil",
+    "category": "Immunosuppressant",
+    "manufacturer": "Genentech",
+    "stage": "Post-transplant",
+    "commonOrgans": [
+      "Kidney",
+      "Liver",
+      "Heart",
+      "Lung",
+      "Pancreas"
+    ],
+    "papUrl": "https://www.genentech-access.com/patient.html"
+  },
+  {
+    "id": "myfortic",
+    "brandName": "Myfortic",
+    "genericName": "Mycophenolic Acid",
+    "category": "Immunosuppressant",
+    "manufacturer": "Novartis",
+    "stage": "Post-transplant",
+    "commonOrgans": [
+      "Kidney",
+      "Liver",
+      "Heart",
+      "Lung",
+      "Pancreas"
+    ],
+    "papUrl": "https://www.novartis.com/us-en/patients-and-caregivers/patient-assistance"
+  },
+  {
+    "id": "imuran",
+    "brandName": "Imuran",
+    "genericName": "Azathioprine",
+    "category": "Immunosuppressant",
+    "manufacturer": "Generic",
+    "stage": "Post-transplant",
+    "commonOrgans": [
+      "Kidney",
+      "Liver",
+      "Heart",
+      "Lung"
+    ]
+  },
+  {
+    "id": "sirolimus",
+    "brandName": "Rapamune",
+    "genericName": "Sirolimus",
+    "category": "Immunosuppressant",
+    "manufacturer": "Pfizer",
+    "stage": "Post-transplant",
+    "commonOrgans": [
+      "Kidney",
+      "Lung",
+      "Liver"
+    ],
+    "papUrl": "https://www.pfizerrxpathways.com/"
+  },
+  {
+    "id": "everolimus",
+    "brandName": "Zortress",
+    "genericName": "Everolimus",
+    "category": "Immunosuppressant",
+    "manufacturer": "Novartis",
+    "stage": "Post-transplant",
+    "commonOrgans": [
+      "Kidney",
+      "Liver",
+      "Heart"
+    ],
+    "papUrl": "https://www.novartis.com/us-en/patients-and-caregivers/patient-assistance"
+  },
+  {
+    "id": "belatacept",
+    "brandName": "Nulojix",
+    "genericName": "Belatacept",
+    "category": "Immunosuppressant",
+    "manufacturer": "Bristol Myers Squibb",
+    "stage": "Post-transplant",
+    "commonOrgans": [
+      "Kidney"
+    ],
+    "papUrl": "https://www.bmsaccesssupport.bmscustomerconnect.com/"
+  },
+  {
+    "id": "simulect",
+    "brandName": "Simulect",
+    "genericName": "Basiliximab",
+    "category": "Induction",
+    "manufacturer": "Novartis",
+    "stage": "Post-transplant",
+    "commonOrgans": [
+      "Kidney",
+      "Liver"
+    ],
+    "papUrl": "https://www.novartis.com/us-en/patients-and-caregivers/patient-assistance"
+  },
+  {
+    "id": "thymoglobulin",
+    "brandName": "Thymoglobulin",
+    "genericName": "Anti-thymocyte globulin (Rabbit)",
+    "category": "Induction",
+    "manufacturer": "Sanofi",
+    "stage": "Post-transplant",
+    "commonOrgans": [
+      "Kidney",
+      "Heart",
+      "Lung",
+      "Liver"
+    ],
+    "papUrl": "https://www.sanofipatientconnection.com/"
+  },
+  {
+    "id": "atgam",
+    "brandName": "ATGAM",
+    "genericName": "Anti-thymocyte globulin (Equine)",
+    "category": "Induction",
+    "manufacturer": "Pfizer",
+    "stage": "Post-transplant",
+    "commonOrgans": [
+      "Kidney"
+    ],
+    "papUrl": "https://www.pfizerrxpathways.com/"
+  },
+  {
+    "id": "prednisone",
+    "brandName": "Deltasone",
+    "genericName": "Prednisone",
+    "category": "Steroid",
+    "manufacturer": "Generic",
+    "stage": "Post-transplant",
+    "commonOrgans": [
+      "Kidney",
+      "Liver",
+      "Heart",
+      "Lung",
+      "Pancreas"
+    ]
+  },
+  {
+    "id": "solumedrol",
+    "brandName": "Solu-Medrol",
+    "genericName": "Methylprednisolone",
+    "category": "Steroid",
+    "manufacturer": "Pfizer",
+    "stage": "Post-transplant",
+    "commonOrgans": [
+      "Kidney",
+      "Liver",
+      "Heart",
+      "Lung"
+    ],
+    "papUrl": "https://www.pfizerrxpathways.com/"
+  },
+  {
+    "id": "valcyte",
+    "brandName": "Valcyte",
+    "genericName": "Valganciclovir",
+    "category": "Anti-viral",
+    "manufacturer": "Genentech",
+    "stage": "Post-transplant",
+    "commonOrgans": [
+      "Kidney",
+      "Liver",
+      "Heart",
+      "Lung",
+      "Pancreas"
+    ],
+    "papUrl": "https://www.genentech-access.com/patient.html"
+  },
+  {
+    "id": "cytovene",
+    "brandName": "Cytovene",
+    "genericName": "Ganciclovir",
+    "category": "Anti-viral",
+    "manufacturer": "Genentech",
+    "stage": "Post-transplant",
+    "commonOrgans": [
+      "Kidney",
+      "Liver",
+      "Heart",
+      "Lung"
+    ],
+    "papUrl": "https://www.genentech-access.com/patient.html"
+  },
+  {
+    "id": "zovirax",
+    "brandName": "Zovirax",
+    "genericName": "Acyclovir",
+    "category": "Anti-viral",
+    "manufacturer": "Generic",
+    "stage": "Post-transplant",
+    "commonOrgans": [
+      "Kidney",
+      "Liver",
+      "Heart"
+    ]
+  },
+  {
+    "id": "valtrex",
+    "brandName": "Valtrex",
+    "genericName": "Valacyclovir",
+    "category": "Anti-viral",
+    "manufacturer": "Generic",
+    "stage": "Post-transplant",
+    "commonOrgans": [
+      "Kidney",
+      "Liver"
+    ]
+  },
+  {
+    "id": "prevymis",
+    "brandName": "Prevymis",
+    "genericName": "Letermovir",
+    "category": "Anti-viral",
+    "manufacturer": "Merck",
+    "stage": "Post-transplant",
+    "commonOrgans": [
+      "Kidney",
+      "Heart"
+    ],
+    "papUrl": "https://www.merckhelps.com/"
+  },
+  {
+    "id": "livtencity",
+    "brandName": "Livtencity",
+    "genericName": "Maribavir",
+    "category": "Anti-viral",
+    "manufacturer": "Takeda",
+    "stage": "Post-transplant",
+    "commonOrgans": [
+      "Kidney",
+      "Heart",
+      "Lung"
+    ],
+    "papUrl": "https://www.takeda.com/en-us/what-we-do/patient-services/"
+  },
+  {
+    "id": "bactrim",
+    "brandName": "Bactrim / Septra",
+    "genericName": "Trimethoprim-Sulfamethoxazole",
+    "category": "Antibiotic",
+    "manufacturer": "Generic",
+    "stage": "Post-transplant",
+    "commonOrgans": [
+      "Kidney",
+      "Liver",
+      "Heart",
+      "Lung",
+      "Pancreas"
+    ]
+  },
+  {
+    "id": "diflucan",
+    "brandName": "Diflucan",
+    "genericName": "Fluconazole",
+    "category": "Anti-fungal",
+    "manufacturer": "Pfizer",
+    "stage": "Post-transplant",
+    "commonOrgans": [
+      "Kidney",
+      "Liver",
+      "Heart"
+    ],
+    "papUrl": "https://www.pfizerrxpathways.com/"
+  },
+  {
+    "id": "nystatin",
+    "brandName": "Bio-Statin / Nystop",
+    "genericName": "Nystatin",
+    "category": "Anti-fungal",
+    "manufacturer": "Generic",
+    "stage": "Post-transplant",
+    "commonOrgans": [
+      "Kidney",
+      "Liver",
+      "Heart",
+      "Lung"
+    ]
+  },
+  {
+    "id": "noxafil",
+    "brandName": "Noxafil",
+    "genericName": "Posaconazole",
+    "category": "Anti-fungal",
+    "manufacturer": "Merck",
+    "stage": "Post-transplant",
+    "commonOrgans": [
+      "Lung",
+      "Heart"
+    ],
+    "papUrl": "https://www.merckhelps.com/"
+  },
+  {
+    "id": "vfend",
+    "brandName": "Vfend",
+    "genericName": "Voriconazole",
+    "category": "Anti-fungal",
+    "manufacturer": "Pfizer",
+    "stage": "Post-transplant",
+    "commonOrgans": [
+      "Lung"
+    ],
+    "papUrl": "https://www.pfizerrxpathways.com/"
+  },
+  {
+    "id": "cresemba",
+    "brandName": "Cresemba",
+    "genericName": "Isavuconazonium",
+    "category": "Anti-fungal",
+    "manufacturer": "Astellas",
+    "stage": "Post-transplant",
+    "commonOrgans": [
+      "Lung"
+    ],
+    "papUrl": "https://www.astellaspharmasupportsolutions.com/"
+  },
+  {
+    "id": "baraclude",
+    "brandName": "Baraclude",
+    "genericName": "Entecavir",
+    "category": "Hepatitis B",
+    "manufacturer": "Bristol Myers Squibb",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Liver"
+    ],
+    "papUrl": "https://www.bmsaccesssupport.bmscustomerconnect.com/"
+  },
+  {
+    "id": "vemlidy",
+    "brandName": "Vemlidy",
+    "genericName": "Tenofovir Alafenamide",
+    "category": "Hepatitis B",
+    "manufacturer": "Gilead",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Liver",
+      "Kidney"
+    ],
+    "papUrl": "https://www.gileadadvancingaccess.com/"
+  },
+  {
+    "id": "viread",
+    "brandName": "Viread",
+    "genericName": "Tenofovir Disoproxil",
+    "category": "Hepatitis B",
+    "manufacturer": "Gilead",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Liver",
+      "Kidney"
+    ],
+    "papUrl": "https://www.gileadadvancingaccess.com/"
+  },
+  {
+    "id": "hbig",
+    "brandName": "HepaGam B / HyperHEP B",
+    "genericName": "Hepatitis B Immune Globulin",
+    "category": "Hepatitis B",
+    "manufacturer": "Saol / Grifols",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Liver"
+    ],
+    "papUrl": "https://www.grifols.com/en/patient-support"
+  },
+  {
+    "id": "epclusa",
+    "brandName": "Epclusa",
+    "genericName": "Sofosbuvir/Velpatasvir",
+    "category": "Hepatitis C",
+    "manufacturer": "Gilead",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Liver",
+      "Kidney"
+    ],
+    "papUrl": "https://www.gileadadvancingaccess.com/"
+  },
+  {
+    "id": "mavyret",
+    "brandName": "Mavyret",
+    "genericName": "Glecaprevir/Pibrentasvir",
+    "category": "Hepatitis C",
+    "manufacturer": "AbbVie",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Liver",
+      "Kidney"
+    ],
+    "papUrl": "https://www.abbvie.com/patients/patient-assistance.html"
+  },
+  {
+    "id": "xifaxan",
+    "brandName": "Xifaxan",
+    "genericName": "Rifaximin",
+    "category": "Liver Support",
+    "manufacturer": "Bausch Health",
+    "stage": "Pre-transplant",
+    "commonOrgans": [
+      "Liver"
+    ],
+    "papUrl": "https://xifaxan.copaysavingsprogram.com/"
+  },
+  {
+    "id": "lactulose",
+    "brandName": "Kristalose / Generlac",
+    "genericName": "Lactulose",
+    "category": "Liver Support",
+    "manufacturer": "Generic",
+    "stage": "Pre-transplant",
+    "commonOrgans": [
+      "Liver"
+    ]
+  },
+  {
+    "id": "ursodiol",
+    "brandName": "Urso / Actigall",
+    "genericName": "Ursodiol",
+    "category": "Liver Support",
+    "manufacturer": "Generic",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Liver"
+    ]
+  },
+  {
+    "id": "creon",
+    "brandName": "Creon / Zenpep",
+    "genericName": "Pancrelipase",
+    "category": "Enzymes",
+    "manufacturer": "AbbVie / Nestle",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Pancreas",
+      "Lung"
+    ],
+    "papUrl": "https://www.creon.com/savings-support"
+  },
+  {
+    "id": "entresto",
+    "brandName": "Entresto",
+    "genericName": "Sacubitril/Valsartan",
+    "category": "Heart Failure",
+    "manufacturer": "Novartis",
+    "stage": "Pre-transplant",
+    "commonOrgans": [
+      "Heart"
+    ],
+    "papUrl": "https://www.novartis.com/us-en/patients-and-caregivers/patient-assistance"
+  },
+  {
+    "id": "jardiance",
+    "brandName": "Jardiance",
+    "genericName": "Empagliflozin",
+    "category": "Heart/Kidney Support",
+    "manufacturer": "Boehringer Ingelheim",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Heart",
+      "Kidney"
+    ],
+    "papUrl": "https://www.boehringer-ingelheim.com/us/patient-assistance"
+  },
+  {
+    "id": "farxiga",
+    "brandName": "Farxiga",
+    "genericName": "Dapagliflozin",
+    "category": "Heart/Kidney Support",
+    "manufacturer": "AstraZeneca",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Heart",
+      "Kidney"
+    ],
+    "papUrl": "https://www.azandmeapp.com/"
+  },
+  {
+    "id": "renvela",
+    "brandName": "Renvela",
+    "genericName": "Sevelamer",
+    "category": "Kidney Support",
+    "manufacturer": "Sanofi",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Kidney"
+    ],
+    "papUrl": "https://www.sanofipatientconnection.com/"
+  },
+  {
+    "id": "lasix",
+    "brandName": "Lasix",
+    "genericName": "Furosemide",
+    "category": "Diuretic",
+    "manufacturer": "Generic",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Kidney",
+      "Heart",
+      "Liver"
+    ]
+  },
+  {
+    "id": "aldactone",
+    "brandName": "Aldactone",
+    "genericName": "Spironolactone",
+    "category": "Diuretic",
+    "manufacturer": "Pfizer",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Heart",
+      "Liver"
+    ],
+    "papUrl": "https://www.pfizerrxpathways.com/"
+  },
+  {
+    "id": "inderal",
+    "brandName": "Inderal",
+    "genericName": "Propranolol",
+    "category": "Beta Blocker",
+    "manufacturer": "Generic",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Liver",
+      "Heart"
+    ]
+  },
+  {
+    "id": "coreg",
+    "brandName": "Coreg",
+    "genericName": "Carvedilol",
+    "category": "Beta Blocker",
+    "manufacturer": "Generic",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Heart"
+    ]
+  },
+  {
+    "id": "lopressor",
+    "brandName": "Lopressor / Toprol XL",
+    "genericName": "Metoprolol",
+    "category": "Beta Blocker",
+    "manufacturer": "Generic",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Heart"
+    ]
+  },
+  {
+    "id": "protonix",
+    "brandName": "Protonix",
+    "genericName": "Pantoprazole",
+    "category": "Stomach Protection",
+    "manufacturer": "Generic",
+    "stage": "Post-transplant",
+    "commonOrgans": [
+      "Kidney",
+      "Liver",
+      "Heart",
+      "Lung",
+      "Pancreas"
+    ]
+  },
+  {
+    "id": "revatio",
+    "brandName": "Revatio / Viagra",
+    "genericName": "Sildenafil",
+    "category": "Pulmonary Hypertension",
+    "manufacturer": "Pfizer",
+    "stage": "Pre-transplant",
+    "commonOrgans": [
+      "Lung",
+      "Heart"
+    ],
+    "papUrl": "https://www.pfizerrxpathways.com/"
+  },
+  {
+    "id": "tracleer",
+    "brandName": "Tracleer",
+    "genericName": "Bosentan",
+    "category": "Pulmonary Hypertension",
+    "manufacturer": "Actelion/Janssen",
+    "stage": "Pre-transplant",
+    "commonOrgans": [
+      "Lung",
+      "Heart"
+    ],
+    "papUrl": "https://www.janssencarepath.com/"
+  },
+  {
+    "id": "letairis",
+    "brandName": "Letairis",
+    "genericName": "Ambrisentan",
+    "category": "Pulmonary Hypertension",
+    "manufacturer": "Gilead",
+    "stage": "Pre-transplant",
+    "commonOrgans": [
+      "Lung",
+      "Heart"
+    ],
+    "papUrl": "https://www.gileadadvancingaccess.com/"
+  },
+  {
+    "id": "opsumit",
+    "brandName": "Opsumit",
+    "genericName": "Macitentan",
+    "category": "Pulmonary Hypertension",
+    "manufacturer": "Actelion/Janssen",
+    "stage": "Pre-transplant",
+    "commonOrgans": [
+      "Lung",
+      "Heart"
+    ],
+    "papUrl": "https://www.janssencarepath.com/"
+  },
+  {
+    "id": "adempas",
+    "brandName": "Adempas",
+    "genericName": "Riociguat",
+    "category": "Pulmonary Hypertension",
+    "manufacturer": "Bayer",
+    "stage": "Pre-transplant",
+    "commonOrgans": [
+      "Lung",
+      "Heart"
+    ],
+    "papUrl": "https://www.adempas.com/savings-support"
+  },
+  {
+    "id": "uptravi",
+    "brandName": "Uptravi",
+    "genericName": "Selexipag",
+    "category": "Pulmonary Hypertension",
+    "manufacturer": "Actelion/Janssen",
+    "stage": "Pre-transplant",
+    "commonOrgans": [
+      "Lung",
+      "Heart"
+    ],
+    "papUrl": "https://www.janssencarepath.com/"
+  },
+  {
+    "id": "flolan",
+    "brandName": "Flolan",
+    "genericName": "Epoprostenol",
+    "category": "Pulmonary Hypertension",
+    "manufacturer": "GlaxoSmithKline",
+    "stage": "Pre-transplant",
+    "commonOrgans": [
+      "Lung",
+      "Heart"
+    ],
+    "papUrl": "https://www.gskforyou.com/"
+  },
+  {
+    "id": "remodulin",
+    "brandName": "Remodulin",
+    "genericName": "Treprostinil",
+    "category": "Pulmonary Hypertension",
+    "manufacturer": "United Therapeutics",
+    "stage": "Pre-transplant",
+    "commonOrgans": [
+      "Lung",
+      "Heart"
+    ],
+    "papUrl": "https://unitedtherapeuticscares.com/"
+  },
+  {
+    "id": "procrit",
+    "brandName": "Procrit / Epogen",
+    "genericName": "Epoetin Alfa",
+    "category": "Anemia (ESRD)",
+    "manufacturer": "Janssen / Amgen",
+    "stage": "Pre-transplant",
+    "commonOrgans": [
+      "Kidney"
+    ],
+    "papUrl": "https://www.janssencarepath.com/"
+  },
+  {
+    "id": "aranesp",
+    "brandName": "Aranesp",
+    "genericName": "Darbepoetin Alfa",
+    "category": "Anemia (ESRD)",
+    "manufacturer": "Amgen",
+    "stage": "Pre-transplant",
+    "commonOrgans": [
+      "Kidney"
+    ],
+    "papUrl": "https://www.amgenfirststep.com/"
+  },
+  {
+    "id": "mircera",
+    "brandName": "Mircera",
+    "genericName": "Methoxy Polyethylene Glycol-Epoetin Beta",
+    "category": "Anemia (ESRD)",
+    "manufacturer": "Vifor Pharma",
+    "stage": "Pre-transplant",
+    "commonOrgans": [
+      "Kidney"
+    ],
+    "papUrl": "https://www.viforpharma.com/en/patient-support"
+  },
+  {
+    "id": "venofer",
+    "brandName": "Venofer",
+    "genericName": "Iron Sucrose",
+    "category": "Iron Supplement (ESRD)",
+    "manufacturer": "American Regent",
+    "stage": "Pre-transplant",
+    "commonOrgans": [
+      "Kidney"
+    ],
+    "papUrl": "https://www.venofer.com/venaccess"
+  },
+  {
+    "id": "feraheme",
+    "brandName": "Feraheme",
+    "genericName": "Ferumoxytol",
+    "category": "Iron Supplement (ESRD)",
+    "manufacturer": "AMAG",
+    "stage": "Pre-transplant",
+    "commonOrgans": [
+      "Kidney"
+    ],
+    "papUrl": "https://www.feraheme.com/support"
+  },
+  {
+    "id": "injectafer",
+    "brandName": "Injectafer",
+    "genericName": "Ferric Carboxymaltose",
+    "category": "Iron Supplement (ESRD)",
+    "manufacturer": "American Regent",
+    "stage": "Pre-transplant",
+    "commonOrgans": [
+      "Kidney"
+    ],
+    "papUrl": "https://www.dsiaccesscentral.com/"
+  },
+  {
+    "id": "calcitriol",
+    "brandName": "Rocaltrol / Calcijex",
+    "genericName": "Calcitriol",
+    "category": "Vitamin D (ESRD)",
+    "manufacturer": "Generic",
+    "stage": "Pre-transplant",
+    "commonOrgans": [
+      "Kidney"
+    ]
+  },
+  {
+    "id": "zemplar",
+    "brandName": "Zemplar",
+    "genericName": "Paricalcitol",
+    "category": "Vitamin D (ESRD)",
+    "manufacturer": "AbbVie",
+    "stage": "Pre-transplant",
+    "commonOrgans": [
+      "Kidney"
+    ],
+    "papUrl": "https://www.abbvie.com/patients/patient-assistance.html"
+  },
+  {
+    "id": "hectorol",
+    "brandName": "Hectorol",
+    "genericName": "Doxercalciferol",
+    "category": "Vitamin D (ESRD)",
+    "manufacturer": "Sanofi",
+    "stage": "Pre-transplant",
+    "commonOrgans": [
+      "Kidney"
+    ],
+    "papUrl": "https://www.sanofipatientconnection.com/"
+  },
+  {
+    "id": "sensipar",
+    "brandName": "Sensipar",
+    "genericName": "Cinacalcet",
+    "category": "Hyperparathyroidism (ESRD)",
+    "manufacturer": "Amgen",
+    "stage": "Pre-transplant",
+    "commonOrgans": [
+      "Kidney"
+    ],
+    "papUrl": "https://www.amgenfirststep.com/"
+  },
+  {
+    "id": "parsabiv",
+    "brandName": "Parsabiv",
+    "genericName": "Etelcalcetide",
+    "category": "Hyperparathyroidism (ESRD)",
+    "manufacturer": "Amgen",
+    "stage": "Pre-transplant",
+    "commonOrgans": [
+      "Kidney"
+    ],
+    "papUrl": "https://www.amgenfirststep.com/"
+  },
+  {
+    "id": "auryxia",
+    "brandName": "Auryxia",
+    "genericName": "Ferric Citrate",
+    "category": "Phosphate Binder (ESRD)",
+    "manufacturer": "Akebia",
+    "stage": "Pre-transplant",
+    "commonOrgans": [
+      "Kidney"
+    ],
+    "papUrl": "https://www.auryxia.com/phosphate-binder/savings-support"
+  },
+  {
+    "id": "phoslo",
+    "brandName": "PhosLo",
+    "genericName": "Calcium Acetate",
+    "category": "Phosphate Binder (ESRD)",
+    "manufacturer": "Generic",
+    "stage": "Pre-transplant",
+    "commonOrgans": [
+      "Kidney"
+    ]
+  },
+  {
+    "id": "campath",
+    "brandName": "Campath / Lemtrada",
+    "genericName": "Alemtuzumab",
+    "category": "Acute Rejection",
+    "manufacturer": "Sanofi",
+    "stage": "Post-transplant",
+    "commonOrgans": [
+      "Kidney",
+      "Liver",
+      "Heart"
+    ],
+    "papUrl": "https://www.sanofipatientconnection.com/"
+  },
+  {
+    "id": "rituxan",
+    "brandName": "Rituxan",
+    "genericName": "Rituximab",
+    "category": "Acute Rejection",
+    "manufacturer": "Genentech",
+    "stage": "Post-transplant",
+    "commonOrgans": [
+      "Kidney",
+      "Liver",
+      "Heart"
+    ],
+    "papUrl": "https://www.genentech-access.com/patient.html"
+  },
+  {
+    "id": "ivig",
+    "brandName": "Gammagard / Privigen / Octagam",
+    "genericName": "Intravenous Immunoglobulin (IVIG)",
+    "category": "Acute Rejection",
+    "manufacturer": "Various",
+    "stage": "Post-transplant",
+    "commonOrgans": [
+      "Kidney",
+      "Liver",
+      "Heart",
+      "Lung"
+    ],
+    "papUrl": "https://www.gammagard.com/primary-immunodeficiency/copay-support"
+  },
+  {
+    "id": "soliris",
+    "brandName": "Soliris",
+    "genericName": "Eculizumab",
+    "category": "Antibody-Mediated Rejection",
+    "manufacturer": "Alexion",
+    "stage": "Post-transplant",
+    "commonOrgans": [
+      "Kidney"
+    ],
+    "papUrl": "https://alexion.com/our-patients"
+  },
+  {
+    "id": "ultomiris",
+    "brandName": "Ultomiris",
+    "genericName": "Ravulizumab",
+    "category": "Antibody-Mediated Rejection",
+    "manufacturer": "Alexion",
+    "stage": "Post-transplant",
+    "commonOrgans": [
+      "Kidney"
+    ],
+    "papUrl": "https://alexion.com/our-patients"
+  },
+  {
+    "id": "lisinopril",
+    "brandName": "Prinivil / Zestril",
+    "genericName": "Lisinopril",
+    "category": "ACE Inhibitor",
+    "manufacturer": "Generic",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Heart",
+      "Kidney",
+      "Liver"
+    ]
+  },
+  {
+    "id": "enalapril",
+    "brandName": "Vasotec",
+    "genericName": "Enalapril",
+    "category": "ACE Inhibitor",
+    "manufacturer": "Generic",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Heart",
+      "Kidney"
+    ]
+  },
+  {
+    "id": "ramipril",
+    "brandName": "Altace",
+    "genericName": "Ramipril",
+    "category": "ACE Inhibitor",
+    "manufacturer": "Generic",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Heart",
+      "Kidney"
+    ]
+  },
+  {
+    "id": "losartan",
+    "brandName": "Cozaar",
+    "genericName": "Losartan",
+    "category": "ARB",
+    "manufacturer": "Generic",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Heart",
+      "Kidney"
+    ]
+  },
+  {
+    "id": "valsartan",
+    "brandName": "Diovan",
+    "genericName": "Valsartan",
+    "category": "ARB",
+    "manufacturer": "Generic",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Heart",
+      "Kidney"
+    ]
+  },
+  {
+    "id": "olmesartan",
+    "brandName": "Benicar",
+    "genericName": "Olmesartan",
+    "category": "ARB",
+    "manufacturer": "Generic",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Heart",
+      "Kidney"
+    ]
+  },
+  {
+    "id": "irbesartan",
+    "brandName": "Avapro",
+    "genericName": "Irbesartan",
+    "category": "ARB",
+    "manufacturer": "Generic",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Heart",
+      "Kidney"
+    ]
+  },
+  {
+    "id": "amlodipine",
+    "brandName": "Norvasc",
+    "genericName": "Amlodipine",
+    "category": "Calcium Channel Blocker",
+    "manufacturer": "Generic",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Heart",
+      "Kidney"
+    ]
+  },
+  {
+    "id": "diltiazem",
+    "brandName": "Cardizem",
+    "genericName": "Diltiazem",
+    "category": "Calcium Channel Blocker",
+    "manufacturer": "Generic",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Heart"
+    ]
+  },
+  {
+    "id": "nifedipine",
+    "brandName": "Procardia / Adalat",
+    "genericName": "Nifedipine",
+    "category": "Calcium Channel Blocker",
+    "manufacturer": "Generic",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Heart"
+    ]
+  },
+  {
+    "id": "atenolol",
+    "brandName": "Tenormin",
+    "genericName": "Atenolol",
+    "category": "Beta Blocker",
+    "manufacturer": "Generic",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Heart"
+    ]
+  },
+  {
+    "id": "bisoprolol",
+    "brandName": "Zebeta",
+    "genericName": "Bisoprolol",
+    "category": "Beta Blocker",
+    "manufacturer": "Generic",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Heart"
+    ]
+  },
+  {
+    "id": "atorvastatin",
+    "brandName": "Lipitor",
+    "genericName": "Atorvastatin",
+    "category": "Statin",
+    "manufacturer": "Generic",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Heart",
+      "Liver",
+      "Kidney",
+      "Pancreas"
+    ]
+  },
+  {
+    "id": "simvastatin",
+    "brandName": "Zocor",
+    "genericName": "Simvastatin",
+    "category": "Statin",
+    "manufacturer": "Generic",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Heart",
+      "Liver",
+      "Kidney"
+    ]
+  },
+  {
+    "id": "rosuvastatin",
+    "brandName": "Crestor",
+    "genericName": "Rosuvastatin",
+    "category": "Statin",
+    "manufacturer": "Generic",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Heart",
+      "Liver",
+      "Kidney"
+    ]
+  },
+  {
+    "id": "pravastatin",
+    "brandName": "Pravachol",
+    "genericName": "Pravastatin",
+    "category": "Statin",
+    "manufacturer": "Generic",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Heart",
+      "Liver"
+    ]
+  },
+  {
+    "id": "lovastatin",
+    "brandName": "Mevacor",
+    "genericName": "Lovastatin",
+    "category": "Statin",
+    "manufacturer": "Generic",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Heart",
+      "Liver"
+    ]
+  },
+  {
+    "id": "hydrochlorothiazide",
+    "brandName": "Microzide",
+    "genericName": "Hydrochlorothiazide",
+    "category": "Diuretic",
+    "manufacturer": "Generic",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Heart",
+      "Kidney"
+    ]
+  },
+  {
+    "id": "chlorthalidone",
+    "brandName": "Thalitone",
+    "genericName": "Chlorthalidone",
+    "category": "Diuretic",
+    "manufacturer": "Generic",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Heart",
+      "Kidney"
+    ]
+  },
+  {
+    "id": "clopidogrel",
+    "brandName": "Plavix",
+    "genericName": "Clopidogrel",
+    "category": "Antiplatelet",
+    "manufacturer": "Generic",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Heart",
+      "Kidney",
+      "Liver"
+    ]
+  },
+  {
+    "id": "aspirin",
+    "brandName": "Ecotrin / Bayer",
+    "genericName": "Aspirin",
+    "category": "Antiplatelet",
+    "manufacturer": "Generic",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Heart",
+      "Kidney",
+      "Liver",
+      "Pancreas"
+    ]
+  },
+  {
+    "id": "warfarin",
+    "brandName": "Coumadin",
+    "genericName": "Warfarin",
+    "category": "Anticoagulant",
+    "manufacturer": "Generic",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Heart",
+      "Lung",
+      "Liver"
+    ]
+  },
+  {
+    "id": "apixaban",
+    "brandName": "Eliquis",
+    "genericName": "Apixaban",
+    "category": "Anticoagulant",
+    "manufacturer": "Bristol Myers Squibb",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Heart",
+      "Kidney"
+    ],
+    "papUrl": "https://www.bmsaccesssupport.bmscustomerconnect.com/"
+  },
+  {
+    "id": "rivaroxaban",
+    "brandName": "Xarelto",
+    "genericName": "Rivaroxaban",
+    "category": "Anticoagulant",
+    "manufacturer": "Janssen",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Heart",
+      "Kidney"
+    ],
+    "papUrl": "https://www.janssencarepath.com/"
+  },
+  {
+    "id": "digoxin",
+    "brandName": "Lanoxin",
+    "genericName": "Digoxin",
+    "category": "Cardiac Glycoside",
+    "manufacturer": "Generic",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Heart"
+    ]
+  },
+  {
+    "id": "metformin",
+    "brandName": "Glucophage",
+    "genericName": "Metformin",
+    "category": "Diabetes",
+    "manufacturer": "Generic",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Kidney",
+      "Liver",
+      "Heart",
+      "Pancreas"
+    ]
+  },
+  {
+    "id": "glipizide",
+    "brandName": "Glucotrol",
+    "genericName": "Glipizide",
+    "category": "Diabetes",
+    "manufacturer": "Generic",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Kidney",
+      "Pancreas"
+    ]
+  },
+  {
+    "id": "glyburide",
+    "brandName": "DiaBeta / Glynase",
+    "genericName": "Glyburide",
+    "category": "Diabetes",
+    "manufacturer": "Generic",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Kidney",
+      "Pancreas"
+    ]
+  },
+  {
+    "id": "glimepiride",
+    "brandName": "Amaryl",
+    "genericName": "Glimepiride",
+    "category": "Diabetes",
+    "manufacturer": "Generic",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Kidney",
+      "Pancreas"
+    ]
+  },
+  {
+    "id": "sitagliptin",
+    "brandName": "Januvia",
+    "genericName": "Sitagliptin",
+    "category": "Diabetes",
+    "manufacturer": "Merck",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Kidney",
+      "Pancreas"
+    ],
+    "papUrl": "https://www.merckhelps.com/"
+  },
+  {
+    "id": "insulin-glargine",
+    "brandName": "Lantus / Basaglar",
+    "genericName": "Insulin Glargine",
+    "category": "Insulin",
+    "manufacturer": "Sanofi / Lilly",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Kidney",
+      "Liver",
+      "Pancreas"
+    ],
+    "papUrl": "https://www.sanofipatientconnection.com/"
+  },
+  {
+    "id": "insulin-lispro",
+    "brandName": "Humalog",
+    "genericName": "Insulin Lispro",
+    "category": "Insulin",
+    "manufacturer": "Lilly",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Kidney",
+      "Liver",
+      "Pancreas"
+    ],
+    "papUrl": "https://www.lillycares.com/"
+  },
+  {
+    "id": "insulin-aspart",
+    "brandName": "Novolog",
+    "genericName": "Insulin Aspart",
+    "category": "Insulin",
+    "manufacturer": "Novo Nordisk",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Kidney",
+      "Liver",
+      "Pancreas"
+    ],
+    "papUrl": "https://www.novocare.com/"
+  },
+  {
+    "id": "semaglutide",
+    "brandName": "Ozempic / Wegovy",
+    "genericName": "Semaglutide",
+    "category": "Diabetes",
+    "manufacturer": "Novo Nordisk",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Kidney",
+      "Heart",
+      "Pancreas"
+    ],
+    "papUrl": "https://www.novocare.com/"
+  },
+  {
+    "id": "dulaglutide",
+    "brandName": "Trulicity",
+    "genericName": "Dulaglutide",
+    "category": "Diabetes",
+    "manufacturer": "Lilly",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Kidney",
+      "Heart",
+      "Pancreas"
+    ],
+    "papUrl": "https://www.lillycares.com/"
+  },
+  {
+    "id": "levothyroxine",
+    "brandName": "Synthroid / Levoxyl",
+    "genericName": "Levothyroxine",
+    "category": "Thyroid",
+    "manufacturer": "Generic",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Heart",
+      "Kidney",
+      "Liver",
+      "Lung",
+      "Pancreas"
+    ]
+  },
+  {
+    "id": "liothyronine",
+    "brandName": "Cytomel",
+    "genericName": "Liothyronine",
+    "category": "Thyroid",
+    "manufacturer": "Generic",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Heart",
+      "Kidney",
+      "Liver"
+    ]
+  },
+  {
+    "id": "albuterol",
+    "brandName": "ProAir / Ventolin / Proventil",
+    "genericName": "Albuterol",
+    "category": "Bronchodilator",
+    "manufacturer": "Generic",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Lung",
+      "Heart"
+    ]
+  },
+  {
+    "id": "fluticasone-salmeterol",
+    "brandName": "Advair",
+    "genericName": "Fluticasone/Salmeterol",
+    "category": "Respiratory",
+    "manufacturer": "GlaxoSmithKline",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Lung"
+    ],
+    "papUrl": "https://www.gskforyou.com/"
+  },
+  {
+    "id": "budesonide-formoterol",
+    "brandName": "Symbicort",
+    "genericName": "Budesonide/Formoterol",
+    "category": "Respiratory",
+    "manufacturer": "AstraZeneca",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Lung"
+    ],
+    "papUrl": "https://www.azandmeapp.com/"
+  },
+  {
+    "id": "montelukast",
+    "brandName": "Singulair",
+    "genericName": "Montelukast",
+    "category": "Respiratory",
+    "manufacturer": "Generic",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Lung"
+    ]
+  },
+  {
+    "id": "tiotropium",
+    "brandName": "Spiriva",
+    "genericName": "Tiotropium",
+    "category": "Bronchodilator",
+    "manufacturer": "Boehringer Ingelheim",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Lung"
+    ],
+    "papUrl": "https://www.boehringer-ingelheim.com/us/patient-assistance"
+  },
+  {
+    "id": "levalbuterol",
+    "brandName": "Xopenex",
+    "genericName": "Levalbuterol",
+    "category": "Bronchodilator",
+    "manufacturer": "Sunovion",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Lung"
+    ],
+    "papUrl": "https://www.sunovion.com/patient-support"
+  },
+  {
+    "id": "ipratropium",
+    "brandName": "Atrovent",
+    "genericName": "Ipratropium",
+    "category": "Bronchodilator",
+    "manufacturer": "Boehringer Ingelheim",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Lung"
+    ],
+    "papUrl": "https://www.boehringer-ingelheim.com/us/patient-assistance"
+  },
+  {
+    "id": "ipratropium-albuterol",
+    "brandName": "Combivent / DuoNeb",
+    "genericName": "Ipratropium/Albuterol",
+    "category": "Bronchodilator",
+    "manufacturer": "Boehringer Ingelheim",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Lung"
+    ],
+    "papUrl": "https://www.boehringer-ingelheim.com/us/patient-assistance"
+  },
+  {
+    "id": "fluticasone",
+    "brandName": "Flovent",
+    "genericName": "Fluticasone",
+    "category": "Inhaled Corticosteroid",
+    "manufacturer": "GlaxoSmithKline",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Lung"
+    ],
+    "papUrl": "https://www.gskforyou.com/"
+  },
+  {
+    "id": "budesonide-inhaled",
+    "brandName": "Pulmicort",
+    "genericName": "Budesonide",
+    "category": "Inhaled Corticosteroid",
+    "manufacturer": "AstraZeneca",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Lung"
+    ],
+    "papUrl": "https://www.azandmeapp.com/"
+  },
+  {
+    "id": "beclomethasone",
+    "brandName": "QVAR",
+    "genericName": "Beclomethasone",
+    "category": "Inhaled Corticosteroid",
+    "manufacturer": "Teva",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Lung"
+    ],
+    "papUrl": "https://www.tevausa.com/patient-resources/"
+  },
+  {
+    "id": "mometasone-inhaled",
+    "brandName": "Asmanex",
+    "genericName": "Mometasone",
+    "category": "Inhaled Corticosteroid",
+    "manufacturer": "Organon",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Lung"
+    ],
+    "papUrl": "https://www.organon.com/usa/patient-resources/"
+  },
+  {
+    "id": "ciclesonide",
+    "brandName": "Alvesco",
+    "genericName": "Ciclesonide",
+    "category": "Inhaled Corticosteroid",
+    "manufacturer": "Sunovion",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Lung"
+    ],
+    "papUrl": "https://www.sunovion.com/patient-support"
+  },
+  {
+    "id": "fluticasone-vilanterol",
+    "brandName": "Breo Ellipta",
+    "genericName": "Fluticasone/Vilanterol",
+    "category": "Respiratory",
+    "manufacturer": "GlaxoSmithKline",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Lung"
+    ],
+    "papUrl": "https://www.gskforyou.com/"
+  },
+  {
+    "id": "mometasone-formoterol",
+    "brandName": "Dulera",
+    "genericName": "Mometasone/Formoterol",
+    "category": "Respiratory",
+    "manufacturer": "Organon",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Lung"
+    ],
+    "papUrl": "https://www.organon.com/usa/patient-resources/"
+  },
+  {
+    "id": "umeclidinium-vilanterol",
+    "brandName": "Anoro Ellipta",
+    "genericName": "Umeclidinium/Vilanterol",
+    "category": "Bronchodilator",
+    "manufacturer": "GlaxoSmithKline",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Lung"
+    ],
+    "papUrl": "https://www.gskforyou.com/"
+  },
+  {
+    "id": "omalizumab",
+    "brandName": "Xolair",
+    "genericName": "Omalizumab",
+    "category": "Asthma Biologic",
+    "manufacturer": "Genentech / Novartis",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Lung"
+    ],
+    "papUrl": "https://www.genentech-access.com/patient.html"
+  },
+  {
+    "id": "mepolizumab",
+    "brandName": "Nucala",
+    "genericName": "Mepolizumab",
+    "category": "Asthma Biologic",
+    "manufacturer": "GlaxoSmithKline",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Lung"
+    ],
+    "papUrl": "https://www.gskforyou.com/"
+  },
+  {
+    "id": "benralizumab",
+    "brandName": "Fasenra",
+    "genericName": "Benralizumab",
+    "category": "Asthma Biologic",
+    "manufacturer": "AstraZeneca",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Lung"
+    ],
+    "papUrl": "https://www.azandmeapp.com/"
+  },
+  {
+    "id": "dupilumab",
+    "brandName": "Dupixent",
+    "genericName": "Dupilumab",
+    "category": "Asthma Biologic / Allergy",
+    "manufacturer": "Regeneron / Sanofi",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Lung"
+    ],
+    "papUrl": "https://www.dupixent.com/support-savings/dupixent-my-way"
+  },
+  {
+    "id": "tezepelumab",
+    "brandName": "Tezspire",
+    "genericName": "Tezepelumab",
+    "category": "Asthma Biologic",
+    "manufacturer": "AstraZeneca",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Lung"
+    ],
+    "papUrl": "https://www.azandmeapp.com/"
+  },
+  {
+    "id": "zafirlukast",
+    "brandName": "Accolate",
+    "genericName": "Zafirlukast",
+    "category": "Leukotriene Modifier",
+    "manufacturer": "Generic",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Lung"
+    ]
+  },
+  {
+    "id": "zileuton",
+    "brandName": "Zyflo",
+    "genericName": "Zileuton",
+    "category": "Leukotriene Modifier",
+    "manufacturer": "Generic",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Lung"
+    ]
+  },
+  {
+    "id": "cetirizine",
+    "brandName": "Zyrtec",
+    "genericName": "Cetirizine",
+    "category": "Antihistamine",
+    "manufacturer": "Generic",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Lung",
+      "Kidney"
+    ]
+  },
+  {
+    "id": "loratadine",
+    "brandName": "Claritin",
+    "genericName": "Loratadine",
+    "category": "Antihistamine",
+    "manufacturer": "Generic",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Lung",
+      "Kidney"
+    ]
+  },
+  {
+    "id": "fexofenadine",
+    "brandName": "Allegra",
+    "genericName": "Fexofenadine",
+    "category": "Antihistamine",
+    "manufacturer": "Generic",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Lung",
+      "Kidney"
+    ]
+  },
+  {
+    "id": "levocetirizine",
+    "brandName": "Xyzal",
+    "genericName": "Levocetirizine",
+    "category": "Antihistamine",
+    "manufacturer": "Generic",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Lung",
+      "Kidney"
+    ]
+  },
+  {
+    "id": "desloratadine",
+    "brandName": "Clarinex",
+    "genericName": "Desloratadine",
+    "category": "Antihistamine",
+    "manufacturer": "Generic",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Lung",
+      "Kidney"
+    ]
+  },
+  {
+    "id": "fluticasone-nasal",
+    "brandName": "Flonase",
+    "genericName": "Fluticasone Nasal",
+    "category": "Nasal Corticosteroid",
+    "manufacturer": "GlaxoSmithKline",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Lung"
+    ],
+    "papUrl": "https://www.gskforyou.com/"
+  },
+  {
+    "id": "mometasone-nasal",
+    "brandName": "Nasonex",
+    "genericName": "Mometasone Nasal",
+    "category": "Nasal Corticosteroid",
+    "manufacturer": "Organon",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Lung"
+    ],
+    "papUrl": "https://www.organon.com/usa/patient-resources/"
+  },
+  {
+    "id": "triamcinolone-nasal",
+    "brandName": "Nasacort",
+    "genericName": "Triamcinolone Nasal",
+    "category": "Nasal Corticosteroid",
+    "manufacturer": "Generic",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Lung"
+    ]
+  },
+  {
+    "id": "azelastine-nasal",
+    "brandName": "Astelin / Astepro",
+    "genericName": "Azelastine Nasal",
+    "category": "Nasal Antihistamine",
+    "manufacturer": "Generic",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Lung"
+    ]
+  },
+  {
+    "id": "olopatadine-nasal",
+    "brandName": "Patanase",
+    "genericName": "Olopatadine Nasal",
+    "category": "Nasal Antihistamine",
+    "manufacturer": "Generic",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Lung"
+    ]
+  },
+  {
+    "id": "cromolyn",
+    "brandName": "NasalCrom",
+    "genericName": "Cromolyn Sodium",
+    "category": "Mast Cell Stabilizer",
+    "manufacturer": "Generic",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Lung"
+    ]
+  },
+  {
+    "id": "omeprazole",
+    "brandName": "Prilosec",
+    "genericName": "Omeprazole",
+    "category": "Proton Pump Inhibitor",
+    "manufacturer": "Generic",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Kidney",
+      "Liver",
+      "Heart",
+      "Lung",
+      "Pancreas"
+    ]
+  },
+  {
+    "id": "esomeprazole",
+    "brandName": "Nexium",
+    "genericName": "Esomeprazole",
+    "category": "Proton Pump Inhibitor",
+    "manufacturer": "Generic",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Kidney",
+      "Liver",
+      "Heart",
+      "Lung"
+    ]
+  },
+  {
+    "id": "lansoprazole",
+    "brandName": "Prevacid",
+    "genericName": "Lansoprazole",
+    "category": "Proton Pump Inhibitor",
+    "manufacturer": "Generic",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Kidney",
+      "Liver",
+      "Heart"
+    ]
+  },
+  {
+    "id": "famotidine",
+    "brandName": "Pepcid",
+    "genericName": "Famotidine",
+    "category": "H2 Blocker",
+    "manufacturer": "Generic",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Kidney",
+      "Liver",
+      "Heart"
+    ]
+  },
+  {
+    "id": "ranitidine",
+    "brandName": "Zantac",
+    "genericName": "Ranitidine",
+    "category": "H2 Blocker",
+    "manufacturer": "Generic",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Kidney",
+      "Liver"
+    ]
+  },
+  {
+    "id": "tramadol",
+    "brandName": "Ultram",
+    "genericName": "Tramadol",
+    "category": "Pain Relief",
+    "manufacturer": "Generic",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Kidney",
+      "Liver",
+      "Heart",
+      "Lung",
+      "Pancreas"
+    ]
+  },
+  {
+    "id": "hydrocodone-acetaminophen",
+    "brandName": "Norco / Vicodin",
+    "genericName": "Hydrocodone/Acetaminophen",
+    "category": "Pain Relief",
+    "manufacturer": "Generic",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Kidney",
+      "Liver",
+      "Heart",
+      "Lung",
+      "Pancreas"
+    ]
+  },
+  {
+    "id": "oxycodone",
+    "brandName": "OxyContin / Roxicodone",
+    "genericName": "Oxycodone",
+    "category": "Pain Relief",
+    "manufacturer": "Generic",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Kidney",
+      "Liver",
+      "Heart",
+      "Lung",
+      "Pancreas"
+    ]
+  },
+  {
+    "id": "gabapentin",
+    "brandName": "Neurontin",
+    "genericName": "Gabapentin",
+    "category": "Nerve Pain",
+    "manufacturer": "Generic",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Kidney",
+      "Liver",
+      "Heart",
+      "Lung",
+      "Pancreas"
+    ]
+  },
+  {
+    "id": "pregabalin",
+    "brandName": "Lyrica",
+    "genericName": "Pregabalin",
+    "category": "Nerve Pain",
+    "manufacturer": "Pfizer",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Kidney",
+      "Liver",
+      "Heart"
+    ],
+    "papUrl": "https://www.pfizerrxpathways.com/"
+  },
+  {
+    "id": "meloxicam",
+    "brandName": "Mobic",
+    "genericName": "Meloxicam",
+    "category": "NSAID",
+    "manufacturer": "Generic",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Kidney",
+      "Liver"
+    ]
+  },
+  {
+    "id": "ibuprofen",
+    "brandName": "Motrin / Advil",
+    "genericName": "Ibuprofen",
+    "category": "NSAID",
+    "manufacturer": "Generic",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Kidney",
+      "Liver"
+    ]
+  },
+  {
+    "id": "naproxen",
+    "brandName": "Naprosyn / Aleve",
+    "genericName": "Naproxen",
+    "category": "NSAID",
+    "manufacturer": "Generic",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Kidney",
+      "Liver"
+    ]
+  },
+  {
+    "id": "sertraline",
+    "brandName": "Zoloft",
+    "genericName": "Sertraline",
+    "category": "Antidepressant",
+    "manufacturer": "Generic",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Kidney",
+      "Liver",
+      "Heart",
+      "Lung",
+      "Pancreas"
+    ]
+  },
+  {
+    "id": "escitalopram",
+    "brandName": "Lexapro",
+    "genericName": "Escitalopram",
+    "category": "Antidepressant",
+    "manufacturer": "Generic",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Kidney",
+      "Liver",
+      "Heart",
+      "Lung",
+      "Pancreas"
+    ]
+  },
+  {
+    "id": "fluoxetine",
+    "brandName": "Prozac",
+    "genericName": "Fluoxetine",
+    "category": "Antidepressant",
+    "manufacturer": "Generic",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Kidney",
+      "Liver",
+      "Heart",
+      "Lung"
+    ]
+  },
+  {
+    "id": "citalopram",
+    "brandName": "Celexa",
+    "genericName": "Citalopram",
+    "category": "Antidepressant",
+    "manufacturer": "Generic",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Kidney",
+      "Liver",
+      "Heart"
+    ]
+  },
+  {
+    "id": "duloxetine",
+    "brandName": "Cymbalta",
+    "genericName": "Duloxetine",
+    "category": "Antidepressant",
+    "manufacturer": "Generic",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Kidney",
+      "Liver",
+      "Heart"
+    ]
+  },
+  {
+    "id": "venlafaxine",
+    "brandName": "Effexor",
+    "genericName": "Venlafaxine",
+    "category": "Antidepressant",
+    "manufacturer": "Generic",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Kidney",
+      "Liver",
+      "Heart"
+    ]
+  },
+  {
+    "id": "bupropion",
+    "brandName": "Wellbutrin / Zyban",
+    "genericName": "Bupropion",
+    "category": "Antidepressant",
+    "manufacturer": "Generic",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Kidney",
+      "Liver",
+      "Heart"
+    ]
+  },
+  {
+    "id": "trazodone",
+    "brandName": "Desyrel",
+    "genericName": "Trazodone",
+    "category": "Antidepressant/Sleep",
+    "manufacturer": "Generic",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Kidney",
+      "Liver",
+      "Heart",
+      "Lung"
+    ]
+  },
+  {
+    "id": "alprazolam",
+    "brandName": "Xanax",
+    "genericName": "Alprazolam",
+    "category": "Anxiety",
+    "manufacturer": "Generic",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Kidney",
+      "Liver",
+      "Heart",
+      "Lung"
+    ]
+  },
+  {
+    "id": "lorazepam",
+    "brandName": "Ativan",
+    "genericName": "Lorazepam",
+    "category": "Anxiety",
+    "manufacturer": "Generic",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Kidney",
+      "Liver",
+      "Heart"
+    ]
+  },
+  {
+    "id": "clonazepam",
+    "brandName": "Klonopin",
+    "genericName": "Clonazepam",
+    "category": "Anxiety",
+    "manufacturer": "Generic",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Kidney",
+      "Liver",
+      "Heart"
+    ]
+  },
+  {
+    "id": "buspirone",
+    "brandName": "BuSpar",
+    "genericName": "Buspirone",
+    "category": "Anxiety",
+    "manufacturer": "Generic",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Kidney",
+      "Liver"
+    ]
+  },
+  {
+    "id": "zolpidem",
+    "brandName": "Ambien",
+    "genericName": "Zolpidem",
+    "category": "Sleep Aid",
+    "manufacturer": "Generic",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Kidney",
+      "Liver",
+      "Heart",
+      "Lung"
+    ]
+  },
+  {
+    "id": "quetiapine",
+    "brandName": "Seroquel",
+    "genericName": "Quetiapine",
+    "category": "Antipsychotic",
+    "manufacturer": "Generic",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Kidney",
+      "Liver",
+      "Heart"
+    ]
+  },
+  {
+    "id": "amoxicillin",
+    "brandName": "Amoxil",
+    "genericName": "Amoxicillin",
+    "category": "Antibiotic",
+    "manufacturer": "Generic",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Kidney",
+      "Liver",
+      "Heart",
+      "Lung",
+      "Pancreas"
+    ]
+  },
+  {
+    "id": "azithromycin",
+    "brandName": "Zithromax / Z-Pak",
+    "genericName": "Azithromycin",
+    "category": "Antibiotic",
+    "manufacturer": "Generic",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Kidney",
+      "Liver",
+      "Heart",
+      "Lung"
+    ]
+  },
+  {
+    "id": "ciprofloxacin",
+    "brandName": "Cipro",
+    "genericName": "Ciprofloxacin",
+    "category": "Antibiotic",
+    "manufacturer": "Generic",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Kidney",
+      "Liver",
+      "Heart"
+    ]
+  },
+  {
+    "id": "levofloxacin",
+    "brandName": "Levaquin",
+    "genericName": "Levofloxacin",
+    "category": "Antibiotic",
+    "manufacturer": "Generic",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Kidney",
+      "Liver",
+      "Lung"
+    ]
+  },
+  {
+    "id": "doxycycline",
+    "brandName": "Vibramycin",
+    "genericName": "Doxycycline",
+    "category": "Antibiotic",
+    "manufacturer": "Generic",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Kidney",
+      "Liver",
+      "Lung"
+    ]
+  },
+  {
+    "id": "cephalexin",
+    "brandName": "Keflex",
+    "genericName": "Cephalexin",
+    "category": "Antibiotic",
+    "manufacturer": "Generic",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Kidney",
+      "Liver"
+    ]
+  },
+  {
+    "id": "cetirizine",
+    "brandName": "Zyrtec",
+    "genericName": "Cetirizine",
+    "category": "Antihistamine",
+    "manufacturer": "Generic",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Kidney",
+      "Liver",
+      "Heart",
+      "Lung"
+    ]
+  },
+  {
+    "id": "loratadine",
+    "brandName": "Claritin",
+    "genericName": "Loratadine",
+    "category": "Antihistamine",
+    "manufacturer": "Generic",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Kidney",
+      "Liver",
+      "Lung"
+    ]
+  },
+  {
+    "id": "fexofenadine",
+    "brandName": "Allegra",
+    "genericName": "Fexofenadine",
+    "category": "Antihistamine",
+    "manufacturer": "Generic",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Kidney",
+      "Liver",
+      "Lung"
+    ]
+  },
+  {
+    "id": "vitamin-d",
+    "brandName": "Calciferol",
+    "genericName": "Vitamin D",
+    "category": "Vitamin",
+    "manufacturer": "Generic",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Kidney",
+      "Liver",
+      "Heart",
+      "Pancreas"
+    ]
+  },
+  {
+    "id": "folic-acid",
+    "brandName": "Folate",
+    "genericName": "Folic Acid",
+    "category": "Vitamin",
+    "manufacturer": "Generic",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Kidney",
+      "Liver",
+      "Heart"
+    ]
+  },
+  {
+    "id": "allopurinol",
+    "brandName": "Zyloprim",
+    "genericName": "Allopurinol",
+    "category": "Gout",
+    "manufacturer": "Generic",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Kidney",
+      "Heart"
+    ]
+  },
+  {
+    "id": "colchicine",
+    "brandName": "Colcrys",
+    "genericName": "Colchicine",
+    "category": "Gout",
+    "manufacturer": "Generic",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Kidney",
+      "Heart"
+    ]
+  },
+  {
+    "id": "vitamin-e",
+    "brandName": "Aqua Gem-E / d-Alpha-Tocopherol",
+    "genericName": "Vitamin E",
+    "category": "Fatty Liver Disease (NASH)",
+    "manufacturer": "Generic",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Liver"
+    ]
+  },
+  {
+    "id": "pioglitazone",
+    "brandName": "Actos",
+    "genericName": "Pioglitazone",
+    "category": "Fatty Liver Disease (NASH)",
+    "manufacturer": "Takeda",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Liver",
+      "Kidney",
+      "Pancreas"
+    ],
+    "papUrl": "https://www.takeda.com/en-us/what-we-do/patient-services/"
+  },
+  {
+    "id": "resmetirom",
+    "brandName": "Rezdiffra",
+    "genericName": "Resmetirom",
+    "category": "Fatty Liver Disease (NASH)",
+    "manufacturer": "Madrigal",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Liver"
+    ],
+    "papUrl": "https://madrigalpatientsupport.com/"
+  },
+  {
+    "id": "obeticholic-acid",
+    "brandName": "Ocaliva",
+    "genericName": "Obeticholic Acid",
+    "category": "Fatty Liver Disease (PBC/NASH)",
+    "manufacturer": "Intercept",
+    "stage": "Both (Pre & Post)",
+    "commonOrgans": [
+      "Liver"
+    ],
+    "papUrl": "https://www.ocaliva.com/support-for-ocaliva/"
+  }
+]
