@@ -1,5 +1,6 @@
-import { useState, useEffect, useCallback, lazy, Suspense } from 'react';
+import { useState, useEffect, useCallback, lazy, Suspense, useMemo } from 'react';
 import { BrowserRouter, Routes, Route, Link, useLocation, Navigate, useSearchParams } from 'react-router-dom';
+import Fuse from 'fuse.js';
 
 // Lazy loaded page components for code splitting
 const LazyFAQ = lazy(() => import('./pages/FAQ.jsx'));
@@ -1443,6 +1444,15 @@ const MedicationSearch = () => {
     const [priceReportRefresh, setPriceReportRefresh] = useState(0);
     const [isSearching, setIsSearching] = useState(false);
 
+    // Fuse.js instance for fuzzy search (typo-tolerant)
+    const fuse = useMemo(() => new Fuse(MEDICATIONS, {
+        keys: ['brandName', 'genericName'],
+        threshold: 0.4, // 0 = exact match, 1 = match anything
+        includeScore: true,
+        ignoreLocation: true,
+        minMatchCharLength: 2
+    }), []);
+
     useEffect(() => {
         const ids = searchParams.get('ids');
         if (ids) {
@@ -1465,14 +1475,12 @@ const MedicationSearch = () => {
             setIsSearching(false);
             return;
         }
-        const term = searchTerm.toLowerCase().trim();
-        const internalMatches = MEDICATIONS.filter(med =>
-            med.brandName.toLowerCase().includes(term) ||
-            med.genericName.toLowerCase().includes(term)
-        );
+        // Use Fuse.js for fuzzy matching (handles typos like "tacrolimus" vs "tacrolimis")
+        const fuseResults = fuse.search(searchTerm.trim());
+        const internalMatches = fuseResults.map(result => result.item);
         setSearchResult({ internal: internalMatches, showExternalOption: true });
         setIsSearching(false);
-    }, [searchTerm]);
+    }, [searchTerm, fuse]);
 
     useEffect(() => {
         if (searchTerm.trim()) {
