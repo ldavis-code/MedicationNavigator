@@ -8,6 +8,12 @@ export default defineConfig({
     assetsDir: 'assets',
     sourcemap: false,
     minify: 'terser',
+    terserOptions: {
+      compress: {
+        drop_console: true,  // Remove console.log in production
+        drop_debugger: true
+      }
+    },
     rollupOptions: {
       output: {
         manualChunks: {
@@ -15,6 +21,12 @@ export default defineConfig({
           'icons': ['lucide-react']
         }
       }
-    }
+    },
+    // Warn about large chunks
+    chunkSizeWarningLimit: 500
+  },
+  // Optimize CSS
+  css: {
+    devSourcemap: false
   }
 })

@@ -1,5 +1,9 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route, Link, useLocation, Navigate, useSearchParams } from 'react-router-dom';
+
+// Lazy loaded page components for code splitting
+const LazyFAQ = lazy(() => import('./pages/FAQ.jsx'));
+const LazyNotFound = lazy(() => import('./pages/NotFound.jsx'));
 import {
     Map, Search, BookOpen, ShieldCheck, ArrowRight, Heart, Anchor, Lock, UserCheck,
     Menu, X, ShieldAlert, HeartHandshake, CheckCircle, ChevronLeft, DollarSign,
@@ -3653,21 +3657,33 @@ const NotFound = () => {
     );
 };
 
+// Loading fallback for lazy-loaded components
+const PageLoadingFallback = () => (
+    <div className="flex items-center justify-center min-h-[400px]">
+        <div className="text-center">
+            <Loader2 size={40} className="animate-spin text-emerald-600 mx-auto mb-4" aria-hidden="true" />
+            <p className="text-slate-600 font-medium">Loading...</p>
+        </div>
+    </div>
+);
+
 // App Component
 const App = () => {
     return (
         <BrowserRouter>
             <ScrollToTop />
             <Layout>
-                <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/wizard" element={<Wizard />} />
-                    <Route path="/medications" element={<MedicationSearch />} />
-                    <Route path="/education" element={<Education />} />
-                    <Route path="/application-help" element={<ApplicationHelp />} />
-                    <Route path="/faq" element={<FAQ />} />
-                    <Route path="*" element={<NotFound />} />
-                </Routes>
+                <Suspense fallback={<PageLoadingFallback />}>
+                    <Routes>
+                        <Route path="/" element={<Home />} />
+                        <Route path="/wizard" element={<Wizard />} />
+                        <Route path="/medications" element={<MedicationSearch />} />
+                        <Route path="/education" element={<Education />} />
+                        <Route path="/application-help" element={<ApplicationHelp />} />
+                        <Route path="/faq" element={<LazyFAQ />} />
+                        <Route path="*" element={<LazyNotFound />} />
+                    </Routes>
+                </Suspense>
             </Layout>
         </BrowserRouter>
     );
