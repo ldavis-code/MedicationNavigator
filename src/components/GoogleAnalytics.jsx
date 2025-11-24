@@ -15,7 +15,7 @@ import { useLocation } from 'react-router-dom';
 // Format: G-XXXXXXXXXX (e.g., G-ABC123XYZ0)
 // Find this in Google Analytics: Admin > Data Streams > Web > Measurement ID
 // ============================================================================
-const GA4_MEASUREMENT_ID = 'G-XXXXXXXXXX'; // <-- INSERT YOUR GA4 MEASUREMENT ID HERE
+const GA4_MEASUREMENT_ID = 'G-MRRECSDQWC';
 // ============================================================================
 
 /**
