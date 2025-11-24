@@ -3,10 +3,10 @@
  *
  * Logs errors to console in development and can be connected to Sentry in production.
  *
- * SETUP FOR SENTRY:
+ * SETUP FOR SENTRY (optional):
  * 1. Install Sentry: npm install @sentry/react
  * 2. Add your Sentry DSN below
- * 3. Errors will automatically be sent to Sentry in production
+ * 3. Uncomment the Sentry initialization code in initErrorLogger()
  */
 
 // ============================================================================
@@ -21,40 +21,50 @@ const SENTRY_DSN = ''; // <-- INSERT YOUR SENTRY DSN HERE (leave empty to disabl
 const isDevelopment = import.meta.env.DEV;
 const isProduction = import.meta.env.PROD;
 
-// Sentry instance (lazy-loaded when DSN is provided)
+// Sentry instance (set when Sentry is initialized)
 let Sentry = null;
 let sentryInitialized = false;
 
 /**
- * Initialize Sentry if DSN is provided
+ * Initialize error logging
  * Call this once at app startup (e.g., in main.jsx)
+ *
+ * To enable Sentry:
+ * 1. npm install @sentry/react
+ * 2. Add your DSN above
+ * 3. Uncomment the Sentry code block below
  */
 export const initErrorLogger = async () => {
   if (sentryInitialized) return;
 
   if (SENTRY_DSN && isProduction) {
-    try {
-      // Dynamic import to avoid bundling Sentry if not used
-      Sentry = await import('@sentry/react');
+    // =========================================================================
+    // UNCOMMENT THIS BLOCK AFTER INSTALLING SENTRY (npm install @sentry/react)
+    // =========================================================================
+    // try {
+    //   const SentryModule = await import('@sentry/react');
+    //   Sentry = SentryModule;
+    //
+    //   Sentry.init({
+    //     dsn: SENTRY_DSN,
+    //     environment: 'production',
+    //     tracesSampleRate: 1.0,
+    //     enabled: true,
+    //   });
+    //
+    //   sentryInitialized = true;
+    //   console.info('Sentry error logging initialized');
+    // } catch (error) {
+    //   console.warn('Failed to initialize Sentry:', error.message);
+    // }
+    // =========================================================================
 
-      Sentry.init({
-        dsn: SENTRY_DSN,
-        environment: isProduction ? 'production' : 'development',
-        // Capture 100% of transactions for performance monitoring
-        tracesSampleRate: 1.0,
-        // Don't send errors in development
-        enabled: isProduction,
-      });
-
-      sentryInitialized = true;
-      console.info('Sentry error logging initialized');
-    } catch (error) {
-      console.warn(
-        'Sentry SDK not installed. To enable Sentry, run: npm install @sentry/react'
-      );
-    }
-  } else if (SENTRY_DSN && isDevelopment) {
-    console.info('Sentry is configured but disabled in development mode');
+    console.info(
+      'Sentry DSN configured but Sentry code is commented out. ' +
+      'To enable: npm install @sentry/react, then uncomment Sentry code in errorLogger.js'
+    );
+  } else if (isDevelopment) {
+    console.info('Error logger initialized (console mode)');
   }
 };
 
@@ -77,6 +87,9 @@ export const logError = (error, context = {}) => {
       console.info('Context:', extra);
     }
     console.groupEnd();
+  } else {
+    // In production, still log to console (useful for debugging)
+    console.error(`[${component}]`, error);
   }
 
   // Send to Sentry in production if initialized
@@ -107,6 +120,8 @@ export const logWarning = (message, context = {}) => {
       console.info('Context:', extra);
     }
     console.groupEnd();
+  } else {
+    console.warn(`[${component}]`, message);
   }
 
   if (Sentry && sentryInitialized) {
@@ -138,11 +153,6 @@ export const logInfo = (message, context = {}) => {
     }
     console.groupEnd();
   }
-
-  // Only send to Sentry if explicitly needed (uncomment if desired)
-  // if (Sentry && sentryInitialized) {
-  //   Sentry.captureMessage(message, 'info');
-  // }
 };
 
 /**
