@@ -1598,7 +1598,13 @@ const MedicationSearch = () => {
                                     })}
                                 </div>
                             ) : (
-                                <div className="p-4 text-slate-600 text-sm text-center italic">No matches in our transplant database.</div>
+                                <div className="p-4 text-center">
+                                    <div className="text-slate-400 mb-2">
+                                        <Search size={24} className="mx-auto" aria-hidden="true" />
+                                    </div>
+                                    <p className="text-slate-700 font-medium mb-1">No matches in our transplant database</p>
+                                    <p className="text-slate-500 text-sm">Try a different spelling, or use the option below to add it as a custom medication.</p>
+                                </div>
                             )}
                             {searchResult.showExternalOption && (
                                 <div className="border-t border-slate-100 pt-2 mt-1">
@@ -2489,18 +2495,26 @@ const Education = () => {
                 {activeTab === 'DIRECTORY' && (
                     <section aria-labelledby="directory-heading">
                         <h2 id="directory-heading" className="text-2xl font-bold text-slate-900 mb-6">Trusted Resource Directory</h2>
-                        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                            {DIRECTORY_RESOURCES.map((res) => (
-                                <a key={res.name} href={res.url} target="_blank" rel="noreferrer" className="group block bg-white p-6 rounded-xl border border-slate-200 hover:border-emerald-400 hover:shadow-md transition h-full" aria-label={`Visit ${res.name} (opens in new tab)`}>
-                                    <div className="flex justify-between items-start mb-2">
-                                        <h3 className="font-bold text-lg text-slate-900 group-hover:text-emerald-700 pr-2">{res.name}</h3>
-                                        <ExternalLink size={16} className="opacity-50 group-hover:opacity-100 text-slate-400 flex-shrink-0 mt-1" aria-hidden="true" />
-                                    </div>
-                                    <span className={`text-xs px-2 py-1 rounded-full font-bold mb-3 inline-block ${res.category === 'Foundation' ? 'bg-rose-50 text-rose-700' : res.category === 'Government' ? 'bg-purple-50 text-purple-700' : res.category === 'Support Group' ? 'bg-emerald-50 text-emerald-700' : 'bg-blue-50 text-blue-700'}`}>{res.category}</span>
-                                    <p className="text-slate-600 text-sm leading-relaxed">{res.description}</p>
-                                </a>
-                            ))}
-                        </div>
+                        {DIRECTORY_RESOURCES && DIRECTORY_RESOURCES.length > 0 ? (
+                            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                {DIRECTORY_RESOURCES.map((res) => (
+                                    <a key={res.name} href={res.url} target="_blank" rel="noreferrer" className="group block bg-white p-6 rounded-xl border border-slate-200 hover:border-emerald-400 hover:shadow-md transition h-full" aria-label={`Visit ${res.name} (opens in new tab)`}>
+                                        <div className="flex justify-between items-start mb-2">
+                                            <h3 className="font-bold text-lg text-slate-900 group-hover:text-emerald-700 pr-2">{res.name}</h3>
+                                            <ExternalLink size={16} className="opacity-50 group-hover:opacity-100 text-slate-400 flex-shrink-0 mt-1" aria-hidden="true" />
+                                        </div>
+                                        <span className={`text-xs px-2 py-1 rounded-full font-bold mb-3 inline-block ${res.category === 'Foundation' ? 'bg-rose-50 text-rose-700' : res.category === 'Government' ? 'bg-purple-50 text-purple-700' : res.category === 'Support Group' ? 'bg-emerald-50 text-emerald-700' : 'bg-blue-50 text-blue-700'}`}>{res.category}</span>
+                                        <p className="text-slate-600 text-sm leading-relaxed">{res.description}</p>
+                                    </a>
+                                ))}
+                            </div>
+                        ) : (
+                            <div className="text-center py-16 bg-slate-50 rounded-xl border-2 border-dashed border-slate-300">
+                                <Globe size={48} className="mx-auto text-slate-300 mb-4" aria-hidden="true" />
+                                <h3 className="text-xl font-bold text-slate-900 mb-2">No resources available</h3>
+                                <p className="text-slate-600 max-w-md mx-auto">We're working on adding trusted resources. Check back soon for helpful links and organizations.</p>
+                            </div>
+                        )}
                     </section>
                 )}
                 {activeTab === 'INSURANCE' && (

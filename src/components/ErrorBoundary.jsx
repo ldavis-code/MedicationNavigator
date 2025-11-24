@@ -1,5 +1,6 @@
 import React from 'react';
 import { AlertTriangle, Home } from 'lucide-react';
+import { logError } from '../utils/errorLogger';
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -17,8 +18,14 @@ class ErrorBoundary extends React.Component {
   }
 
   componentDidCatch(error, errorInfo) {
-    // Log the error to console for debugging
-    console.error('Error caught by ErrorBoundary:', error, errorInfo);
+    // Log the error using the error logger (console in dev, Sentry in prod)
+    logError(error, {
+      component: 'ErrorBoundary',
+      extra: {
+        componentStack: errorInfo?.componentStack,
+        url: window.location.href,
+      },
+    });
 
     this.setState({
       error,

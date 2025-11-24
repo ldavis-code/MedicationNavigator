@@ -59,27 +59,41 @@ const FAQ = () => {
             </header>
 
             <div className="space-y-8">
-                {faqs.map((section, sectionIndex) => (
-                    <section key={sectionIndex} className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 md:p-8">
-                        <h2 className="text-2xl font-bold text-slate-900 mb-6 flex items-center gap-3">
-                            <span className="w-1 h-8 bg-emerald-600 rounded-full" aria-hidden="true"></span>
-                            {section.category}
-                        </h2>
-                        <div className="space-y-3">
-                            {section.questions.map((faq, faqIndex) => {
-                                const globalIndex = `${sectionIndex}-${faqIndex}`;
-                                return (
-                                    <FAQItem
-                                        key={globalIndex}
-                                        question={faq.q}
-                                        answer={faq.a}
-                                        index={globalIndex}
-                                    />
-                                );
-                            })}
-                        </div>
-                    </section>
-                ))}
+                {faqs && faqs.length > 0 ? (
+                    faqs.map((section, sectionIndex) => (
+                        <section key={sectionIndex} className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 md:p-8">
+                            <h2 className="text-2xl font-bold text-slate-900 mb-6 flex items-center gap-3">
+                                <span className="w-1 h-8 bg-emerald-600 rounded-full" aria-hidden="true"></span>
+                                {section.category}
+                            </h2>
+                            <div className="space-y-3">
+                                {section.questions.map((faq, faqIndex) => {
+                                    const globalIndex = `${sectionIndex}-${faqIndex}`;
+                                    return (
+                                        <FAQItem
+                                            key={globalIndex}
+                                            question={faq.q}
+                                            answer={faq.a}
+                                            index={globalIndex}
+                                        />
+                                    );
+                                })}
+                            </div>
+                        </section>
+                    ))
+                ) : (
+                    <div className="text-center py-16 bg-white rounded-xl shadow-sm border border-slate-200">
+                        <Info size={48} className="mx-auto text-slate-300 mb-4" aria-hidden="true" />
+                        <h2 className="text-xl font-bold text-slate-900 mb-2">No FAQs available</h2>
+                        <p className="text-slate-600 mb-6">Check back later for frequently asked questions.</p>
+                        <Link
+                            to="/education"
+                            className="inline-flex items-center gap-2 px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-lg transition"
+                        >
+                            Browse Resources
+                        </Link>
+                    </div>
+                )}
             </div>
 
             <aside className="bg-emerald-50 border border-emerald-200 rounded-xl p-6 md:p-8 text-center">
