@@ -46,6 +46,19 @@ const QUICK_ACTIONS = QUICK_ACTIONS_DATA.map(action => ({
     icon: iconMap[action.icon]
 }));
 
+// --- COMPONENTS ---
+
+// ScrollToTop Component
+const ScrollToTop = () => {
+    const { pathname } = useLocation();
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [pathname]);
+    return null;
+};
+
+// --- RULE-BASED ASSISTANT SYSTEM ---
+
 // Rule-based response generator
 const getAssistantResponse = (userMessage, context = {}) => {
     const lowerMessage = userMessage.toLowerCase();
