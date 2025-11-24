@@ -7,7 +7,7 @@ import {
     Trash2, Globe, List, Info, Copy, Check, Building2, LandPlot, Scale, FileText,
     GraduationCap, Phone, ClipboardList, CheckSquare, Square, Stethoscope,
     AlertOctagon, Calendar, Pill, ChevronDown, Share2, Home as HomeIcon,
-    MessageCircle, Send, HelpCircle, Lightbulb, Zap, MinimizeIcon, Users, TrendingUp, Clock
+    MessageCircle, Send, HelpCircle, Lightbulb, Zap, MinimizeIcon, Users, TrendingUp, Clock, Loader2
 } from 'lucide-react';
 
 // --- CONSTANTS & DATA ---
@@ -1401,6 +1401,7 @@ const MedicationSearch = () => {
     const [activeTab, setActiveTab] = useState('PRICE');
     const [linkCopied, setLinkCopied] = useState(false);
     const [priceReportRefresh, setPriceReportRefresh] = useState(0);
+    const [isSearching, setIsSearching] = useState(false);
 
     useEffect(() => {
         const ids = searchParams.get('ids');
@@ -1421,6 +1422,7 @@ const MedicationSearch = () => {
     const handleSearch = useCallback(() => {
         if (!searchTerm.trim()) {
             setSearchResult(null);
+            setIsSearching(false);
             return;
         }
         const term = searchTerm.toLowerCase().trim();
@@ -1429,9 +1431,16 @@ const MedicationSearch = () => {
             med.genericName.toLowerCase().includes(term)
         );
         setSearchResult({ internal: internalMatches, showExternalOption: true });
+        setIsSearching(false);
     }, [searchTerm]);
 
     useEffect(() => {
+        if (searchTerm.trim()) {
+            setIsSearching(true);
+        } else {
+            setSearchResult(null);
+            setIsSearching(false);
+        }
         const timer = setTimeout(() => {
             if (searchTerm.trim()) handleSearch();
             else setSearchResult(null);
@@ -1508,8 +1517,12 @@ const MedicationSearch = () => {
                                 aria-describedby="search-instructions"
                             />
                             <span id="search-instructions" className="sr-only">Type medication name and press enter or click search button</span>
-                            {searchTerm && (
-                                <button onClick={() => { setSearchTerm(''); setSearchResult(null); }} className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600" aria-label="Clear search">
+                            {isSearching ? (
+                                <div className="absolute right-4 top-1/2 -translate-y-1/2" aria-live="polite" aria-busy="true">
+                                    <Loader2 size={20} className="text-emerald-600 animate-spin" aria-label="Searching" />
+                                </div>
+                            ) : searchTerm && (
+                                <button onClick={() => { setSearchTerm(''); setSearchResult(null); setIsSearching(false); }} className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600" aria-label="Clear search">
                                     <X size={20} />
                                 </button>
                             )}
@@ -1519,7 +1532,15 @@ const MedicationSearch = () => {
                         </button>
                     </div>
 
-                    {searchResult && searchTerm && (
+                    {isSearching && !searchResult && searchTerm && (
+                        <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-slate-200 rounded-xl shadow-xl p-4 z-50" role="status" aria-label="Loading search results">
+                            <div className="flex items-center justify-center gap-3 text-slate-500 py-4">
+                                <Loader2 size={20} className="animate-spin text-emerald-600" />
+                                <span>Searching medications...</span>
+                            </div>
+                        </div>
+                    )}
+                    {searchResult && searchTerm && !isSearching && (
                         <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-slate-200 rounded-xl shadow-xl p-2 max-h-[60vh] overflow-y-auto z-50" role="listbox" aria-label="Search results">
                             <div className="px-4 py-2 text-xs font-bold text-slate-400 uppercase tracking-wider">Search Results</div>
                             {searchResult.internal.length > 0 ? (
@@ -1741,8 +1762,9 @@ const PriceReportModal = ({ isOpen, onClose, medicationId, medicationName, sourc
                         <button
                             type="submit"
                             disabled={submitting}
-                            className="flex-1 px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="flex-1 px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                         >
+                            {submitting && <Loader2 size={16} className="animate-spin" aria-hidden="true" />}
                             {submitting ? 'Submitting...' : 'Submit Report'}
                         </button>
                     </div>
