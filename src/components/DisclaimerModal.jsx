@@ -80,7 +80,7 @@ const DisclaimerModal = () => {
         {/* Accept Button */}
         <button
           onClick={handleAccept}
-          className="w-full py-4 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-lg rounded-xl transition shadow-lg hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-emerald-500/50"
+          className="w-full py-4 bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-lg rounded-xl transition shadow-lg hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-emerald-500/50"
           autoFocus
         >
           I Agree

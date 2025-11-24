@@ -248,7 +248,7 @@ const ChatWidget = () => {
             {!isOpen && (
                 <button
                     onClick={() => setIsOpen(true)}
-                    className="bg-emerald-600 hover:bg-emerald-700 text-white rounded-full p-4 shadow-lg transition-all duration-300 flex items-center gap-2 group min-h-[44px]"
+                    className="bg-emerald-700 hover:bg-emerald-800 text-white rounded-full p-4 shadow-lg transition-all duration-300 flex items-center gap-2 group min-h-[44px]"
                     aria-label="Open assistant chat"
                 >
                     <MessageCircle size={24} aria-hidden="true" />
@@ -343,7 +343,7 @@ const ChatWidget = () => {
                             <button
                                 onClick={handleSendMessage}
                                 disabled={!inputValue.trim()}
-                                className="bg-emerald-600 hover:bg-emerald-700 disabled:bg-slate-400 text-white p-3 rounded-full transition disabled:cursor-not-allowed min-h-[48px] min-w-[48px] flex items-center justify-center"
+                                className="bg-emerald-700 hover:bg-emerald-800 disabled:bg-slate-400 text-white p-3 rounded-full transition disabled:cursor-not-allowed min-h-[48px] min-w-[48px] flex items-center justify-center"
                                 aria-label="Send message"
                             >
                                 <Send size={22} />
@@ -491,7 +491,7 @@ const Home = () => {
                 <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
                     <Link
                         to="/wizard"
-                        className="w-full sm:w-auto px-8 py-4 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl shadow-lg hover:shadow-xl transition flex items-center justify-center gap-2"
+                        className="w-full sm:w-auto px-8 py-4 bg-emerald-700 hover:bg-emerald-800 text-white font-bold rounded-xl shadow-lg hover:shadow-xl transition flex items-center justify-center gap-2"
                         aria-label="Start your personalized medication path"
                     >
                         <Map size={20} aria-hidden="true" />
@@ -518,7 +518,7 @@ const Home = () => {
                     <p className="text-slate-600 mb-4">
                         Understand how to fill out Patient Assistance Program (PAP) applications yourself, without paying anyone.
                     </p>
-                    <Link to="/application-help" className="text-emerald-600 font-medium hover:underline inline-flex items-center gap-1" aria-label="View application guide">
+                    <Link to="/application-help" className="text-emerald-700 font-medium hover:underline inline-flex items-center gap-1" aria-label="View application guide">
                         View Guide <ArrowRight size={16} aria-hidden="true" />
                     </Link>
                 </div>
@@ -531,8 +531,8 @@ const Home = () => {
                     <p className="text-slate-600 mb-4">
                         Navigate Insurance, Medicare (including Part B-ID for kidney), Medicaid, and IHS benefits.
                     </p>
-                    <Link to="/education" className="text-emerald-600 font-medium hover:underline inline-flex items-center gap-1" aria-label="Read more about coverage">
-                        Read More <ArrowRight size={16} aria-hidden="true" />
+                    <Link to="/education" className="text-emerald-700 font-medium hover:underline inline-flex items-center gap-1" aria-label="Learn about coverage options">
+                        Learn About Coverage <ArrowRight size={16} aria-hidden="true" />
                     </Link>
                 </div>
 
@@ -544,7 +544,7 @@ const Home = () => {
                     <p className="text-slate-600 mb-4">
                         Direct, safe links to manufacturer programs, foundations, and government sites. No scams.
                     </p>
-                    <Link to="/education" className="text-emerald-600 font-medium hover:underline inline-flex items-center gap-1" aria-label="Browse available resources">
+                    <Link to="/education" className="text-emerald-700 font-medium hover:underline inline-flex items-center gap-1" aria-label="Browse available resources">
                         Browse Resources <ArrowRight size={16} aria-hidden="true" />
                     </Link>
                 </div>
@@ -925,7 +925,7 @@ const Wizard = () => {
                 <button
                     disabled={answers.organs.length === 0}
                     onClick={nextStep}
-                    className="w-full py-3 bg-emerald-600 disabled:bg-slate-300 text-white font-bold rounded-lg disabled:cursor-not-allowed"
+                    className="w-full py-3 bg-emerald-700 disabled:bg-slate-300 text-white font-bold rounded-lg disabled:cursor-not-allowed"
                     aria-label="Continue to next step"
                 >
                     Next Step
@@ -1056,7 +1056,7 @@ const Wizard = () => {
 
                 <button
                     onClick={handleNextFromMeds}
-                    className="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-lg shadow-md"
+                    className="w-full py-3 bg-emerald-700 hover:bg-emerald-800 text-white font-bold rounded-lg shadow-md"
                     aria-label="Continue to next step"
                 >
                     Next Step
@@ -1572,7 +1572,7 @@ const MedicationSearch = () => {
                                 </button>
                             )}
                         </div>
-                        <button onClick={handleSearch} disabled={!searchTerm.trim()} className="bg-emerald-600 hover:bg-emerald-700 disabled:bg-slate-400 text-white px-8 py-4 rounded-xl font-bold text-lg shadow-md transition flex items-center gap-2 justify-center shrink-0 disabled:cursor-not-allowed min-h-[56px]" aria-label="Search for medications">
+                        <button onClick={handleSearch} disabled={!searchTerm.trim()} className="bg-emerald-700 hover:bg-emerald-800 disabled:bg-slate-400 text-white px-8 py-4 rounded-xl font-bold text-lg shadow-md transition flex items-center gap-2 justify-center shrink-0 disabled:cursor-not-allowed min-h-[56px]" aria-label="Search for medications">
                             <Search size={22} aria-hidden="true" /> Search
                         </button>
                     </div>
@@ -1646,7 +1646,7 @@ const MedicationSearch = () => {
                         </div>
                         <Link
                             to="/application-help"
-                            className="flex items-center gap-2 px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-lg transition shadow-md whitespace-nowrap"
+                            className="flex items-center gap-2 px-6 py-3 bg-emerald-700 hover:bg-emerald-800 text-white font-bold rounded-lg transition shadow-md whitespace-nowrap"
                             aria-label="View application guide for step-by-step help"
                         >
                             <FileText size={18} aria-hidden="true" />
@@ -1670,7 +1670,7 @@ const MedicationSearch = () => {
                             role="tab"
                             aria-selected={activeTab === tab.id}
                             aria-controls={`${tab.id}-panel`}
-                            className={`flex items-center gap-2 px-6 py-3 rounded-t-lg font-bold text-base whitespace-nowrap transition min-h-[48px] ${activeTab === tab.id ? 'bg-emerald-600 text-white shadow-sm' : 'bg-white text-slate-700 hover:bg-slate-100 hover:text-emerald-700'}`}
+                            className={`flex items-center gap-2 px-6 py-3 rounded-t-lg font-bold text-base whitespace-nowrap transition min-h-[48px] ${activeTab === tab.id ? 'bg-emerald-700 text-white shadow-sm' : 'bg-white text-slate-700 hover:bg-slate-100 hover:text-emerald-700'}`}
                         >
                             <tab.icon size={20} aria-hidden="true" /> {tab.label}
                         </button>
@@ -1833,7 +1833,7 @@ const PriceReportModal = ({ isOpen, onClose, medicationId, medicationName, sourc
                         <button
                             type="submit"
                             disabled={submitting}
-                            className="flex-1 px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                            className="flex-1 px-4 py-2 bg-emerald-700 text-white rounded-lg hover:bg-emerald-800 transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                         >
                             {submitting && <Loader2 size={16} className="animate-spin" aria-hidden="true" />}
                             {submitting ? 'Submitting...' : 'Submit Report'}
@@ -1921,7 +1921,7 @@ const MedicationCard = ({ med, activeTab, onRemove, onPriceReportSubmit }) => {
                             <section className="border border-emerald-100 rounded-lg p-4 bg-emerald-50/30">
                                 <h3 className="font-bold text-emerald-800 mb-2 flex items-center gap-2"><Building size={18} aria-hidden="true" /> Manufacturer PAP</h3>
                                 <p className="text-sm text-slate-700 mb-4">Many manufacturers offer free medication if you are uninsured or have commercial insurance but can't afford copays.</p>
-                                <a href={papLink} target="_blank" rel="noreferrer" className="w-full block text-center bg-emerald-600 hover:bg-emerald-700 text-white py-2 rounded-lg text-sm font-medium transition no-print flex items-center justify-center gap-1" aria-label={`${papLinkText} for ${med.brandName} (opens in new tab)`}>{papLinkText} <ExternalLink size={14} aria-hidden="true" /></a>
+                                <a href={papLink} target="_blank" rel="noreferrer" className="w-full block text-center bg-emerald-700 hover:bg-emerald-800 text-white py-2 rounded-lg text-sm font-medium transition no-print flex items-center justify-center gap-1" aria-label={`${papLinkText} for ${med.brandName} (opens in new tab)`}>{papLinkText} <ExternalLink size={14} aria-hidden="true" /></a>
                             </section>
                             <section className="border border-sky-100 rounded-lg p-4 bg-sky-50/30">
                                 <h3 className="font-bold text-sky-800 mb-2 flex items-center gap-2"><Building size={18} aria-hidden="true" /> Foundations & Grants</h3>
@@ -2610,7 +2610,7 @@ const Education = () => {
                                 </div>
                                 {selectedState && (
                                     <div className="mt-6 text-center fade-in">
-                                        <a href={selectedState} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition" aria-label="Visit your state's Medicaid website (opens in new tab)">Go to Official Site <ExternalLink size={18} aria-hidden="true" /></a>
+                                        <a href={selectedState} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-3 px-8 rounded-full shadow-lg transition" aria-label="Visit your state's Medicaid website (opens in new tab)">Go to Official Site <ExternalLink size={18} aria-hidden="true" /></a>
                                         <p className="text-xs text-slate-600 mt-3">You are leaving this app to visit a government website.</p>
                                     </div>
                                 )}
@@ -2625,7 +2625,7 @@ const Education = () => {
                                     <div className="bg-emerald-50 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 text-emerald-700" aria-hidden="true"><LandPlot size={32} /></div>
                                     <h3 className="font-bold text-lg text-slate-900 mb-2">Find a Facility</h3>
                                     <p className="text-sm text-slate-600 mb-6">Use the official IHS locator to find clinics and pharmacies near you.</p>
-                                    <span className="inline-block w-full bg-emerald-600 group-hover:bg-emerald-700 text-white font-bold py-2 rounded-lg">Open IHS Locator</span>
+                                    <span className="inline-block w-full bg-emerald-700 group-hover:bg-emerald-800 text-white font-bold py-2 rounded-lg">Open IHS Locator</span>
                                 </a>
                                 <section className="bg-white p-6 rounded-xl border border-slate-200" aria-labelledby="ihs-strategy"><h3 id="ihs-strategy" className="font-bold text-slate-900 mb-4">Best Strategy</h3><p className="text-slate-600 text-sm">Use your local IHS or Urban Indian Program — usually $0 cost.</p></section>
                             </div>
@@ -3433,7 +3433,7 @@ const ApplicationHelp = () => {
                                         <div className="flex flex-col sm:flex-row gap-3">
                                             <button
                                                 onClick={() => setActiveTab('START')}
-                                                className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-4 py-2 rounded-lg transition text-center justify-center"
+                                                className="inline-flex items-center gap-2 bg-emerald-700 hover:bg-emerald-800 text-white font-bold px-4 py-2 rounded-lg transition text-center justify-center"
                                             >
                                                 <FileText size={16} aria-hidden="true" />
                                                 View Getting Started
@@ -3627,7 +3627,7 @@ const FAQ = () => {
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                     <Link
                         to="/wizard"
-                        className="px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-lg shadow-md transition"
+                        className="px-6 py-3 bg-emerald-700 hover:bg-emerald-800 text-white font-bold rounded-lg shadow-md transition"
                     >
                         Start My Path Quiz
                     </Link>
@@ -3665,7 +3665,7 @@ const NotFound = () => {
                 <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
                     <Link
                         to="/"
-                        className="w-full sm:w-auto px-8 py-4 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl shadow-lg hover:shadow-xl transition flex items-center justify-center gap-2"
+                        className="w-full sm:w-auto px-8 py-4 bg-emerald-700 hover:bg-emerald-800 text-white font-bold rounded-xl shadow-lg hover:shadow-xl transition flex items-center justify-center gap-2"
                         aria-label="Return to home page"
                     >
                         <HomeIcon size={20} aria-hidden="true" />
