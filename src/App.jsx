@@ -4,6 +4,9 @@ import { BrowserRouter, Routes, Route, Link, useLocation, Navigate, useSearchPar
 // Lazy loaded page components for code splitting
 const LazyFAQ = lazy(() => import('./pages/FAQ.jsx'));
 const LazyNotFound = lazy(() => import('./pages/NotFound.jsx'));
+
+// Google Analytics 4 integration
+import GoogleAnalytics from './components/GoogleAnalytics.jsx';
 import {
     Map, Search, BookOpen, ShieldCheck, ArrowRight, Heart, Anchor, Lock, UserCheck,
     Menu, X, ShieldAlert, HeartHandshake, CheckCircle, ChevronLeft, DollarSign,
@@ -3671,6 +3674,7 @@ const PageLoadingFallback = () => (
 const App = () => {
     return (
         <BrowserRouter>
+            <GoogleAnalytics />
             <ScrollToTop />
             <Layout>
                 <Suspense fallback={<PageLoadingFallback />}>
