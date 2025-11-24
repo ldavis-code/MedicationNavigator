@@ -2,6 +2,101 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ========================================
+   ACCESSIBILITY IMPROVEMENTS
+   ======================================== */
+
+/* Base font size - minimum 16px for readability */
+html {
+    font-size: 16px;
+}
+
+/* Ensure body text is readable */
+body {
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+/* Minimum tap target size for touch devices (44x44px) */
+@layer components {
+    .tap-target {
+        min-height: 44px;
+        min-width: 44px;
+    }
+}
+
+/* Enhanced focus indicators for keyboard navigation */
+@layer base {
+    /* Global focus styles - high contrast ring */
+    *:focus-visible {
+        outline: 3px solid #059669 !important;
+        outline-offset: 2px !important;
+    }
+
+    /* Remove default outline since we use focus-visible */
+    *:focus:not(:focus-visible) {
+        outline: none;
+    }
+
+    /* Enhanced focus for buttons and links */
+    button:focus-visible,
+    a:focus-visible,
+    [role="button"]:focus-visible,
+    [role="tab"]:focus-visible,
+    [role="checkbox"]:focus-visible,
+    [role="radio"]:focus-visible,
+    [role="option"]:focus-visible,
+    input:focus-visible,
+    select:focus-visible,
+    textarea:focus-visible {
+        outline: 3px solid #059669 !important;
+        outline-offset: 2px !important;
+        box-shadow: 0 0 0 4px rgba(5, 150, 105, 0.2);
+    }
+
+    /* High contrast focus for dark backgrounds */
+    .bg-emerald-600 *:focus-visible,
+    .bg-emerald-700 *:focus-visible,
+    .bg-emerald-800 *:focus-visible,
+    .bg-emerald-900 *:focus-visible,
+    .bg-slate-900 *:focus-visible,
+    .bg-indigo-600 *:focus-visible,
+    .bg-indigo-900 *:focus-visible {
+        outline-color: #fff !important;
+        box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.3);
+    }
+}
+
+/* Skip link enhancement */
+.sr-only.focus\:not-sr-only:focus {
+    position: absolute !important;
+    width: auto !important;
+    height: auto !important;
+    padding: 1rem !important;
+    margin: 0 !important;
+    overflow: visible !important;
+    clip: auto !important;
+    white-space: nowrap !important;
+}
+
+/* Ensure minimum text size for small text */
+.text-xs {
+    font-size: 0.875rem; /* 14px minimum, up from 12px */
+    line-height: 1.4;
+}
+
+/* Improve readability of slate colors - boost contrast */
+@layer utilities {
+    /* Replace low-contrast colors with accessible alternatives */
+    .text-accessible-muted {
+        color: #475569; /* slate-600 - passes WCAG AA */
+    }
+
+    .text-accessible-secondary {
+        color: #64748b; /* slate-500 - use sparingly, only large text */
+    }
+}
+
 @media print {
     header, footer, button.no-print, .no-print {
         display: none !important;

@@ -222,16 +222,26 @@ const ChatWidget = () => {
         }
     };
 
+    // Handle Escape key to close chat
+    useEffect(() => {
+        if (!isOpen) return;
+        const handleEscape = (e) => {
+            if (e.key === 'Escape') setIsOpen(false);
+        };
+        document.addEventListener('keydown', handleEscape);
+        return () => document.removeEventListener('keydown', handleEscape);
+    }, [isOpen]);
+
     return (
         <div className="fixed bottom-6 right-6 z-50 no-print">
             {/* Chat Button */}
             {!isOpen && (
                 <button
                     onClick={() => setIsOpen(true)}
-                    className="bg-emerald-600 hover:bg-emerald-700 text-white rounded-full p-4 shadow-lg transition-all duration-300 flex items-center gap-2 group"
+                    className="bg-emerald-600 hover:bg-emerald-700 text-white rounded-full p-4 shadow-lg transition-all duration-300 flex items-center gap-2 group min-h-[44px]"
                     aria-label="Open assistant chat"
                 >
-                    <MessageCircle size={24} />
+                    <MessageCircle size={24} aria-hidden="true" />
                     <span className="max-w-0 overflow-hidden group-hover:max-w-xs transition-all duration-300 whitespace-nowrap">
                         Need help?
                     </span>
@@ -240,21 +250,26 @@ const ChatWidget = () => {
 
             {/* Chat Window */}
             {isOpen && (
-                <div className="bg-white rounded-2xl shadow-2xl w-96 h-[600px] flex flex-col border border-slate-200 animate-in slide-in-from-bottom-5">
+                <div
+                    className="bg-white rounded-2xl shadow-2xl w-96 h-[600px] flex flex-col border border-slate-200 animate-in slide-in-from-bottom-5"
+                    role="dialog"
+                    aria-modal="true"
+                    aria-labelledby="chat-widget-title"
+                >
                     {/* Header */}
                     <div className="bg-emerald-600 text-white p-4 rounded-t-2xl flex justify-between items-center">
                         <div className="flex items-center gap-2">
-                            <div className="bg-white/20 p-2 rounded-lg">
+                            <div className="bg-white/20 p-2 rounded-lg" aria-hidden="true">
                                 <HeartHandshake size={20} />
                             </div>
                             <div>
-                                <h3 className="font-bold">Medication Navigator</h3>
+                                <h3 id="chat-widget-title" className="font-bold">Medication Navigator</h3>
                                 <p className="text-xs text-emerald-100">Always here to help</p>
                             </div>
                         </div>
                         <button
                             onClick={() => setIsOpen(false)}
-                            className="hover:bg-white/20 p-2 rounded-lg transition"
+                            className="hover:bg-white/20 p-2 rounded-lg transition min-h-[44px] min-w-[44px] flex items-center justify-center"
                             aria-label="Close chat"
                         >
                             <X size={20} />
@@ -262,7 +277,7 @@ const ChatWidget = () => {
                     </div>
 
                     {/* Messages */}
-                    <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-slate-50">
+                    <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-slate-50" role="log" aria-live="polite" aria-label="Chat messages">
                         {messages.map((message, index) => (
                             <div
                                 key={message.id}
@@ -284,7 +299,7 @@ const ChatWidget = () => {
 
                     {/* Quick Actions */}
                     <div className="border-t border-slate-200 p-3 bg-white">
-                        <p className="text-xs text-slate-500 mb-2 font-medium">Quick Actions:</p>
+                        <p className="text-xs text-slate-700 mb-2 font-medium">Quick Actions:</p>
                         <div className="grid grid-cols-2 gap-2">
                             {QUICK_ACTIONS.slice(0, 4).map(action => {
                                 const Icon = action.icon;
@@ -292,7 +307,7 @@ const ChatWidget = () => {
                                     <button
                                         key={action.id}
                                         onClick={() => handleQuickAction(action)}
-                                        className="flex items-center gap-2 p-2 rounded-lg border border-slate-200 hover:bg-emerald-50 hover:border-emerald-300 transition text-left"
+                                        className="flex items-center gap-2 p-2 rounded-lg border border-slate-200 hover:bg-emerald-50 hover:border-emerald-300 transition text-left min-h-[44px]"
                                         title={action.description}
                                     >
                                         <Icon size={16} className="text-emerald-600 flex-shrink-0" />
@@ -310,7 +325,7 @@ const ChatWidget = () => {
                                 type="text"
                                 value={inputValue}
                                 onChange={(e) => setInputValue(e.target.value)}
-                                onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+                                onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
                                 placeholder="Ask a question..."
                                 className="flex-1 px-4 py-2 border border-slate-300 rounded-full focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm"
                                 aria-label="Type your message"
@@ -318,7 +333,7 @@ const ChatWidget = () => {
                             <button
                                 onClick={handleSendMessage}
                                 disabled={!inputValue.trim()}
-                                className="bg-emerald-600 hover:bg-emerald-700 disabled:bg-slate-300 text-white p-2 rounded-full transition disabled:cursor-not-allowed"
+                                className="bg-emerald-600 hover:bg-emerald-700 disabled:bg-slate-300 text-white p-2 rounded-full transition disabled:cursor-not-allowed min-h-[44px] min-w-[44px] flex items-center justify-center"
                                 aria-label="Send message"
                             >
                                 <Send size={20} />
@@ -385,7 +400,7 @@ const Layout = ({ children }) => {
 
                     {/* Mobile Menu Toggle */}
                     <button
-                        className="md:hidden p-2 text-slate-600"
+                        className="md:hidden p-2 text-slate-700 min-h-[44px] min-w-[44px] flex items-center justify-center"
                         onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                         aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
                         aria-expanded={isMobileMenuOpen}
@@ -424,14 +439,14 @@ const Layout = ({ children }) => {
             </main>
 
             {/* Footer */}
-            <footer className="bg-slate-900 text-slate-400 py-8 text-sm no-print" role="contentinfo">
+            <footer className="bg-slate-900 text-slate-300 py-8 text-sm no-print" role="contentinfo">
                 <div className="container mx-auto px-4 text-center">
                     <p className="mb-4">
                         <strong>Disclaimer:</strong> This tool is for educational purposes only. It does not provide medical advice.
                         Prices are estimates. Always verify with your provider and pharmacist.
                     </p>
                     <p>© {new Date().getFullYear()} Transplant Medication Navigator. No data is stored on our servers.</p>
-                    <p className="mt-4 text-slate-600 text-xs">Created by Lorrinda Gray-Davis. est August 2025</p>
+                    <p className="mt-4 text-slate-400 text-xs">Created by Lorrinda Gray-Davis. est August 2025</p>
                 </div>
             </footer>
 
@@ -572,19 +587,19 @@ const Home = () => {
                 
                 {/* Core Values / "The Why" */}
                 <div className="bg-emerald-950/50 p-8 md:p-10 border-t border-emerald-800">
-                    <h3 className="text-center font-bold text-emerald-200 uppercase tracking-wider text-sm mb-8">Why We Built This</h3>
+                    <h3 className="text-center font-bold text-emerald-100 uppercase tracking-wider text-sm mb-8">Why We Built This</h3>
                     <div className="grid md:grid-cols-3 gap-8 text-center">
                         <div>
                             <h4 className="font-bold text-white text-lg mb-2">Eliminating "Brain Fog"</h4>
-                            <p className="text-emerald-200/80 text-sm">We simplify complex applications into step-by-step guides, because navigating care shouldn't require a degree.</p>
+                            <p className="text-emerald-100 text-sm">We simplify complex applications into step-by-step guides, because navigating care shouldn't require a degree.</p>
                         </div>
                         <div>
                             <h4 className="font-bold text-white text-lg mb-2">A Safe Harbor</h4>
-                            <p className="text-emerald-200/80 text-sm">We are a neutral space. We do not sell data, we do not favor pharmacies, and we protect you from predatory scams.</p>
+                            <p className="text-emerald-100 text-sm">We are a neutral space. We do not sell data, we do not favor pharmacies, and we protect you from predatory scams.</p>
                         </div>
                         <div>
                             <h4 className="font-bold text-white text-lg mb-2">Financial Control</h4>
-                            <p className="text-emerald-200/80 text-sm">By comparing cash prices, PAPs, and foundations side-by-side, we put the power of choice back in your hands.</p>
+                            <p className="text-emerald-100 text-sm">By comparing cash prices, PAPs, and foundations side-by-side, we put the power of choice back in your hands.</p>
                         </div>
                     </div>
                 </div>
@@ -842,7 +857,7 @@ const Wizard = () => {
         return (
             <div className="max-w-2xl mx-auto">
                 {renderProgress()}
-                <button onClick={prevStep} className="text-slate-500 mb-4 flex items-center gap-1 text-sm hover:text-emerald-600" aria-label="Go back to previous step"><ChevronLeft size={16} aria-hidden="true" /> Back</button>
+                <button onClick={prevStep} className="text-slate-700 mb-4 flex items-center gap-1 text-sm hover:text-emerald-600 min-h-[44px] min-w-[44px]" aria-label="Go back to previous step"><ChevronLeft size={16} aria-hidden="true" /> Back</button>
                 <h1 className="text-2xl font-bold mb-6">Step 2: Where are you in the process?</h1>
                 <WizardHelp step={step} answers={answers} />
                 <div className="space-y-3" role="radiogroup" aria-label="Select your transplant status">
@@ -870,7 +885,7 @@ const Wizard = () => {
         return (
             <div className="max-w-2xl mx-auto">
                 {renderProgress()}
-                <button onClick={prevStep} className="text-slate-500 mb-4 flex items-center gap-1 text-sm hover:text-emerald-600" aria-label="Go back to previous step"><ChevronLeft size={16} aria-hidden="true" /> Back</button>
+                <button onClick={prevStep} className="text-slate-700 mb-4 flex items-center gap-1 text-sm hover:text-emerald-600 min-h-[44px] min-w-[44px]" aria-label="Go back to previous step"><ChevronLeft size={16} aria-hidden="true" /> Back</button>
                 <h1 className="text-2xl font-bold mb-2">Step 3: Organ Type</h1>
                 <p className="text-slate-600 mb-6">Select all that apply.</p>
                 <WizardHelp step={step} answers={answers} />
@@ -907,7 +922,7 @@ const Wizard = () => {
         return (
             <div className="max-w-2xl mx-auto">
                 {renderProgress()}
-                <button onClick={prevStep} className="text-slate-500 mb-4 flex items-center gap-1 text-sm hover:text-emerald-600" aria-label="Go back to previous step"><ChevronLeft size={16} aria-hidden="true" /> Back</button>
+                <button onClick={prevStep} className="text-slate-700 mb-4 flex items-center gap-1 text-sm hover:text-emerald-600 min-h-[44px] min-w-[44px]" aria-label="Go back to previous step"><ChevronLeft size={16} aria-hidden="true" /> Back</button>
                 <h1 className="text-2xl font-bold mb-6">Step 4: Primary Insurance</h1>
                 <WizardHelp step={step} answers={answers} />
                 <div className="space-y-3" role="radiogroup" aria-label="Select your insurance type">
@@ -937,7 +952,7 @@ const Wizard = () => {
         return (
             <div className="max-w-3xl mx-auto">
                 {renderProgress()}
-                <button onClick={prevStep} className="text-slate-500 mb-4 flex items-center gap-1 text-sm hover:text-emerald-600" aria-label="Go back to previous step"><ChevronLeft size={16} aria-hidden="true" /> Back</button>
+                <button onClick={prevStep} className="text-slate-700 mb-4 flex items-center gap-1 text-sm hover:text-emerald-600 min-h-[44px] min-w-[44px]" aria-label="Go back to previous step"><ChevronLeft size={16} aria-hidden="true" /> Back</button>
                 <div className="mb-6">
                     <h1 className="text-2xl font-bold mb-2">Step 5: Medications</h1>
                     <p className="text-slate-600">
@@ -993,7 +1008,7 @@ const Wizard = () => {
 
                             return (
                                 <div key={cat}>
-                                    <h2 className="text-sm font-bold text-slate-500 uppercase tracking-wide mb-2">{cat}s</h2>
+                                    <h2 className="text-sm font-bold text-slate-700 uppercase tracking-wide mb-2">{cat}s</h2>
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3" role="group" aria-label={`${cat} medications`}>
                                          {medsInCat.map((m) => (
                                             <button
@@ -1011,7 +1026,7 @@ const Wizard = () => {
                                             </div>
                                             <div>
                                                 <div className="font-bold text-slate-800">{m.brandName}</div>
-                                                <div className="text-sm text-slate-500">{m.genericName}</div>
+                                                <div className="text-sm text-slate-600">{m.genericName}</div>
                                             </div>
                                             </button>
                                         ))}
@@ -1038,7 +1053,7 @@ const Wizard = () => {
         return (
             <div className="max-w-2xl mx-auto">
                 {renderProgress()}
-                <button onClick={prevStep} className="text-slate-500 mb-4 flex items-center gap-1 text-sm hover:text-emerald-600" aria-label="Go back to previous step"><ChevronLeft size={16} aria-hidden="true" /> Back</button>
+                <button onClick={prevStep} className="text-slate-700 mb-4 flex items-center gap-1 text-sm hover:text-emerald-600 min-h-[44px] min-w-[44px]" aria-label="Go back to previous step"><ChevronLeft size={16} aria-hidden="true" /> Back</button>
                 <h1 className="text-2xl font-bold mb-4">Specialty Pharmacy Check</h1>
                 <WizardHelp step={step} answers={answers} />
                 <div className="bg-blue-50 p-4 rounded-lg border border-blue-100 mb-6" role="note">
@@ -1073,7 +1088,7 @@ const Wizard = () => {
         return (
             <div className="max-w-2xl mx-auto">
                 {renderProgress()}
-                <button onClick={() => setStep(answers.insurance === InsuranceType.COMMERCIAL ? 6 : 5)} className="text-slate-500 mb-4 flex items-center gap-1 text-sm hover:text-emerald-600" aria-label="Go back to previous step"><ChevronLeft size={16} aria-hidden="true" /> Back</button>
+                <button onClick={() => setStep(answers.insurance === InsuranceType.COMMERCIAL ? 6 : 5)} className="text-slate-700 mb-4 flex items-center gap-1 text-sm hover:text-emerald-600 min-h-[44px]" aria-label="Go back to previous step"><ChevronLeft size={16} aria-hidden="true" /> Back</button>
                 <h1 className="text-2xl font-bold mb-2">Find Your Best Options</h1>
                 <p className="text-slate-600 mb-6">How would you describe your current medication costs?</p>
                 <WizardHelp step={step} answers={answers} />
@@ -1194,7 +1209,7 @@ const Wizard = () => {
                                     <div className="bg-indigo-100 text-indigo-600 p-2 rounded" aria-hidden="true"><HeartHandshake size={18} /></div>
                                     <div>
                                         <span className="font-bold text-slate-800 block text-sm">Application Education</span>
-                                        <span className="text-xs text-slate-500">Scripts, checklists, and templates</span>
+                                        <span className="text-xs text-slate-600">Scripts, checklists, and templates</span>
                                     </div>
                                 </div>
                                 <ArrowRight size={16} className="text-slate-300 group-hover:text-emerald-600 no-print" aria-hidden="true" />
@@ -1205,7 +1220,7 @@ const Wizard = () => {
                                     <div className="bg-amber-100 text-amber-600 p-2 rounded" aria-hidden="true"><Shield size={18} /></div>
                                     <div>
                                         <span className="font-bold text-slate-800 block text-sm">Insurance & Resources</span>
-                                        <span className="text-xs text-slate-500">Medicaid directory, Medicare guides</span>
+                                        <span className="text-xs text-slate-600">Medicaid directory, Medicare guides</span>
                                     </div>
                                 </div>
                                 <ArrowRight size={16} className="text-slate-300 group-hover:text-emerald-600 no-print" aria-hidden="true" />
@@ -1248,7 +1263,7 @@ const Wizard = () => {
                                     )}
                                 </ul>
                                 <div className="mt-6 pt-4 border-t border-slate-100">
-                                    <p className="text-sm text-slate-500 italic">Tip: You may still qualify for PAPs based on income, even if costs feel manageable right now.</p>
+                                    <p className="text-sm text-slate-600 italic">Tip: You may still qualify for PAPs based on income, even if costs feel manageable right now.</p>
                                 </div>
                             </section>
                         )}
@@ -1320,7 +1335,7 @@ const Wizard = () => {
                 </div>
 
                 <div className="text-center pt-8 border-t border-slate-100 no-print">
-                    <button onClick={() => setStep(1)} className="text-slate-500 hover:text-emerald-600 text-sm underline" aria-label="Restart the wizard from beginning">Restart Wizard</button>
+                    <button onClick={() => setStep(1)} className="text-slate-700 hover:text-emerald-600 text-sm underline min-h-[44px] px-4" aria-label="Restart the wizard from beginning">Restart Wizard</button>
                 </div>
             </article>
         );
@@ -1521,8 +1536,13 @@ const MedicationSearch = () => {
                                 className="w-full pl-12 pr-12 py-4 rounded-xl border border-slate-300 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-100 outline-none text-lg transition shadow-sm"
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
-                                onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter') handleSearch();
+                                    if (e.key === 'Escape') { setSearchResult(null); setSearchTerm(''); }
+                                }}
                                 aria-describedby="search-instructions"
+                                aria-expanded={!!(searchResult && searchTerm && !isSearching)}
+                                aria-controls="search-results-listbox"
                             />
                             <span id="search-instructions" className="sr-only">Type medication name and press enter or click search button</span>
                             {isSearching ? (
@@ -1530,7 +1550,7 @@ const MedicationSearch = () => {
                                     <Loader2 size={20} className="text-emerald-600 animate-spin" aria-label="Searching" />
                                 </div>
                             ) : searchTerm && (
-                                <button onClick={() => { setSearchTerm(''); setSearchResult(null); setIsSearching(false); }} className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600" aria-label="Clear search">
+                                <button onClick={() => { setSearchTerm(''); setSearchResult(null); setIsSearching(false); }} className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-600 hover:text-slate-800 min-h-[44px] min-w-[44px] flex items-center justify-center" aria-label="Clear search">
                                     <X size={20} />
                                 </button>
                             )}
@@ -1542,15 +1562,15 @@ const MedicationSearch = () => {
 
                     {isSearching && !searchResult && searchTerm && (
                         <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-slate-200 rounded-xl shadow-xl p-4 z-50" role="status" aria-label="Loading search results">
-                            <div className="flex items-center justify-center gap-3 text-slate-500 py-4">
+                            <div className="flex items-center justify-center gap-3 text-slate-700 py-4">
                                 <Loader2 size={20} className="animate-spin text-emerald-600" />
                                 <span>Searching medications...</span>
                             </div>
                         </div>
                     )}
                     {searchResult && searchTerm && !isSearching && (
-                        <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-slate-200 rounded-xl shadow-xl p-2 max-h-[60vh] overflow-y-auto z-50" role="listbox" aria-label="Search results">
-                            <div className="px-4 py-2 text-xs font-bold text-slate-400 uppercase tracking-wider">Search Results</div>
+                        <div id="search-results-listbox" className="absolute top-full left-0 right-0 mt-2 bg-white border border-slate-200 rounded-xl shadow-xl p-2 max-h-[60vh] overflow-y-auto z-50" role="listbox" aria-label="Search results">
+                            <div className="px-4 py-2 text-xs font-bold text-slate-600 uppercase tracking-wider">Search Results</div>
                             {searchResult.internal.length > 0 ? (
                                 <div className="space-y-1 mb-2">
                                     {searchResult.internal.map(med => {
@@ -1559,7 +1579,7 @@ const MedicationSearch = () => {
                                             <button key={med.id} onClick={() => addInternalToList(med.id)} disabled={isAlreadyIn} className="w-full text-left p-3 rounded-lg hover:bg-slate-50 flex justify-between items-center group transition disabled:opacity-50 disabled:cursor-not-allowed" role="option" aria-selected={isAlreadyIn} aria-label={`Add ${med.brandName} to list`}>
                                                 <div>
                                                     <span className="font-bold text-slate-900 block">{med.brandName}</span>
-                                                    <span className="text-sm text-slate-500">{med.genericName}</span>
+                                                    <span className="text-sm text-slate-600">{med.genericName}</span>
                                                 </div>
                                                 {isAlreadyIn ? (
                                                     <span className="text-emerald-600 text-sm font-bold flex items-center gap-1" aria-label="Already added"><CheckCircle size={16} aria-hidden="true" /> Added</span>
@@ -1571,7 +1591,7 @@ const MedicationSearch = () => {
                                     })}
                                 </div>
                             ) : (
-                                <div className="p-4 text-slate-500 text-sm text-center italic">No matches in our transplant database.</div>
+                                <div className="p-4 text-slate-600 text-sm text-center italic">No matches in our transplant database.</div>
                             )}
                             {searchResult.showExternalOption && (
                                 <div className="border-t border-slate-100 pt-2 mt-1">
@@ -1640,7 +1660,7 @@ const MedicationSearch = () => {
                     <div className="text-center py-16 border-2 border-dashed border-slate-200 rounded-2xl bg-slate-50">
                         <div className="text-slate-300 mb-4" aria-hidden="true"><List size={64} className="mx-auto"/></div>
                         <h2 className="text-xl font-bold text-slate-900 mb-2">Your list is empty</h2>
-                        <p className="text-slate-500 max-w-md mx-auto">Use the search box above to add medications. You can add standard transplant drugs or any other medication you take.</p>
+                        <p className="text-slate-600 max-w-md mx-auto">Use the search box above to add medications. You can add standard transplant drugs or any other medication you take.</p>
                     </div>
                 ) : (
                     <>
@@ -1686,21 +1706,41 @@ const PriceReportModal = ({ isOpen, onClose, medicationId, medicationName, sourc
         setSubmitting(false);
     };
 
+    // Handle Escape key to close modal
+    useEffect(() => {
+        if (!isOpen) return;
+        const handleEscape = (e) => {
+            if (e.key === 'Escape') onClose();
+        };
+        document.addEventListener('keydown', handleEscape);
+        return () => document.removeEventListener('keydown', handleEscape);
+    }, [isOpen, onClose]);
+
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4" onClick={onClose}>
-            <div className="bg-white rounded-xl shadow-xl max-w-md w-full p-6" onClick={e => e.stopPropagation()}>
+        <div
+            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
+            onClick={onClose}
+            role="presentation"
+        >
+            <div
+                className="bg-white rounded-xl shadow-xl max-w-md w-full p-6"
+                onClick={e => e.stopPropagation()}
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="price-report-title"
+            >
                 <div className="flex justify-between items-start mb-4">
                     <div>
-                        <h3 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-                            <Users size={20} className="text-emerald-600" />
+                        <h3 id="price-report-title" className="text-lg font-bold text-slate-900 flex items-center gap-2">
+                            <Users size={20} className="text-emerald-600" aria-hidden="true" />
                             Report a Price
                         </h3>
                         <p className="text-sm text-slate-600 mt-1">{medicationName} via {source}</p>
                     </div>
-                    <button onClick={onClose} className="text-slate-400 hover:text-slate-600">
-                        <X size={20} />
+                    <button onClick={onClose} className="text-slate-600 hover:text-slate-800 min-h-[44px] min-w-[44px] flex items-center justify-center" aria-label="Close dialog">
+                        <X size={20} aria-hidden="true" />
                     </button>
                 </div>
 
@@ -1710,7 +1750,7 @@ const PriceReportModal = ({ isOpen, onClose, medicationId, medicationName, sourc
                             Price Paid (USD) <span className="text-red-500">*</span>
                         </label>
                         <div className="relative">
-                            <span className="absolute left-3 top-2.5 text-slate-500">$</span>
+                            <span className="absolute left-3 top-2.5 text-slate-600">$</span>
                             <input
                                 id="price"
                                 type="number"
@@ -1830,9 +1870,9 @@ const MedicationCard = ({ med, activeTab, onRemove, onPriceReportSubmit }) => {
             <header className="bg-slate-50 px-6 py-4 border-b border-slate-100 flex justify-between items-start md:items-center">
                 <div>
                     <h2 id={`med-${med.id}-title`} className="text-xl font-bold text-slate-900">{med.brandName}</h2>
-                    <p className="text-slate-500 font-medium text-sm">{med.genericName} • <span className="text-emerald-600">{med.category}</span></p>
+                    <p className="text-slate-600 font-medium text-sm">{med.genericName} • <span className="text-emerald-600">{med.category}</span></p>
                 </div>
-                <button onClick={onRemove} className="text-slate-400 hover:text-red-500 transition p-2 no-print" aria-label={`Remove ${med.brandName} from list`} title="Remove from list"><Trash2 size={20} /></button>
+                <button onClick={onRemove} className="text-slate-600 hover:text-red-500 transition p-2 no-print min-h-[44px] min-w-[44px] flex items-center justify-center" aria-label={`Remove ${med.brandName} from list`} title="Remove from list"><Trash2 size={20} /></button>
             </header>
 
             <div className="p-6">
@@ -1914,10 +1954,10 @@ const MedicationCard = ({ med, activeTab, onRemove, onPriceReportSubmit }) => {
                                         </td>
                                         <td className="p-3">
                                             <div className="text-emerald-600 font-bold">
-                                                {isCostPlusAvailable ? (med.category === 'Immunosuppressant' ? '$15 - $40' : '$10 - $25') : <span className="text-slate-400 font-normal">Not Available</span>}
+                                                {isCostPlusAvailable ? (med.category === 'Immunosuppressant' ? '$15 - $40' : '$10 - $25') : <span className="text-slate-600 font-normal">Not Available</span>}
                                             </div>
                                             {isCostPlusAvailable && (
-                                                <div className="text-xs text-slate-500 flex items-center gap-1 mt-1">
+                                                <div className="text-xs text-slate-600 flex items-center gap-1 mt-1">
                                                     <Clock size={10} />
                                                     Est. updated Nov 2024
                                                 </div>
@@ -1929,12 +1969,12 @@ const MedicationCard = ({ med, activeTab, onRemove, onPriceReportSubmit }) => {
                                                     <a href={`https://costplusdrugs.com/search?q=${encodeURIComponent(med.genericName)}`} target="_blank" rel="noreferrer" className="text-blue-600 hover:underline font-medium flex items-center gap-1" aria-label="Check live price on Cost Plus Drugs (opens in new tab)">
                                                         Check Live <ExternalLink size={12} aria-hidden="true" />
                                                     </a>
-                                                    <button onClick={() => openReportModal('costplus', 'Cost Plus Drugs')} className="text-emerald-600 hover:underline text-xs flex items-center gap-1">
-                                                        <TrendingUp size={10} /> Report Price
+                                                    <button onClick={() => openReportModal('costplus', 'Cost Plus Drugs')} className="text-emerald-600 hover:underline text-sm flex items-center gap-1 min-h-[44px] px-2">
+                                                        <TrendingUp size={12} aria-hidden="true" /> Report Price
                                                     </button>
                                                 </div>
                                             ) : (
-                                                <span className="text-slate-400 text-xs">Try alternatives below</span>
+                                                <span className="text-slate-600 text-xs">Try alternatives below</span>
                                             )}
                                         </td>
                                     </tr>
@@ -1954,7 +1994,7 @@ const MedicationCard = ({ med, activeTab, onRemove, onPriceReportSubmit }) => {
                                             <div className="text-slate-600">
                                                 {med.category === 'Immunosuppressant' ? '$40 - $100' : '$20 - $50'}
                                             </div>
-                                            <div className="text-xs text-slate-500 flex items-center gap-1 mt-1">
+                                            <div className="text-xs text-slate-600 flex items-center gap-1 mt-1">
                                                 <Clock size={10} />
                                                 Est. updated Nov 2024
                                             </div>
@@ -1964,8 +2004,8 @@ const MedicationCard = ({ med, activeTab, onRemove, onPriceReportSubmit }) => {
                                                 <a href={`https://www.goodrx.com/${encodeURIComponent(med.genericName.split(' ')[0].toLowerCase())}`} target="_blank" rel="noreferrer" className="text-blue-600 hover:underline font-medium flex items-center gap-1" aria-label={`Check live price on GoodRx for ${med.genericName} (opens in new tab)`}>
                                                     Check Live <ExternalLink size={12} aria-hidden="true" />
                                                 </a>
-                                                <button onClick={() => openReportModal('goodrx', 'GoodRx')} className="text-emerald-600 hover:underline text-xs flex items-center gap-1">
-                                                    <TrendingUp size={10} /> Report Price
+                                                <button onClick={() => openReportModal('goodrx', 'GoodRx')} className="text-emerald-600 hover:underline text-sm flex items-center gap-1 min-h-[44px] px-2">
+                                                    <TrendingUp size={12} aria-hidden="true" /> Report Price
                                                 </button>
                                             </div>
                                         </td>
@@ -1984,7 +2024,7 @@ const MedicationCard = ({ med, activeTab, onRemove, onPriceReportSubmit }) => {
                                         </td>
                                         <td className="p-3">
                                             <div className="text-slate-600">Varies</div>
-                                            <div className="text-xs text-slate-500 flex items-center gap-1 mt-1">
+                                            <div className="text-xs text-slate-600 flex items-center gap-1 mt-1">
                                                 <Clock size={10} />
                                                 Check for current pricing
                                             </div>
@@ -1994,8 +2034,8 @@ const MedicationCard = ({ med, activeTab, onRemove, onPriceReportSubmit }) => {
                                                 <a href={`https://pharmacy.amazon.com/search?q=${encodeURIComponent(med.brandName)}`} target="_blank" rel="noreferrer" className="text-blue-600 hover:underline font-medium flex items-center gap-1" aria-label={`Check live price on Amazon Pharmacy for ${med.brandName} (opens in new tab)`}>
                                                     Check Live <ExternalLink size={12} aria-hidden="true" />
                                                 </a>
-                                                <button onClick={() => openReportModal('amazon', 'Amazon Pharmacy')} className="text-emerald-600 hover:underline text-xs flex items-center gap-1">
-                                                    <TrendingUp size={10} /> Report Price
+                                                <button onClick={() => openReportModal('amazon', 'Amazon Pharmacy')} className="text-emerald-600 hover:underline text-sm flex items-center gap-1 min-h-[44px] px-2">
+                                                    <TrendingUp size={12} aria-hidden="true" /> Report Price
                                                 </button>
                                             </div>
                                         </td>
@@ -2006,7 +2046,7 @@ const MedicationCard = ({ med, activeTab, onRemove, onPriceReportSubmit }) => {
 
                         {/* Price Info Footer */}
                         <div className="mt-3 space-y-2">
-                            <div className="text-xs text-slate-500 italic flex items-start gap-2" role="note">
+                            <div className="text-xs text-slate-600 italic flex items-start gap-2" role="note">
                                 <Info size={14} className="flex-shrink-0 mt-0.5" aria-hidden="true" />
                                 <p>Price estimates are approximate ranges based on general market research (last updated: November 2024). Always check live prices via the links above for current rates.</p>
                             </div>
@@ -2116,7 +2156,7 @@ const Education = () => {
             className={`flex items-center gap-2 px-4 py-3 font-bold text-sm md:text-base transition-all border-b-4 whitespace-nowrap ${
                 activeTab === id
                     ? 'border-emerald-600 text-emerald-800 bg-emerald-50/50'
-                    : 'border-transparent text-slate-500 hover:text-emerald-600 hover:bg-slate-50'
+                    : 'border-transparent text-slate-700 hover:text-emerald-600 hover:bg-slate-50'
             }`}
         >
             <Icon size={18} aria-hidden="true" />
@@ -2237,21 +2277,21 @@ const Education = () => {
                                 <div className="grid md:grid-cols-3 gap-4">
                                     <div className="bg-white p-4 rounded-lg border border-slate-200">
                                         <h4 className="font-bold text-blue-700 text-lg mb-2">Part A (Hospital)</h4>
-                                        <p className="text-xs text-slate-500 mb-3">Covers drugs given during an inpatient hospital stay.</p>
+                                        <p className="text-xs text-slate-600 mb-3">Covers drugs given during an inpatient hospital stay.</p>
                                         <ul className="text-sm text-slate-700 list-disc pl-4">
                                             <li>Induction agents (Thymoglobulin, Simulect)</li>
                                         </ul>
                                     </div>
                                     <div className="bg-white p-4 rounded-lg border border-slate-200">
                                         <h4 className="font-bold text-blue-700 text-lg mb-2">Part B (Medical)</h4>
-                                        <p className="text-xs text-slate-500 mb-3">Covers some outpatient drugs, including immunosuppressants if you don't have Part D.</p>
+                                        <p className="text-xs text-slate-600 mb-3">Covers some outpatient drugs, including immunosuppressants if you don't have Part D.</p>
                                         <ul className="text-sm text-slate-700 list-disc pl-4">
                                             <li>IV infusions (Belatacept/Nulojix)</li>
                                         </ul>
                                     </div>
                                     <div className="bg-white p-4 rounded-lg border border-slate-200">
                                         <h4 className="font-bold text-blue-700 text-lg mb-2">Part D (Prescription)</h4>
-                                        <p className="text-xs text-slate-500 mb-3">Covers most of your daily oral take-home medications.</p>
+                                        <p className="text-xs text-slate-600 mb-3">Covers most of your daily oral take-home medications.</p>
                                         <ul className="text-sm text-slate-700 list-disc pl-4">
                                             <li>Tacrolimus, Mycophenolate, etc.</li>
                                         </ul>
@@ -2539,7 +2579,7 @@ const Education = () => {
                                 {selectedState && (
                                     <div className="mt-6 text-center fade-in">
                                         <a href={selectedState} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition" aria-label="Visit your state's Medicaid website (opens in new tab)">Go to Official Site <ExternalLink size={18} aria-hidden="true" /></a>
-                                        <p className="text-xs text-slate-500 mt-3">You are leaving this app to visit a government website.</p>
+                                        <p className="text-xs text-slate-600 mt-3">You are leaving this app to visit a government website.</p>
                                     </div>
                                 )}
                             </div>
@@ -2581,7 +2621,7 @@ const Education = () => {
                             <button onClick={generateAppealLetter} disabled={!appealName || !appealDrug} className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-6 rounded-lg transition disabled:opacity-50 disabled:cursor-not-allowed" aria-label="Generate appeal letter">Generate Letter</button>
                             {generatedLetter && (
                                 <div className="mt-6 bg-white p-4 rounded border border-indigo-200 relative fade-in">
-                                    <h4 className="text-xs font-bold text-slate-400 uppercase mb-2">Preview:</h4>
+                                    <h4 className="text-xs font-bold text-slate-600 uppercase mb-2">Preview:</h4>
                                     <pre className="whitespace-pre-wrap font-serif text-sm text-slate-800 leading-relaxed border-l-4 border-slate-200 pl-4">{generatedLetter}</pre>
                                     <button onClick={copyToClipboard} className="absolute top-4 right-4 flex items-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1 rounded text-xs font-bold transition" aria-label="Copy letter text to clipboard">{copied ? <Check size={14} className="text-green-600" aria-hidden="true" /> : <Copy size={14} aria-hidden="true" />}{copied ? 'Copied!' : 'Copy Text'}</button>
                                 </div>
@@ -2590,7 +2630,7 @@ const Education = () => {
                         <div className="space-y-8">
                             <h2 className="text-xl font-bold text-slate-900 border-b border-slate-200 pb-2">How to Appeal: A Step-by-Step Guide</h2>
                             <div className="grid md:grid-cols-3 gap-6">
-                                <section className="border border-slate-200 rounded-xl p-5 bg-white" aria-labelledby="medicare-appeals"><h3 id="medicare-appeals" className="font-bold text-slate-800 mb-3">Medicare Appeals</h3><p className="text-xs text-slate-500 mb-3">Crucial: Act within deadlines.</p><ol className="list-decimal pl-4 space-y-2 text-sm text-slate-700"><li><strong>Coverage Determination:</strong> Ask plan to cover at your preferred pharmacy.</li><li><strong>Level 1 (Reconsideration):</strong> File within 65 days of denial.</li><li><strong>Level 2 (IRE):</strong> Independent review if denied again.</li></ol><a href="https://www.medicare.gov/claims-appeals/how-do-i-file-an-appeal" target="_blank" rel="noreferrer" className="block mt-4 text-xs text-blue-600 font-bold uppercase tracking-wide hover:underline" aria-label="Visit Official Medicare Guide (opens in new tab)">Official Medicare Guide</a></section>
+                                <section className="border border-slate-200 rounded-xl p-5 bg-white" aria-labelledby="medicare-appeals"><h3 id="medicare-appeals" className="font-bold text-slate-800 mb-3">Medicare Appeals</h3><p className="text-xs text-slate-600 mb-3">Crucial: Act within deadlines.</p><ol className="list-decimal pl-4 space-y-2 text-sm text-slate-700"><li><strong>Coverage Determination:</strong> Ask plan to cover at your preferred pharmacy.</li><li><strong>Level 1 (Reconsideration):</strong> File within 65 days of denial.</li><li><strong>Level 2 (IRE):</strong> Independent review if denied again.</li></ol><a href="https://www.medicare.gov/claims-appeals/how-do-i-file-an-appeal" target="_blank" rel="noreferrer" className="block mt-4 text-xs text-blue-600 font-bold uppercase tracking-wide hover:underline" aria-label="Visit Official Medicare Guide (opens in new tab)">Official Medicare Guide</a></section>
                                 <section className="border border-slate-200 rounded-xl p-5 bg-white" aria-labelledby="medicaid-appeals"><h3 id="medicaid-appeals" className="font-bold text-slate-800 mb-3">Medicaid Appeals</h3><p className="text-sm text-slate-700 mb-3">Processes are state-run. Contact your state's Medicaid agency.</p></section>
                                 <section className="border border-slate-200 rounded-xl p-5 bg-white" aria-labelledby="private-insurance"><h3 id="private-insurance" className="font-bold text-slate-800 mb-3">Private Insurance</h3><p className="text-sm text-slate-700 mb-3">You have the right to an internal appeal, and if that is denied, an external review.</p></section>
                             </div>
@@ -2810,7 +2850,7 @@ const Education = () => {
                                         <strong className="text-slate-900">Helpline:</strong>{' '}
                                         <a href="tel:1-800-662-4357" className="text-indigo-600 font-bold hover:underline">1-800-662-HELP (4357)</a>
                                     </p>
-                                    <p className="text-slate-500 text-xs">Treatment referral and information service (24/7)</p>
+                                    <p className="text-slate-600 text-xs">Treatment referral and information service (24/7)</p>
                                 </div>
                             </a>
 
@@ -3103,7 +3143,7 @@ const ApplicationHelp = () => {
     );
 
     const TabButton = ({ id, label, icon: Icon }) => (
-        <button onClick={() => setActiveTab(id)} role="tab" aria-selected={activeTab === id} aria-controls={`${id}-panel`} className={`flex items-center gap-2 px-4 py-3 font-bold text-sm md:text-base transition-all border-b-4 ${activeTab === id ? 'border-emerald-600 text-emerald-800 bg-emerald-50/50' : 'border-transparent text-slate-500 hover:text-emerald-600 hover:bg-slate-50'}`}>
+        <button onClick={() => setActiveTab(id)} role="tab" id={`${id}-tab`} aria-selected={activeTab === id} aria-controls={`${id}-panel`} tabIndex={activeTab === id ? 0 : -1} className={`flex items-center gap-2 px-4 py-3 font-bold text-sm md:text-base transition-all border-b-4 min-h-[44px] ${activeTab === id ? 'border-emerald-600 text-emerald-800 bg-emerald-50/50' : 'border-transparent text-slate-700 hover:text-emerald-600 hover:bg-slate-50'}`}>
             <Icon size={18} aria-hidden="true" /><span className="hidden md:inline">{label}</span><span className="md:hidden">{label.split(' ')[0]}</span>
         </button>
     );
@@ -3135,8 +3175,12 @@ const ApplicationHelp = () => {
                                         setSearchTerm(e.target.value);
                                         setSelectedMedication(null);
                                     }}
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Escape') { setSearchTerm(''); setSelectedMedication(null); }
+                                    }}
                                     aria-autocomplete="list"
                                     aria-controls="medication-results"
+                                    aria-expanded={!!(searchTerm && !selectedMedication)}
                                 />
                             </div>
                         </div>
@@ -3152,9 +3196,10 @@ const ApplicationHelp = () => {
                                                 setSelectedMedication(med);
                                                 setSearchTerm(med.genericName);
                                             }}
-                                            className="w-full p-4 border border-slate-200 rounded-lg hover:border-emerald-500 hover:bg-emerald-50 transition text-left"
+                                            className="w-full p-4 border border-slate-200 rounded-lg hover:border-emerald-500 hover:bg-emerald-50 transition text-left min-h-[44px]"
                                             role="option"
                                             aria-selected={false}
+                                            aria-label={`Select ${med.genericName} (${med.brandName})`}
                                         >
                                             <div className="flex items-start justify-between gap-4">
                                                 <div>
@@ -3168,7 +3213,7 @@ const ApplicationHelp = () => {
                                         </button>
                                     ))
                                 ) : (
-                                    <div className="p-6 text-center text-slate-500 bg-slate-50 rounded-lg">
+                                    <div className="p-6 text-center text-slate-600 bg-slate-50 rounded-lg">
                                         <p className="font-medium mb-2">No medications found</p>
                                         <p className="text-sm">Try searching by generic name (e.g., Tacrolimus) or brand name (e.g., Prograf)</p>
                                     </div>
@@ -3261,7 +3306,7 @@ const ApplicationHelp = () => {
                                                         <ExternalLink size={18} aria-hidden="true" />
                                                         Visit {selectedMedication.manufacturer} PAP
                                                     </a>
-                                                    <p className="text-xs text-slate-500 italic">Approval typically takes 2-4 weeks</p>
+                                                    <p className="text-xs text-slate-600 italic">Approval typically takes 2-4 weeks</p>
                                                 </div>
                                             </section>
                                         ) : (
@@ -3323,7 +3368,7 @@ const ApplicationHelp = () => {
                                                     <Search size={18} aria-hidden="true" />
                                                     View Full Directory
                                                 </Link>
-                                                <p className="text-xs text-slate-500 italic">Approval typically takes 1-3 weeks</p>
+                                                <p className="text-xs text-slate-600 italic">Approval typically takes 1-3 weeks</p>
                                             </div>
                                         </section>
 
@@ -3404,14 +3449,14 @@ const ApplicationHelp = () => {
                         <aside className="bg-emerald-50 border-l-4 border-emerald-500 p-6 rounded-r-lg" role="note"><h2 className="text-emerald-800 font-bold text-lg mb-2 flex items-center gap-2"><CheckCircle size={20} aria-hidden="true" /> Good News</h2><ul className="list-disc pl-5 text-emerald-900 space-y-1"><li><strong>PAPs and Foundations ask for the same information.</strong></li><li>Gather documents once → apply to multiple programs.</li></ul></aside>
                         <div className="grid md:grid-cols-2 gap-8">
                             <section className="border border-slate-200 rounded-xl p-6 hover:border-emerald-300 transition-colors" aria-labelledby="pap-heading">
-                                <div className="flex items-center gap-3 mb-4 border-b border-slate-100 pb-3"><div className="p-2 bg-indigo-100 text-indigo-700 rounded-lg" aria-hidden="true"><FileText size={24} /></div><div><h2 id="pap-heading" className="font-bold text-lg text-slate-900">Patient Assistance Program (PAP)</h2><p className="text-xs text-slate-500">Direct from Manufacturer</p></div></div>
+                                <div className="flex items-center gap-3 mb-4 border-b border-slate-100 pb-3"><div className="p-2 bg-indigo-100 text-indigo-700 rounded-lg" aria-hidden="true"><FileText size={24} /></div><div><h2 id="pap-heading" className="font-bold text-lg text-slate-900">Patient Assistance Program (PAP)</h2><p className="text-xs text-slate-600">Direct from Manufacturer</p></div></div>
                                 <p className="text-slate-600 mb-4 text-sm min-h-[40px]">Free or low-cost medications provided directly by the pharmaceutical company.</p>
-                                <div className="space-y-3 text-sm"><div><span className="font-bold text-slate-800 block">Best for:</span><ul className="list-disc pl-4 text-slate-600"><li>Commercial insurance</li><li>Uninsured</li><li>Underinsured</li></ul></div><div className="flex justify-between py-2 border-t border-slate-100"><span className="text-slate-500">Approval Time</span><span className="font-medium text-emerald-700">2–4 weeks</span></div></div>
+                                <div className="space-y-3 text-sm"><div><span className="font-bold text-slate-800 block">Best for:</span><ul className="list-disc pl-4 text-slate-600"><li>Commercial insurance</li><li>Uninsured</li><li>Underinsured</li></ul></div><div className="flex justify-between py-2 border-t border-slate-100"><span className="text-slate-600">Approval Time</span><span className="font-medium text-emerald-700">2–4 weeks</span></div></div>
                             </section>
                             <section className="border border-slate-200 rounded-xl p-6 hover:border-sky-300 transition-colors" aria-labelledby="foundation-heading">
-                                <div className="flex items-center gap-3 mb-4 border-b border-slate-100 pb-3"><div className="p-2 bg-sky-100 text-sky-700 rounded-lg" aria-hidden="true"><HeartHandshake size={24} /></div><div><h2 id="foundation-heading" className="font-bold text-lg text-slate-900">Foundation Grant</h2><p className="text-xs text-slate-500">Non-profit Assistance</p></div></div>
+                                <div className="flex items-center gap-3 mb-4 border-b border-slate-100 pb-3"><div className="p-2 bg-sky-100 text-sky-700 rounded-lg" aria-hidden="true"><HeartHandshake size={24} /></div><div><h2 id="foundation-heading" className="font-bold text-lg text-slate-900">Foundation Grant</h2><p className="text-xs text-slate-600">Non-profit Assistance</p></div></div>
                                 <p className="text-slate-600 mb-4 text-sm min-h-[40px]">Helps with copays, premiums, deductibles, and out-of-pocket costs.</p>
-                                <div className="space-y-3 text-sm"><div><span className="font-bold text-slate-800 block">Best for:</span><ul className="list-disc pl-4 text-slate-600"><li>Medicare patients</li><li>High copay patients</li><li>Premium burden</li></ul></div><div className="flex justify-between py-2 border-t border-slate-100"><span className="text-slate-500">Approval Time</span><span className="font-medium text-emerald-700">1–3 weeks</span></div></div>
+                                <div className="space-y-3 text-sm"><div><span className="font-bold text-slate-800 block">Best for:</span><ul className="list-disc pl-4 text-slate-600"><li>Medicare patients</li><li>High copay patients</li><li>Premium burden</li></ul></div><div className="flex justify-between py-2 border-t border-slate-100"><span className="text-slate-600">Approval Time</span><span className="font-medium text-emerald-700">1–3 weeks</span></div></div>
                             </section>
                         </div>
                         <aside className="bg-amber-50 p-6 rounded-xl border border-amber-100" role="note">
@@ -3441,12 +3486,12 @@ const ApplicationHelp = () => {
                         <div className="flex items-center justify-between mb-6"><h2 className="text-2xl font-bold text-slate-900">"Before You Apply" Checklist</h2><button onClick={() => window.print()} className="flex items-center gap-2 text-emerald-600 hover:text-emerald-700 font-bold" aria-label="Print checklist"><Printer size={18} aria-hidden="true" /> Print</button></div>
                         <div className="grid lg:grid-cols-5 gap-8">
                             <div className="lg:col-span-3 space-y-6">
-                                <section className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm" aria-labelledby="progress-heading"><div className="flex justify-between items-center mb-2"><span id="progress-heading" className="text-sm font-bold text-slate-700">Your Responsibility</span><span className="text-sm font-bold text-emerald-600" aria-live="polite">{progress}% Ready</span></div><div className="w-full bg-slate-100 rounded-full h-3" role="progressbar" aria-valuenow={progress} aria-valuemin="0" aria-valuemax="100" aria-label={`Application preparation progress: ${progress} percent complete`}><div className="bg-emerald-500 h-3 rounded-full transition-all duration-500 ease-out" style={{ width: `${progress}%` }}></div></div><p className="text-slate-500 text-xs mt-2 italic">Gather these items before you apply. Click to check them off.</p></section>
+                                <section className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm" aria-labelledby="progress-heading"><div className="flex justify-between items-center mb-2"><span id="progress-heading" className="text-sm font-bold text-slate-700">Your Responsibility</span><span className="text-sm font-bold text-emerald-600" aria-live="polite">{progress}% Ready</span></div><div className="w-full bg-slate-100 rounded-full h-3" role="progressbar" aria-valuenow={progress} aria-valuemin="0" aria-valuemax="100" aria-label={`Application preparation progress: ${progress} percent complete`}><div className="bg-emerald-500 h-3 rounded-full transition-all duration-500 ease-out" style={{ width: `${progress}%` }}></div></div><p className="text-slate-600 text-xs mt-2 italic">Gather these items before you apply. Click to check them off.</p></section>
                                 <div className="space-y-3" role="list" aria-label="Application checklist items">{checklistItems.map((item, idx) => { const isChecked = !!checkedItems[idx]; return ( <button key={idx} onClick={() => toggleCheck(idx)} role="checkbox" aria-checked={isChecked} className={`w-full flex items-start gap-4 p-4 rounded-lg border transition-all text-left ${isChecked ? 'bg-emerald-50 border-emerald-200 shadow-sm' : 'bg-white border-slate-200 hover:border-emerald-300'}`}><div className={`flex-shrink-0 text-emerald-600 mt-0.5 transition-transform duration-200 ${isChecked ? 'scale-110' : 'scale-100 text-slate-300'}`} aria-hidden="true">{isChecked ? <CheckSquare size={20} /> : <Square size={20} />}</div><span className={`font-medium text-sm md:text-base ${isChecked ? 'text-slate-900' : 'text-slate-600'}`}>{item}</span></button> ); })}</div>
                                 {progress === 100 && ( <div className="p-4 bg-emerald-100 text-emerald-800 rounded-xl text-center fade-in" role="alert" aria-live="polite"><span className="font-bold">🎉 You have everything you need! Time to apply.</span></div> )}
                             </div>
                             <aside className="lg:col-span-2 space-y-6">
-                                <section className="bg-slate-50 p-6 rounded-xl border border-slate-200" aria-labelledby="clinic-handles"><h3 id="clinic-handles" className="font-bold text-slate-800 mb-4 flex items-center gap-2"><Stethoscope size={20} className="text-indigo-600" aria-hidden="true" /> What the Clinic Handles</h3><p className="text-xs text-slate-500 mb-4">You do <strong>NOT</strong> need to provide these. Your provider will fill them in:</p><ul className="space-y-3">{["ICD-10 diagnosis codes", "Provider NPI numbers", "Prescriber signatures", "Medical chart notes", "Treatment start dates"].map((item, i) => ( <li key={i} className="flex items-center gap-2 text-sm text-slate-700"><CheckCircle size={14} className="text-indigo-400 flex-shrink-0" aria-hidden="true" />{item}</li> ))}</ul></section>
+                                <section className="bg-slate-50 p-6 rounded-xl border border-slate-200" aria-labelledby="clinic-handles"><h3 id="clinic-handles" className="font-bold text-slate-800 mb-4 flex items-center gap-2"><Stethoscope size={20} className="text-indigo-600" aria-hidden="true" /> What the Clinic Handles</h3><p className="text-xs text-slate-600 mb-4">You do <strong>NOT</strong> need to provide these. Your provider will fill them in:</p><ul className="space-y-3">{["ICD-10 diagnosis codes", "Provider NPI numbers", "Prescriber signatures", "Medical chart notes", "Treatment start dates"].map((item, i) => ( <li key={i} className="flex items-center gap-2 text-sm text-slate-700"><CheckCircle size={14} className="text-indigo-400 flex-shrink-0" aria-hidden="true" />{item}</li> ))}</ul></section>
                                 <aside className="bg-amber-50 p-6 rounded-xl border border-amber-200 shadow-sm" role="note"><h3 className="font-bold text-amber-800 mb-2 flex items-center gap-2"><AlertTriangle size={20} aria-hidden="true" /> Crucial Step</h3><p className="text-sm text-amber-900 leading-relaxed">It is <strong>important to follow up</strong> to make sure the provider is getting the paperwork sent back to the program.</p></aside>
                             </aside>
                         </div>
