@@ -7,6 +7,8 @@ const LazyNotFound = lazy(() => import('./pages/NotFound.jsx'));
 
 // Google Analytics 4 integration
 import GoogleAnalytics from './components/GoogleAnalytics.jsx';
+// First-visit disclaimer modal
+import DisclaimerModal from './components/DisclaimerModal.jsx';
 import {
     Map, Search, BookOpen, ShieldCheck, ArrowRight, Heart, Anchor, Lock, UserCheck,
     Menu, X, ShieldAlert, HeartHandshake, CheckCircle, ChevronLeft, DollarSign,
@@ -3689,6 +3691,7 @@ const PageLoadingFallback = () => (
 const App = () => {
     return (
         <BrowserRouter>
+            <DisclaimerModal />
             <GoogleAnalytics />
             <ScrollToTop />
             <Layout>
