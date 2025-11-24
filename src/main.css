@@ -190,18 +190,251 @@ body {
     }
 }
 
+/* ========================================
+   PRINT STYLESHEET
+   Optimized for printing medication and program information
+   ======================================== */
+
 @media print {
-    header, footer, button.no-print, .no-print {
-        display: none !important;
+    /* ---- Page Setup ---- */
+    @page {
+        size: letter;
+        margin: 0.75in;
     }
-    body {
-        background: white;
+
+    /* ---- Base Styles ---- */
+    html, body {
+        background: white !important;
+        color: black !important;
+        font-size: 12pt !important;
+        line-height: 1.4 !important;
     }
-    main {
-        padding: 0 !important;
-    }
+
     * {
         color: black !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        text-shadow: none !important;
+    }
+
+    /* ---- Hide Unnecessary UI Elements ---- */
+    header,
+    footer,
+    nav,
+    .no-print,
+    button.no-print,
+    [role="navigation"],
+    [role="banner"],
+    [role="contentinfo"],
+    /* Chat widget */
+    .fixed.bottom-4,
+    .fixed.bottom-6,
+    /* Mobile menu */
+    .md\\:hidden,
+    /* Action buttons */
+    button:not(.print-visible),
+    /* Tab navigation */
+    [role="tablist"],
+    /* Search inputs */
+    input[type="search"],
+    input[type="text"],
+    /* Share/copy buttons */
+    [aria-label*="Copy"],
+    [aria-label*="Share"],
+    /* External link icons in actions */
+    td.no-print,
+    th.no-print,
+    .no-print {
+        display: none !important;
+    }
+
+    /* ---- Main Content ---- */
+    main {
+        padding: 0 !important;
+        max-width: 100% !important;
+        width: 100% !important;
+    }
+
+    article {
+        max-width: 100% !important;
+        padding: 0 !important;
+    }
+
+    /* ---- Typography ---- */
+    h1 {
+        font-size: 18pt !important;
+        margin-bottom: 12pt !important;
+        page-break-after: avoid;
+    }
+
+    h2 {
+        font-size: 14pt !important;
+        margin-bottom: 8pt !important;
+        margin-top: 16pt !important;
+        page-break-after: avoid;
+    }
+
+    h3 {
+        font-size: 12pt !important;
+        margin-bottom: 6pt !important;
+        page-break-after: avoid;
+    }
+
+    p, li, td, th {
+        font-size: 11pt !important;
+        line-height: 1.4 !important;
+    }
+
+    /* ---- Links - Show URLs ---- */
+    a[href^="http"]:after,
+    a[href^="https"]:after {
+        content: " (" attr(href) ")";
+        font-size: 9pt;
+        color: #666 !important;
+        word-break: break-all;
+    }
+
+    /* Don't show URL for internal links or buttons styled as links */
+    a[href^="/"]:after,
+    a[href^="#"]:after,
+    a[role="button"]:after,
+    a[role="tab"]:after,
+    nav a:after {
+        content: none !important;
+    }
+
+    /* ---- Cards and Sections ---- */
+    .rounded-xl,
+    .rounded-lg,
+    .rounded-2xl {
+        border-radius: 0 !important;
+        border: 1px solid #ccc !important;
+        margin-bottom: 12pt !important;
+        padding: 12pt !important;
+    }
+
+    /* Remove colored backgrounds */
+    .bg-emerald-50,
+    .bg-emerald-100,
+    .bg-blue-50,
+    .bg-indigo-50,
+    .bg-purple-50,
+    .bg-rose-50,
+    .bg-slate-50,
+    .bg-slate-100,
+    .bg-white {
+        background: white !important;
+    }
+
+    /* ---- Tables ---- */
+    table {
+        border-collapse: collapse !important;
+        width: 100% !important;
+        font-size: 10pt !important;
+    }
+
+    th, td {
+        border: 1px solid #999 !important;
+        padding: 6pt !important;
+        text-align: left !important;
+    }
+
+    thead {
+        background: #f0f0f0 !important;
+    }
+
+    thead th {
+        font-weight: bold !important;
+        background: #e0e0e0 !important;
+    }
+
+    /* ---- Medication Cards ---- */
+    .medication-card,
+    [class*="MedicationCard"] {
+        page-break-inside: avoid;
+        border: 1px solid #999 !important;
+        padding: 12pt !important;
+        margin-bottom: 12pt !important;
+    }
+
+    /* ---- Page Breaks ---- */
+    h1, h2, h3 {
+        page-break-after: avoid;
+    }
+
+    table, figure, img {
+        page-break-inside: avoid;
+    }
+
+    /* Avoid orphans and widows */
+    p {
+        orphans: 3;
+        widows: 3;
+    }
+
+    /* ---- Badges and Tags ---- */
+    .rounded-full {
+        border-radius: 2pt !important;
+        border: 1px solid #999 !important;
+        padding: 2pt 6pt !important;
+    }
+
+    /* ---- Website URL Header ---- */
+    body::before {
+        content: "Transplant Medication Navigator - TransplantMedNavigator.com";
+        display: block;
+        text-align: center;
+        font-size: 10pt;
+        color: #666 !important;
+        border-bottom: 1px solid #ccc;
+        padding-bottom: 8pt;
+        margin-bottom: 16pt;
+    }
+
+    /* ---- Print Date Footer ---- */
+    body::after {
+        content: "Printed from TransplantMedNavigator.com - Information may change. Always verify with your healthcare provider.";
+        display: block;
+        text-align: center;
+        font-size: 9pt;
+        color: #666 !important;
+        border-top: 1px solid #ccc;
+        padding-top: 8pt;
+        margin-top: 24pt;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+    }
+
+    /* ---- Specific Component Adjustments ---- */
+
+    /* Price comparison table - keep visible columns */
+    .overflow-x-auto {
+        overflow: visible !important;
+    }
+
+    /* Assistance program info */
+    .prose {
+        max-width: 100% !important;
+    }
+
+    /* Remove gradients */
+    [class*="gradient"] {
+        background: white !important;
+    }
+
+    /* Icons - hide decorative, keep informational */
+    svg[aria-hidden="true"] {
+        display: none !important;
+    }
+
+    /* Keep checkmarks visible */
+    svg.text-emerald-500,
+    svg.text-green-500 {
+        display: inline !important;
+        width: 12pt !important;
+        height: 12pt !important;
     }
 }
 
