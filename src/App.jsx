@@ -24,6 +24,10 @@ import DIRECTORY_RESOURCES_DATA from './data/resources.json';
 import STATES_DATA from './data/states.json';
 import ASSISTANT_KNOWLEDGE_BASE_DATA from './data/knowledge-base.json';
 import QUICK_ACTIONS_DATA from './data/quick-actions.json';
+import COST_PLUS_EXCLUSIONS_DATA from './data/cost-plus-exclusions.json';
+import CATEGORY_ORDER_DATA from './data/category-order.json';
+import APPLICATION_CHECKLIST_DATA from './data/application-checklist.json';
+import FAQS_DATA from './data/faqs.json';
 
 // Initialize data from imported JSON files
 const MEDICATIONS = MEDICATIONS_DATA;
@@ -966,17 +970,7 @@ const Wizard = () => {
                         const categories = [...new Set(filteredMeds.map(m => m.category))];
 
                         // Define category order for better UX
-                        const categoryOrder = [
-                            'Immunosuppressant', 'Induction', 'Steroid',
-                            'Anti-viral', 'Anti-fungal', 'Antibiotic',
-                            'Hepatitis B', 'Hepatitis C',
-                            'Liver Support', 'Heart Failure', 'Heart/Kidney Support', 'Kidney Support',
-                            'Pulmonary Hypertension', 'Diuretic', 'Beta Blocker',
-                            'Enzymes', 'Stomach Protection',
-                            'Anemia (ESRD)', 'Iron Supplement (ESRD)', 'Vitamin D (ESRD)',
-                            'Hyperparathyroidism (ESRD)', 'Phosphate Binder (ESRD)',
-                            'Acute Rejection', 'Antibody-Mediated Rejection'
-                        ];
+                        const categoryOrder = CATEGORY_ORDER_DATA;
 
                         // Sort categories based on defined order, with unknown categories at the end
                         const sortedCategories = categories.sort((a, b) => {
@@ -1764,26 +1758,7 @@ const MedicationCard = ({ med, activeTab, onRemove, onPriceReportSubmit }) => {
 
     // Cost Plus Drugs primarily carries generic oral medications
     // Excluded: Injectable biologics, IV formulations, specialty inhalers, brand-only medications
-    const costPlusExcluded = [
-        // Injectable/IV biologics and induction agents
-        'simulect', 'thymoglobulin', 'atgam', 'belatacept', 'ivig', 'soliris', 'ultomiris',
-        // IV/Injectable medications
-        'valcyte', 'ganciclovir', 'solumedrol', 'rituximab',
-        // Inhaled corticosteroids and biologics (branded inhalers)
-        'flovent', 'pulmicort', 'qvar', 'alvesco', 'arnuity', 'dupilumab', 'nucala',
-        'fasenra', 'cinqair', 'xolair', 'trelegy', 'symbicort', 'advair', 'breo',
-        'anoro', 'spiriva', 'incruse',
-        // Pulmonary hypertension (specialty medications)
-        'opsumit', 'letairis', 'tracleer', 'adempas', 'adcirca', 'orenitram', 'uptravi', 'tyvaso',
-        // Hepatitis C (specialty antivirals)
-        'harvoni', 'epclusa',
-        // ESRD injectable medications
-        'aranesp', 'epogen', 'mircera', 'venofer', 'injectafer', 'feraheme',
-        // Fatty liver disease specialty medications
-        'ocaliva', 'rezdiffra',
-        // DPP-4 inhibitors (brand-only diabetes medications)
-        'vemildy', 'alogliptin'
-    ];
+    const costPlusExcluded = COST_PLUS_EXCLUSIONS_DATA;
 
     const isCostPlusAvailable = !costPlusExcluded.includes(med.id) && med.manufacturer !== 'Various';
     const papLink = med.papUrl || `https://www.drugs.com/search.php?searchterm=${med.brandName.split('/')[0]}`;
@@ -3077,7 +3052,7 @@ const Education = () => {
 // ApplicationHelp Page
 const ApplicationHelp = () => {
     const [activeTab, setActiveTab] = useState('START');
-    const checklistItems = ["Basic Info (Name, DOB, Address, Email)", "Insurance Card Photos (Front & Back) or Medicare Card", "Proof of Income (Tax return, Pay stubs, or SS Letter)", "If No Income: Short letter explaining how you support yourself", "Identification (Driver's license or State ID)", "Medication Info (Name, Dose, Pharmacy name)", "Signed Consent Forms (Program forms & HIPAA)", "Optional: Insurance denial letter or hardship note"];
+    const checklistItems = APPLICATION_CHECKLIST_DATA;
     const [checkedItems, setCheckedItems] = useState({});
     const toggleCheck = (index) => setCheckedItems(prev => ({...prev, [index]: !prev[index]}));
     const checkedCount = Object.values(checkedItems).filter(Boolean).length;
@@ -3463,167 +3438,7 @@ const FAQ = () => {
         setOpenIndex(openIndex === index ? null : index);
     };
 
-    const faqs = [
-        {
-            category: 'About This Site',
-            questions: [
-                {
-                    q: 'What is Transplant Med Navigator?',
-                    a: 'Transplant Med Navigator is a free, safe guide for transplant patients and care partners to find affordable medications and assistance programs. We help you navigate patient assistance programs (PAPs), copay foundations, and other resources to reduce medication costs.'
-                },
-                {
-                    q: 'Is this site free to use?',
-                    a: 'Yes! This site is completely free. We never ask for payment or personal financial information. All official assistance programs are also free—if any site asks you for money, leave immediately.'
-                },
-                {
-                    q: 'Who should use this site?',
-                    a: 'This site is designed for transplant patients, care partners, family members, social workers, and transplant coordinators who need help navigating medication costs and finding financial assistance.'
-                },
-                {
-                    q: 'Is my information kept private?',
-                    a: 'Yes. The "My Path" quiz stores your answers only in your browser—nothing is sent to a server. When you close the browser, your data is gone unless you save your results.'
-                }
-            ]
-        },
-        {
-            category: 'Patient Assistance Programs (PAPs)',
-            questions: [
-                {
-                    q: 'What is a Patient Assistance Program (PAP)?',
-                    a: 'Patient Assistance Programs are offered directly by pharmaceutical manufacturers to provide free or low-cost medications to people who cannot afford them. Each drug manufacturer has its own program with specific eligibility requirements.'
-                },
-                {
-                    q: 'Who qualifies for Patient Assistance Programs?',
-                    a: 'Eligibility varies by program but typically includes income limits (often 300-500% of federal poverty level), insurance status requirements, and U.S. residency. Some programs are only for uninsured patients, while others accept insured patients who face high out-of-pocket costs.'
-                },
-                {
-                    q: 'How do I apply for a PAP?',
-                    a: 'Each manufacturer has its own application process. Generally, you need: basic personal info, income documentation (tax returns, pay stubs), prescription information, and a doctor\'s signature. Our Application Guide breaks down the specific requirements.'
-                },
-                {
-                    q: 'What\'s the difference between PAPs and copay cards?',
-                    a: 'Copay cards help cover your copayment if you have commercial insurance. PAPs provide free medication if you\'re uninsured or underinsured. Copay cards are typically easy to get and work instantly, while PAPs require applications and income documentation.'
-                },
-                {
-                    q: 'Can I use a PAP if I have Medicare?',
-                    a: 'Most manufacturer PAPs do NOT accept Medicare patients due to federal anti-kickback laws. However, Medicare patients can use copay foundations (see below) and should explore Medicare Extra Help and state pharmaceutical assistance programs.'
-                }
-            ]
-        },
-        {
-            category: 'Copay Foundations',
-            questions: [
-                {
-                    q: 'What is a copay foundation?',
-                    a: 'Copay foundations are independent nonprofit organizations that provide financial assistance to help patients pay insurance premiums, copays, and deductibles. Unlike manufacturer PAPs, foundations can help Medicare patients.'
-                },
-                {
-                    q: 'What\'s the difference between a foundation and a PAP?',
-                    a: 'Foundations are independent nonprofits funded by multiple sources and can serve Medicare patients. PAPs are run by drug manufacturers, often cannot serve Medicare patients, but may provide free medication directly.'
-                },
-                {
-                    q: 'How do I know if a foundation is legitimate?',
-                    a: 'Legitimate foundations NEVER ask you to pay to apply. They have 501(c)(3) nonprofit status. Check the National Organization for Rare Disorders (NORD) or HealthWell Foundation as examples of trusted organizations.'
-                },
-                {
-                    q: 'Do foundations have waiting lists?',
-                    a: 'Yes, many foundations have limited funding and may close enrollment when funds run out. They typically reopen when new funding becomes available. Apply as early as possible and check multiple foundations.'
-                }
-            ]
-        },
-        {
-            category: 'Insurance & Coverage',
-            questions: [
-                {
-                    q: 'What is a Specialty Pharmacy?',
-                    a: 'Specialty pharmacies handle complex, high-cost medications like transplant drugs. Most commercial insurance plans require you to use a specific specialty pharmacy (often mail-order) instead of your local retail pharmacy like CVS or Walgreens.'
-                },
-                {
-                    q: 'Can I use my copay card with Medicare?',
-                    a: 'No. Federal law prohibits using manufacturer copay cards with Medicare. However, Medicare patients can use copay foundations for assistance with out-of-pocket costs.'
-                },
-                {
-                    q: 'What is the Medicare donut hole?',
-                    a: 'The Medicare Part D "donut hole" (coverage gap) is when you\'re temporarily responsible for a larger share of drug costs after reaching a certain spending threshold. As of 2024-2025, this has been significantly reduced thanks to the Inflation Reduction Act.'
-                },
-                {
-                    q: 'What is Medicare Extra Help?',
-                    a: 'Medicare Extra Help (Low-Income Subsidy or LIS) helps people with limited income pay Medicare prescription drug costs. It can eliminate or reduce premiums, deductibles, and copays. Eligibility is based on income and resources.'
-                }
-            ]
-        },
-        {
-            category: 'Prescription Discount Cards (GoodRx, SingleCare, etc.)',
-            questions: [
-                {
-                    q: 'What are GoodRx and its competitors?',
-                    a: 'GoodRx, SingleCare, Blink Health, Optum Perks, and similar services are prescription discount card companies—NOT insurance. They negotiate lower "cash prices" with pharmacies and Pharmacy Benefit Managers (PBMs). When you use their coupon or card, you pay the discounted cash price instead of using your insurance. While this might save money on a single prescription, it can cost transplant patients significantly more over time.'
-                },
-                {
-                    q: 'What is the "Deductible Trap" with discount cards?',
-                    a: 'This is the critical issue for transplant patients: When you use a discount card like GoodRx or SingleCare, the money you pay does NOT count toward your insurance deductible or out-of-pocket maximum (OOPM). Transplant patients typically have high medication costs that help them reach their OOPM within a few months—after which insurance pays 100% of covered costs for the rest of the year. Using discount cards delays reaching your OOPM, meaning you pay out-of-pocket for much longer. A small savings today can lead to thousands of dollars in extra costs over the year.'
-                },
-                {
-                    q: 'Can I use a discount card AND my insurance at the same time?',
-                    a: 'No. You cannot use a discount card and your insurance simultaneously. It\'s an either/or choice. If you choose the discount card route, you forfeit the benefit of having that payment count toward your annual deductible and out-of-pocket maximum.'
-                },
-                {
-                    q: 'When should transplant patients use discount cards?',
-                    a: 'Discount cards should only be used in very specific, limited scenarios: (1) For a drug NOT covered by your insurance and with no generic alternative available, (2) For non-transplant-related, one-time, low-cost medications (like a short antibiotic course) where the discount price is cheaper than your copay, (3) If you have an extremely high deductible AND the cash price is lower—but even then, carefully weigh the cost of not reaching your out-of-pocket maximum. NEVER use discount cards for your chronic, lifelong transplant immunosuppressants like Tacrolimus, Mycophenolate, or Cyclosporine.'
-                },
-                {
-                    q: 'What are better alternatives to discount cards for transplant patients?',
-                    a: 'For high-cost transplant medications, these alternatives are far superior: (1) Patient Assistance Programs (PAPs)—pharmaceutical manufacturers offer free or deeply discounted medications based on income. These are the gold standard for uninsured/underinsured patients. (2) Copay Assistance Foundations—nonprofits like HealthWell Foundation and American Transplant Foundation help pay insurance copays, coinsurance, and deductibles, and these payments often DO count toward your out-of-pocket maximum. (3) Medicare Extra Help—for Medicare beneficiaries with limited income. Search our medication database or check NeedyMeds.org and the Partnership for Prescription Assistance to find programs for your specific drugs.'
-                },
-                {
-                    q: 'Why is hitting my out-of-pocket maximum so important?',
-                    a: 'Once you hit your annual out-of-pocket maximum (OOPM), your insurance pays 100% of covered costs for the rest of the year. For transplant patients on expensive immunosuppressants, this typically happens within the first few months of the year. After that, your medications are essentially free. The goal is not the lowest price today—it\'s the lowest total cost for the entire year. Every dollar spent via discount cards is a dollar that doesn\'t bring you closer to free medications for the rest of the year.'
-                }
-            ]
-        },
-        {
-            category: 'Using This Site',
-            questions: [
-                {
-                    q: 'How does the "My Path" quiz work?',
-                    a: 'The quiz asks about your role, transplant status, organ type, insurance, and medications. Based on your answers, it provides personalized recommendations for assistance programs that match your situation.'
-                },
-                {
-                    q: 'Can I search for a specific medication?',
-                    a: 'Yes! Use the "Search Meds" page to look up specific medications. You\'ll see price estimates, manufacturer assistance programs, and foundation resources for each drug.'
-                },
-                {
-                    q: 'What if my medication isn\'t listed?',
-                    a: 'We focus on common transplant medications, but our database is growing. You can still use the general strategies in our Resources & Education section, and check GoodRx, RxAssist, or NeedyMeds for additional medications.'
-                },
-                {
-                    q: 'Can I print my results?',
-                    a: 'Yes! Most result pages have a print button. We\'ve designed the printouts to be clean and easy to share with your healthcare team or bring to appointments.'
-                }
-            ]
-        },
-        {
-            category: 'Getting Help',
-            questions: [
-                {
-                    q: 'I\'m overwhelmed. Where do I start?',
-                    a: 'Start with the "My Path" quiz—it will guide you step-by-step and provide personalized recommendations. If you need hands-on help, contact your transplant center\'s social worker or financial coordinator.'
-                },
-                {
-                    q: 'Can you help me fill out applications?',
-                    a: 'While we can\'t fill out applications for you, our Application Guide breaks down each step. Your transplant center\'s social worker or financial coordinator can provide hands-on assistance.'
-                },
-                {
-                    q: 'What if I\'m denied by a program?',
-                    a: 'Don\'t give up! Many programs have appeal processes. Also, try applying to other foundations—each has different eligibility criteria and funding. Consider asking your social worker for assistance.'
-                },
-                {
-                    q: 'Who can I contact for more help?',
-                    a: 'Contact your transplant center\'s social worker or financial coordinator—they specialize in helping patients navigate these programs. You can also reach out to organizations like the National Kidney Foundation, American Liver Foundation, or other organ-specific groups.'
-                }
-            ]
-        }
-    ];
+    const faqs = FAQS_DATA;
 
     const FAQItem = ({ question, answer, index }) => {
         const isOpen = openIndex === index;
