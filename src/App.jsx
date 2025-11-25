@@ -36,6 +36,8 @@ import STATES_DATA from './data/states.json';
 import ASSISTANT_KNOWLEDGE_BASE_DATA from './data/knowledge-base.json';
 import QUICK_ACTIONS_DATA from './data/quick-actions.json';
 import COST_PLUS_EXCLUSIONS_DATA from './data/cost-plus-exclusions.json';
+import GOODRX_EXCLUSIONS_DATA from './data/goodrx-exclusions.json';
+import AMAZON_EXCLUSIONS_DATA from './data/amazon-exclusions.json';
 import CATEGORY_ORDER_DATA from './data/category-order.json';
 import APPLICATION_CHECKLIST_DATA from './data/application-checklist.json';
 import FAQS_DATA from './data/faqs.json';
@@ -1857,11 +1859,12 @@ const MedicationCard = ({ med, activeTab, onRemove, onPriceReportSubmit }) => {
     const [reportModalOpen, setReportModalOpen] = useState(false);
     const [reportModalData, setReportModalData] = useState(null);
 
-    // Cost Plus Drugs primarily carries generic oral medications
-    // Excluded: Injectable biologics, IV formulations, specialty inhalers, brand-only medications
-    const costPlusExcluded = COST_PLUS_EXCLUSIONS_DATA;
+    // Pharmacy availability - exclude medications not carried by each pharmacy
+    // Excluded: Injectable biologics, IV formulations, hospital-only medications
+    const isCostPlusAvailable = !COST_PLUS_EXCLUSIONS_DATA.includes(med.id) && med.manufacturer !== 'Various';
+    const isGoodRxAvailable = !GOODRX_EXCLUSIONS_DATA.includes(med.id) && med.manufacturer !== 'Various';
+    const isAmazonAvailable = !AMAZON_EXCLUSIONS_DATA.includes(med.id) && med.manufacturer !== 'Various';
 
-    const isCostPlusAvailable = !costPlusExcluded.includes(med.id) && med.manufacturer !== 'Various';
     const papLink = med.papUrl || `https://www.drugs.com/search.php?searchterm=${med.brandName.split('/')[0]}`;
     const papLinkText = med.papUrl ? "Visit Manufacturer Program" : "Search for Program on Drugs.com";
 
@@ -1972,7 +1975,8 @@ const MedicationCard = ({ med, activeTab, onRemove, onPriceReportSubmit }) => {
                                     <tr><th scope="col" className="p-3">Pharmacy / Tool</th><th scope="col" className="p-3">Est. Cash Price</th><th scope="col" className="p-3 no-print">Action</th></tr>
                                 </thead>
                                 <tbody className="divide-y divide-slate-200">
-                                    {/* Cost Plus Drugs Row */}
+                                    {/* Cost Plus Drugs Row - only show if medication is available */}
+                                    {isCostPlusAvailable && (
                                     <tr className="bg-white hover:bg-slate-50">
                                         <td className="p-3">
                                             <div className="font-medium text-slate-900">Cost Plus Drugs (Online)</div>
@@ -1985,32 +1989,28 @@ const MedicationCard = ({ med, activeTab, onRemove, onPriceReportSubmit }) => {
                                         </td>
                                         <td className="p-3">
                                             <div className="text-emerald-600 font-bold">
-                                                {isCostPlusAvailable ? (med.category === 'Immunosuppressant' ? '$15 - $40' : '$10 - $25') : <span className="text-slate-600 font-normal">Not Available</span>}
+                                                {med.category === 'Immunosuppressant' ? '$15 - $40' : '$10 - $25'}
                                             </div>
-                                            {isCostPlusAvailable && (
-                                                <div className="text-xs text-slate-600 flex items-center gap-1 mt-1">
-                                                    <Clock size={14} />
-                                                    Est. updated Nov 2025
-                                                </div>
-                                            )}
+                                            <div className="text-xs text-slate-600 flex items-center gap-1 mt-1">
+                                                <Clock size={14} />
+                                                Est. updated Nov 2025
+                                            </div>
                                         </td>
                                         <td className="p-3 no-print">
-                                            {isCostPlusAvailable ? (
-                                                <div className="flex flex-col gap-1">
-                                                    <a href={`https://costplusdrugs.com/medications/?query=${encodeURIComponent(med.genericName)}`} target="_blank" rel="noreferrer" className="text-blue-600 hover:underline font-medium flex items-center gap-1" aria-label="Check live price on Cost Plus Drugs (opens in new tab)">
-                                                        Check Live <ExternalLink size={14} aria-hidden="true" />
-                                                    </a>
-                                                    <button onClick={() => openReportModal('costplus', 'Cost Plus Drugs')} className="text-emerald-600 hover:underline text-sm flex items-center gap-1 min-h-[44px] px-2">
-                                                        <TrendingUp size={14} aria-hidden="true" /> Report Price
-                                                    </button>
-                                                </div>
-                                            ) : (
-                                                <span className="text-slate-600 text-xs">Try alternatives below</span>
-                                            )}
+                                            <div className="flex flex-col gap-1">
+                                                <a href={`https://costplusdrugs.com/medications/?query=${encodeURIComponent(med.genericName)}`} target="_blank" rel="noreferrer" className="text-blue-600 hover:underline font-medium flex items-center gap-1" aria-label="Check live price on Cost Plus Drugs (opens in new tab)">
+                                                    Check Live <ExternalLink size={14} aria-hidden="true" />
+                                                </a>
+                                                <button onClick={() => openReportModal('costplus', 'Cost Plus Drugs')} className="text-emerald-600 hover:underline text-sm flex items-center gap-1 min-h-[44px] px-2">
+                                                    <TrendingUp size={14} aria-hidden="true" /> Report Price
+                                                </button>
+                                            </div>
                                         </td>
                                     </tr>
+                                    )}
 
-                                    {/* GoodRx Row */}
+                                    {/* GoodRx Row - only show if medication is available */}
+                                    {isGoodRxAvailable && (
                                     <tr className="bg-white hover:bg-slate-50">
                                         <td className="p-3">
                                             <div className="font-medium text-slate-900">GoodRx Coupon (Retail)</div>
@@ -2041,8 +2041,10 @@ const MedicationCard = ({ med, activeTab, onRemove, onPriceReportSubmit }) => {
                                             </div>
                                         </td>
                                     </tr>
+                                    )}
 
-                                    {/* Amazon Pharmacy Row */}
+                                    {/* Amazon Pharmacy Row - only show if medication is available */}
+                                    {isAmazonAvailable && (
                                     <tr className="bg-white hover:bg-slate-50">
                                         <td className="p-3">
                                             <div className="font-medium text-slate-900">Amazon Pharmacy</div>
@@ -2071,6 +2073,7 @@ const MedicationCard = ({ med, activeTab, onRemove, onPriceReportSubmit }) => {
                                             </div>
                                         </td>
                                     </tr>
+                                    )}
                                 </tbody>
                             </table>
                         </div>
@@ -2079,7 +2082,7 @@ const MedicationCard = ({ med, activeTab, onRemove, onPriceReportSubmit }) => {
                         <div className="mt-3 space-y-2">
                             <div className="text-xs text-slate-600 italic flex items-start gap-2" role="note">
                                 <Info size={14} className="flex-shrink-0 mt-0.5" aria-hidden="true" />
-                                <p>Price estimates are approximate ranges based on general market research (last updated: November 2024). Always check live prices via the links above for current rates.</p>
+                                <p>Price estimates are approximate ranges based on general market research (last updated: November 2025). Always check live prices via the links above for current rates.</p>
                             </div>
                             {isCostPlusAvailable && (
                                 <div className="bg-amber-50 border border-amber-300 rounded-lg p-3 text-xs text-amber-900 flex items-start gap-2" role="note">
