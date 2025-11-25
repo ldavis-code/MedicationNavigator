@@ -467,6 +467,9 @@ const Layout = ({ children }) => {
                     </p>
                     <p>© {new Date().getFullYear()} Transplant Medication Navigator. No data is stored on our servers.</p>
                     <p className="mt-4 text-slate-300 text-sm">Created by Lorrinda Gray-Davis. est August 2025</p>
+                    <p className="mt-2 text-slate-400 text-sm">
+                        <a href="mailto:info@transplantmedicationnavigator.com" className="text-emerald-400 hover:text-emerald-300 underline">info@transplantmedicationnavigator.com</a>
+                    </p>
                 </div>
             </footer>
 
