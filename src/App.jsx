@@ -1550,7 +1550,18 @@ const MedicationSearch = () => {
                         </div>
                     )}
                 </div>
-                
+
+                {/* Important Safety Warning */}
+                <div className="bg-red-50 border border-red-200 rounded-xl p-4 mb-6 no-print" role="alert">
+                    <div className="flex items-start gap-3">
+                        <AlertTriangle className="text-red-600 flex-shrink-0 mt-0.5" size={20} aria-hidden="true" />
+                        <div>
+                            <p className="font-bold text-red-800 mb-1">Important Safety Note for Transplant Patients</p>
+                            <p className="text-red-700 text-sm">Never switch from brand name to generic (or between different generic manufacturers) without your transplant team's approval. In transplant medicine, slight variations in bioavailability can cause organ rejection. <strong>"Cheaper" isn't always "safe"</strong> if the manufacturer changes.</p>
+                        </div>
+                    </div>
+                </div>
+
                 <div className="relative z-20 no-print">
                     <div className="flex flex-col md:flex-row gap-4">
                         <div className="flex-grow relative">
