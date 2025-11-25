@@ -1363,7 +1363,7 @@ const Wizard = () => {
 
 // --- PRICE REPORTING HELPERS ---
 const PRICE_REPORTS_KEY = 'transplant_med_price_reports';
-const PRICE_ESTIMATES_LAST_UPDATED = '2024-11-01'; // November 2024
+const PRICE_ESTIMATES_LAST_UPDATED = '2025-11-24'; // November 2025
 
 const getPriceReports = () => {
     try {
@@ -1990,7 +1990,7 @@ const MedicationCard = ({ med, activeTab, onRemove, onPriceReportSubmit }) => {
                                             {isCostPlusAvailable && (
                                                 <div className="text-xs text-slate-600 flex items-center gap-1 mt-1">
                                                     <Clock size={14} />
-                                                    Est. updated Nov 2024
+                                                    Est. updated Nov 2025
                                                 </div>
                                             )}
                                         </td>
@@ -2027,7 +2027,7 @@ const MedicationCard = ({ med, activeTab, onRemove, onPriceReportSubmit }) => {
                                             </div>
                                             <div className="text-xs text-slate-600 flex items-center gap-1 mt-1">
                                                 <Clock size={14} />
-                                                Est. updated Nov 2024
+                                                Est. updated Nov 2025
                                             </div>
                                         </td>
                                         <td className="p-3 no-print">
