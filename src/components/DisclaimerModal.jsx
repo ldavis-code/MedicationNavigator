@@ -59,9 +59,10 @@ const DisclaimerModal = () => {
           id="disclaimer-description"
           className="text-slate-700 text-center mb-6 leading-relaxed"
         >
-          I understand this website is for{' '}
-          <strong className="text-slate-900">educational purposes only</strong>{' '}
-          and does not constitute medical advice.
+          This website is for <strong className="text-slate-900">patients</strong>.{' '}
+          It is for <strong className="text-slate-900">educational purposes only</strong>{' '}
+          and does not constitute medical advice.{' '}
+          <strong className="text-slate-900">Always consult your transplant team or healthcare provider for medical decisions.</strong>
         </p>
 
         {/* Emergency Notice */}
@@ -71,11 +72,6 @@ const DisclaimerModal = () => {
             <span>In an emergency, call 911</span>
           </div>
         </div>
-
-        {/* Additional Info */}
-        <p className="text-sm text-slate-600 text-center mb-6">
-          Always consult your transplant team or healthcare provider for medical decisions.
-        </p>
 
         {/* Accept Button */}
         <button
