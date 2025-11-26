@@ -499,14 +499,6 @@ const Home = () => {
 
                 <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
                     <Link
-                        to="/wizard"
-                        className="w-full sm:w-auto px-8 py-4 bg-emerald-700 hover:bg-emerald-800 text-white font-bold rounded-xl shadow-lg hover:shadow-xl transition flex items-center justify-center gap-2"
-                        aria-label="Start your personalized medication path"
-                    >
-                        <Map size={20} aria-hidden="true" />
-                        Start My Medication Path Quiz
-                    </Link>
-                    <Link
                         to="/medications"
                         className="w-full sm:w-auto px-8 py-4 bg-white hover:bg-slate-50 text-slate-700 border-2 border-slate-200 font-bold rounded-xl hover:border-emerald-200 transition flex items-center justify-center gap-2"
                         aria-label="Compare medication prices"
@@ -636,7 +628,7 @@ const Home = () => {
                         </div>
                         <div>
                             <h4 className="font-bold text-white text-lg mb-2">A Safe Harbor</h4>
-                            <p className="text-emerald-100 text-sm">We are a neutral space. We do not sell data, we do not favor pharmacies, and we protect you from predatory scams.</p>
+                            <p className="text-emerald-100 text-sm">We are a neutral space. We do not sell data, we do not favor pharmacies, and information could protect you from predatory scams.</p>
                         </div>
                         <div>
                             <h4 className="font-bold text-white text-lg mb-2">Financial Control</h4>
@@ -644,6 +636,18 @@ const Home = () => {
                         </div>
                     </div>
                 </div>
+            </section>
+
+            {/* Start Quiz CTA */}
+            <section className="text-center max-w-4xl mx-auto py-8">
+                <Link
+                    to="/wizard"
+                    className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-emerald-700 hover:bg-emerald-800 text-white font-bold rounded-xl shadow-lg hover:shadow-xl transition"
+                    aria-label="Start your personalized medication path"
+                >
+                    <Map size={20} aria-hidden="true" />
+                    Start My Medication Path Quiz
+                </Link>
             </section>
 
             {/* Mental Health Hotline */}
@@ -690,6 +694,11 @@ const Home = () => {
                     We do not sell your information. This is a purely educational tool.
                 </p>
             </section>
+
+            {/* Built by Patient Tagline */}
+            <p className="text-center text-slate-500 text-sm font-medium">
+                Built for patients by a patient
+            </p>
         </article>
     );
 };
