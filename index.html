@@ -180,48 +180,117 @@
         Skip to main content
     </a>
 
-    <!-- Browser compatibility warning -->
+    <!-- React root - contains static SEO content that gets replaced when JS loads -->
+    <div id="root">
+        <!-- Static HTML for SEO - This content is indexed by search engines and visible before JavaScript loads -->
+        <main id="main-content" style="max-width: 900px; margin: 0 auto; padding: 40px 20px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;">
+
+            <!-- Hero -->
+            <header style="text-align: center; margin-bottom: 48px;">
+                <h1 style="font-size: 2.5rem; font-weight: 800; color: #0f172a; margin-bottom: 16px; line-height: 1.2;">
+                    See your medication options <span style="color: #059669;">in one place.</span>
+                </h1>
+                <p style="font-size: 1.5rem; font-weight: 600; color: #059669; margin-bottom: 16px;">
+                    Free. Unbiased. Patient-Led.
+                </p>
+                <p style="font-size: 1.25rem; color: #334155; margin-bottom: 32px; max-width: 600px; margin-left: auto; margin-right: auto;">
+                    A free, safe guide for transplant patients and care partners to find affordable medications and assistance programs.
+                </p>
+                <div style="display: flex; flex-wrap: wrap; gap: 16px; justify-content: center;">
+                    <a href="/wizard" style="display: inline-block; padding: 16px 32px; background: #047857; color: white; font-weight: 700; border-radius: 12px; text-decoration: none;">
+                        Start My Medication Path Quiz
+                    </a>
+                    <a href="/medications" style="display: inline-block; padding: 16px 32px; background: white; color: #334155; font-weight: 700; border-radius: 12px; text-decoration: none; border: 2px solid #e2e8f0;">
+                        Compare Prices &amp; Meds
+                    </a>
+                </div>
+            </header>
+
+            <!-- Features -->
+            <section style="display: grid; gap: 24px; margin-bottom: 32px;">
+                <div style="background: white; padding: 24px; border-radius: 16px; border: 1px solid #f1f5f9;">
+                    <h2 style="font-size: 1.25rem; font-weight: 700; color: #0f172a; margin-bottom: 8px;">Learn the Process</h2>
+                    <p style="color: #475569;">Understand how to fill out Patient Assistance Program (PAP) applications yourself, without paying anyone.</p>
+                </div>
+                <div style="background: white; padding: 24px; border-radius: 16px; border: 1px solid #f1f5f9;">
+                    <h2 style="font-size: 1.25rem; font-weight: 700; color: #0f172a; margin-bottom: 8px;">Coverage Education</h2>
+                    <p style="color: #475569;">Navigate Insurance, Medicare (including Part B-ID for kidney), Medicaid, and IHS benefits.</p>
+                </div>
+                <div style="background: white; padding: 24px; border-radius: 16px; border: 1px solid #f1f5f9;">
+                    <h2 style="font-size: 1.25rem; font-weight: 700; color: #0f172a; margin-bottom: 8px;">Resources &amp; Directory</h2>
+                    <p style="color: #475569;">Direct, safe links to manufacturer programs, foundations, and government sites. No scams.</p>
+                </div>
+            </section>
+
+            <!-- Founder -->
+            <section style="background: linear-gradient(to bottom right, #f8fafc, #ecfdf5); border: 2px solid #a7f3d0; border-radius: 16px; padding: 32px; margin-bottom: 32px;">
+                <h2 style="font-size: 1.25rem; font-weight: 700; color: #0f172a; margin-bottom: 16px;">
+                    Created by Someone Who's Been There
+                </h2>
+                <p style="color: #334155; line-height: 1.7;">
+                    <strong>Lorrinda Gray-Davis</strong> — liver cancer survivor, liver transplant recipient, and President of Transplant Recipients International Organization (TRIO) — built this tool from lived experience. She serves as Vice Chair on the OPTN Patient Affairs Committee, is a Harrison Fellow with the Fatty Liver Foundation, and has received an HRSA Commendation Letter for her work on the Transitional Nominating Committee. Her peer support research is published in <em>Hepatology Communications</em>, where she is co-first author on "Enhancing Care in Alcohol-Associated Liver Disease Through Peer Support for Alcohol Use Disorder."
+                </p>
+            </section>
+
+            <!-- Mission -->
+            <section style="background: #064e3b; color: white; border-radius: 24px; padding: 40px; margin-bottom: 32px;">
+                <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 16px;">Our Mission</h2>
+                <p style="font-size: 1.125rem; line-height: 1.7; color: #d1fae5;">
+                    To bridge the critical gap between <strong>prescription</strong> and <strong>possession</strong>.
+                    We provide a safe, unbiased, and transparent navigator for medication access, empowering transplant patients to overcome financial toxicity and focus on living their lives.
+                </p>
+            </section>
+
+            <!-- Crisis Support -->
+            <section style="background: linear-gradient(to right, #2563eb, #1d4ed8); border-radius: 16px; padding: 24px; text-align: center; margin-bottom: 32px;">
+                <p style="color: white; font-weight: 700; font-size: 1.125rem; margin-bottom: 8px;">
+                    Mental Health Crisis? Call or Text <a href="tel:988" style="color: white; text-decoration: underline;">988</a>
+                </p>
+                <p style="color: #bfdbfe; font-size: 0.875rem;">
+                    24/7 Suicide &amp; Crisis Lifeline - You are not alone
+                </p>
+            </section>
+
+            <!-- Privacy -->
+            <section style="background: #f1f5f9; border-radius: 12px; padding: 24px; text-align: center;">
+                <h3 style="font-weight: 700; color: #1e293b; margin-bottom: 8px;">Your Privacy is Our Priority</h3>
+                <p style="color: #475569; font-size: 0.875rem;">
+                    We do not store your data. We do not ask for your social security number. We do not sell your information. This is a purely educational tool.
+                </p>
+            </section>
+
+            <!-- Loading indicator -->
+            <p style="text-align: center; color: #64748b; margin-top: 32px; font-size: 0.875rem;">
+                Loading interactive features...
+            </p>
+        </main>
+    </div>
+
+    <!-- Noscript fallback - shown only if JavaScript is disabled -->
     <noscript>
-        <div style="padding: 40px; text-align: center; font-family: Arial, sans-serif;">
-            <h1>JavaScript Required</h1>
-            <p>This application requires JavaScript to be enabled in your browser.</p>
+        <style>#root > main > p:last-child { display: none; }</style>
+        <div style="max-width: 600px; margin: 0 auto; padding: 20px; text-align: center; background: #fef3c7; border: 2px solid #f59e0b; border-radius: 12px;">
+            <h2 style="color: #92400e; margin-bottom: 12px;">JavaScript Required for Full Features</h2>
+            <p style="color: #78350f;">
+                The interactive medication search and assistance finder require JavaScript.
+                Please enable JavaScript in your browser for the best experience, or contact us for assistance.
+            </p>
         </div>
     </noscript>
 
-    <!-- Internet Explorer warning -->
-    <div id="ie-warning" style="display: none; padding: 40px; max-width: 800px; margin: 0 auto; font-family: Arial, sans-serif; text-align: center;">
-        <h1 style="color: #dc2626; margin-bottom: 20px;">⚠️ Unsupported Browser</h1>
-        <p style="font-size: 18px; margin-bottom: 20px;">
-            <strong>Internet Explorer is not supported</strong> by this application.
-        </p>
-        <p style="margin-bottom: 20px;">
-            The Transplant Medication Navigator uses modern web technologies that require an up-to-date browser.
-        </p>
-        <p style="margin-bottom: 30px;">
-            Please use one of these free, modern browsers:
-        </p>
-        <ul style="list-style: none; padding: 0; font-size: 16px; line-height: 2;">
-            <li>✅ <strong>Microsoft Edge</strong> (recommended for Windows) - <a href="https://www.microsoft.com/edge">Download Edge</a></li>
-            <li>✅ <strong>Google Chrome</strong> - <a href="https://www.google.com/chrome">Download Chrome</a></li>
-            <li>✅ <strong>Mozilla Firefox</strong> - <a href="https://www.mozilla.org/firefox">Download Firefox</a></li>
-            <li>✅ <strong>Safari</strong> (for Mac/iOS users)</li>
-        </ul>
-        <p style="margin-top: 30px; color: #666; font-size: 14px;">
-            If you need assistance, please contact your IT support or a family member to help update your browser.
-        </p>
-    </div>
-
-    <div id="root"></div>
-
-    <!-- Detect Internet Explorer and show warning -->
+    <!-- Internet Explorer detection - only runs for IE users -->
     <script>
-        // Detect IE (all versions)
-        var isIE = /*@cc_on!@*/false || !!document.documentMode;
-
-        if (isIE) {
-            document.getElementById('ie-warning').style.display = 'block';
-            document.getElementById('root').style.display = 'none';
-        }
+        (function() {
+            var isIE = /*@cc_on!@*/false || !!document.documentMode;
+            if (isIE) {
+                document.getElementById('root').innerHTML = '<div style="padding: 40px; max-width: 600px; margin: 40px auto; font-family: Arial, sans-serif; text-align: center; background: #fef2f2; border: 2px solid #dc2626; border-radius: 12px;">' +
+                    '<h1 style="color: #dc2626; margin-bottom: 20px;">Browser Update Needed</h1>' +
+                    '<p style="margin-bottom: 16px;">The Transplant Medication Navigator works best with a modern browser.</p>' +
+                    '<p style="margin-bottom: 24px;">Please try <a href="https://www.microsoft.com/edge" style="color: #2563eb;">Microsoft Edge</a>, <a href="https://www.google.com/chrome" style="color: #2563eb;">Chrome</a>, or <a href="https://www.mozilla.org/firefox" style="color: #2563eb;">Firefox</a>.</p>' +
+                    '<p style="color: #666; font-size: 14px;">Need help? Ask a family member or contact your local library.</p>' +
+                    '</div>';
+            }
+        })();
     </script>
 
     <script type="module" src="/src/main.jsx"></script>

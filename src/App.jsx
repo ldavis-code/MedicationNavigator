@@ -482,32 +482,80 @@ const Layout = ({ children }) => {
 // Home Page
 const Home = () => {
     useMetaTags(seoMetadata.home);
-    const [acknowledgedDisclaimer, setAcknowledgedDisclaimer] = useState(false);
 
     return (
         <article className="space-y-12">
             {/* Hero Section */}
             <section className="text-center max-w-4xl mx-auto py-8 md:py-12">
-                <h1 className="text-3xl md:text-5xl font-extrabold text-slate-900 mb-4 leading-tight tracking-tight">
-                    TRANSPLANT MEDICATION NAVIGATOR
+                <h1 className="text-3xl md:text-5xl font-extrabold text-slate-900 mb-4 leading-tight">
+                    See your medication options <span className="text-emerald-600">in one place.</span>
                 </h1>
-                <p className="text-xl md:text-2xl font-semibold text-emerald-600 mb-8">
+                <p className="text-xl md:text-2xl font-semibold text-emerald-600 mb-4">
                     Free. Unbiased. Patient-Led.
                 </p>
+                <p className="text-lg md:text-xl text-slate-700 mb-8 max-w-2xl mx-auto">
+                    A free, safe guide for transplant patients and care partners to find affordable medications and assistance programs.
+                </p>
+
+                <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                    <Link
+                        to="/wizard"
+                        className="w-full sm:w-auto px-8 py-4 bg-emerald-700 hover:bg-emerald-800 text-white font-bold rounded-xl shadow-lg hover:shadow-xl transition flex items-center justify-center gap-2"
+                        aria-label="Start your personalized medication path"
+                    >
+                        <Map size={20} aria-hidden="true" />
+                        Start My Medication Path Quiz
+                    </Link>
+                    <Link
+                        to="/medications"
+                        className="w-full sm:w-auto px-8 py-4 bg-white hover:bg-slate-50 text-slate-700 border-2 border-slate-200 font-bold rounded-xl hover:border-emerald-200 transition flex items-center justify-center gap-2"
+                        aria-label="Compare medication prices"
+                    >
+                        <Search size={20} aria-hidden="true" />
+                        Compare Prices & Meds
+                    </Link>
+                </div>
             </section>
 
-            {/* Our Mission Section */}
-            <section className="bg-emerald-900 rounded-3xl overflow-hidden shadow-2xl text-white max-w-4xl mx-auto" aria-labelledby="mission-heading">
-                <div className="p-8 md:p-12">
-                    <div className="flex items-center gap-3 mb-6">
-                        <div className="bg-emerald-800 p-2 rounded-lg" aria-hidden="true">
-                            <Anchor size={24} className="text-emerald-200"/>
-                        </div>
-                        <h2 id="mission-heading" className="text-2xl font-bold tracking-tight">Our Mission</h2>
+            {/* Features Grid */}
+            <section className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto" aria-label="Key features">
+                <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:border-emerald-100 transition">
+                    <div className="w-12 h-12 bg-sky-100 text-sky-600 rounded-full flex items-center justify-center mb-4" aria-hidden="true">
+                        <BookOpen size={24} />
                     </div>
-                    <p className="text-lg text-emerald-100 leading-relaxed">
-                        To bridge the critical gap between <strong>prescription</strong> and <strong>possession</strong>. We provide a safe, unbiased, and transparent navigator for medication access, empowering transplant patients to overcome financial toxicity and focus on living their lives.
+                    <h2 className="text-xl font-bold text-slate-900 mb-2">Learn the Process</h2>
+                    <p className="text-slate-600 mb-4">
+                        Understand how to fill out Patient Assistance Program (PAP) applications yourself, without paying anyone.
                     </p>
+                    <Link to="/application-help" className="text-emerald-700 font-medium hover:underline inline-flex items-center gap-1" aria-label="View application guide">
+                        View Guide <ArrowRight size={16} aria-hidden="true" />
+                    </Link>
+                </div>
+
+                <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:border-emerald-100 transition">
+                    <div className="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mb-4" aria-hidden="true">
+                        <ShieldCheck size={24} />
+                    </div>
+                    <h2 className="text-xl font-bold text-slate-900 mb-2">Coverage Education</h2>
+                    <p className="text-slate-600 mb-4">
+                        Navigate Insurance, Medicare (including Part B-ID for kidney), Medicaid, and IHS benefits.
+                    </p>
+                    <Link to="/education" className="text-emerald-700 font-medium hover:underline inline-flex items-center gap-1" aria-label="Learn about coverage options">
+                        Learn About Coverage <ArrowRight size={16} aria-hidden="true" />
+                    </Link>
+                </div>
+
+                <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:border-emerald-100 transition">
+                    <div className="w-12 h-12 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center mb-4" aria-hidden="true">
+                        <Search size={24} />
+                    </div>
+                    <h2 className="text-xl font-bold text-slate-900 mb-2">Resources & Directory</h2>
+                    <p className="text-slate-600 mb-4">
+                        Direct, safe links to manufacturer programs, foundations, and government sites. No scams.
+                    </p>
+                    <Link to="/education" className="text-emerald-700 font-medium hover:underline inline-flex items-center gap-1" aria-label="Browse available resources">
+                        Browse Resources <ArrowRight size={16} aria-hidden="true" />
+                    </Link>
                 </div>
             </section>
 
@@ -526,83 +574,109 @@ const Home = () => {
                 </p>
             </section>
 
-            {/* Important Disclaimer Section */}
-            <section className="bg-amber-50 border-2 border-amber-400 rounded-2xl p-6 md:p-8 max-w-4xl mx-auto" aria-labelledby="disclaimer-heading">
-                <div className="flex items-start gap-4 mb-4">
-                    <div className="bg-amber-100 p-2 rounded-lg flex-shrink-0" aria-hidden="true">
-                        <AlertTriangle size={28} className="text-amber-600"/>
+            {/* Mission & Vision Section */}
+            <section className="bg-emerald-900 rounded-3xl overflow-hidden shadow-2xl text-white my-16 max-w-6xl mx-auto" aria-labelledby="mission-heading">
+
+                {/* 988 Mental Health Hotline Banner */}
+                <div className="bg-gradient-to-r from-blue-600 to-blue-700 border-b-2 border-blue-800 px-6 py-4">
+                    <div className="flex items-center justify-center gap-3 text-center">
+                        <Phone size={24} className="text-white flex-shrink-0" aria-hidden="true" />
+                        <div>
+                            <p className="text-white font-bold text-lg">
+                                Mental Health Crisis? Call or Text <a href="tel:988" className="underline hover:text-blue-200 transition-colors">988</a>
+                            </p>
+                            <p className="text-blue-100 text-sm">
+                                24/7 Suicide & Crisis Lifeline - You are not alone
+                            </p>
+                        </div>
                     </div>
-                    <div>
-                        <h2 id="disclaimer-heading" className="text-xl font-bold text-amber-800 mb-2">
-                            IMPORTANT: Educational Tool Only
-                        </h2>
-                        <p className="text-amber-900 leading-relaxed">
-                            This navigator provides general information about medication assistance programs. It is <strong>not</strong> medical, financial, or legal advice. Program eligibility, pricing, and availability change frequently. Always verify information directly with manufacturers and consult your transplant team before making decisions about your care.
+                </div>
+
+                {/* Centered Badge Header */}
+                <div className="pt-10 pb-2 text-center">
+                    <div className="inline-flex items-center gap-2 bg-emerald-950/60 border border-emerald-700/50 px-5 py-2 rounded-full text-emerald-100 text-sm font-bold shadow-lg">
+                        <UserCheck size={18} className="text-emerald-400" aria-hidden="true" />
+                        Built by a patient, for patients.
+                    </div>
+                </div>
+
+                <div className="grid md:grid-cols-2">
+                    <div className="p-8 md:p-12 md:pt-8 flex flex-col justify-center border-b md:border-b-0 md:border-r border-emerald-800">
+                        <div className="flex items-center gap-3 mb-6">
+                            <div className="bg-emerald-800 p-2 rounded-lg" aria-hidden="true"><Anchor size={24} className="text-emerald-200"/></div>
+                            <h2 id="mission-heading" className="text-2xl font-bold tracking-tight">Our Mission</h2>
+                        </div>
+
+                        <p className="text-lg text-emerald-100 leading-relaxed">
+                            To bridge the critical gap between <strong>prescription</strong> and <strong>possession</strong>.
+                            <br/><br/>
+                            We provide a safe, unbiased, and transparent navigator for medication access, empowering transplant patients to overcome financial toxicity and focus on living their lives.
+                        </p>
+                    </div>
+                    <div className="p-8 md:p-12 md:pt-8 flex flex-col justify-center bg-emerald-800/50">
+                        <div className="flex items-center gap-3 mb-6">
+                            <div className="bg-emerald-700 p-2 rounded-lg" aria-hidden="true"><Heart size={24} className="text-emerald-200"/></div>
+                            <h2 className="text-2xl font-bold tracking-tight">Our Vision</h2>
+                        </div>
+                        <p className="text-lg text-emerald-100 leading-relaxed">
+                            Health equity for every transplant recipient.
+                            <br/><br/>
+                            We envision a world where the gift of life is never compromised by the cost of medication, and where every patient has the knowledge to advocate for their own care.
                         </p>
                     </div>
                 </div>
 
-                {/* Acknowledgment Checkbox */}
-                <div className="mt-6 pt-6 border-t border-amber-300">
-                    <label className="flex items-start gap-3 cursor-pointer group">
-                        <button
-                            type="button"
-                            onClick={() => setAcknowledgedDisclaimer(!acknowledgedDisclaimer)}
-                            className={`flex-shrink-0 w-6 h-6 rounded border-2 flex items-center justify-center transition-colors ${
-                                acknowledgedDisclaimer
-                                    ? 'bg-emerald-600 border-emerald-600'
-                                    : 'bg-white border-slate-400 group-hover:border-emerald-500'
-                            }`}
-                            aria-checked={acknowledgedDisclaimer}
-                            role="checkbox"
-                        >
-                            {acknowledgedDisclaimer && <Check size={16} className="text-white" aria-hidden="true" />}
-                        </button>
-                        <span className="text-slate-700 font-medium">
-                            I understand this is an educational resource
-                        </span>
-                    </label>
+                {/* Core Values / "The Why" */}
+                <div className="bg-emerald-950/50 p-8 md:p-10 border-t border-emerald-800">
+                    <h3 className="text-center font-bold text-emerald-100 uppercase tracking-wider text-sm mb-8">Why We Built This</h3>
+                    <div className="grid md:grid-cols-3 gap-8 text-center">
+                        <div>
+                            <h4 className="font-bold text-white text-lg mb-2">Eliminating "Brain Fog"</h4>
+                            <p className="text-emerald-100 text-sm">We simplify complex applications into step-by-step guides, because navigating care shouldn't require a degree.</p>
+                        </div>
+                        <div>
+                            <h4 className="font-bold text-white text-lg mb-2">A Safe Harbor</h4>
+                            <p className="text-emerald-100 text-sm">We are a neutral space. We do not sell data, we do not favor pharmacies, and we protect you from predatory scams.</p>
+                        </div>
+                        <div>
+                            <h4 className="font-bold text-white text-lg mb-2">Financial Control</h4>
+                            <p className="text-emerald-100 text-sm">By comparing cash prices, PAPs, and foundations side-by-side, we put the power of choice back in your hands.</p>
+                        </div>
+                    </div>
                 </div>
             </section>
 
-            {/* CTA Button */}
-            <section className="text-center max-w-4xl mx-auto pb-8">
-                <Link
-                    to="/wizard"
-                    className={`inline-flex items-center justify-center gap-2 px-8 py-4 font-bold rounded-xl shadow-lg transition text-lg ${
-                        acknowledgedDisclaimer
-                            ? 'bg-emerald-700 hover:bg-emerald-800 text-white hover:shadow-xl'
-                            : 'bg-slate-300 text-slate-500 cursor-not-allowed'
-                    }`}
-                    aria-label="Find medication help"
-                    aria-disabled={!acknowledgedDisclaimer}
-                    onClick={(e) => {
-                        if (!acknowledgedDisclaimer) {
-                            e.preventDefault();
-                        }
-                    }}
-                >
-                    Find Medication Help
-                    <ArrowRight size={20} aria-hidden="true" />
-                </Link>
-                {!acknowledgedDisclaimer && (
-                    <p className="text-sm text-slate-500 mt-3">
-                        Please acknowledge the disclaimer above to continue
-                    </p>
-                )}
-            </section>
-
-            {/* 988 Mental Health Hotline Banner */}
-            <section className="bg-gradient-to-r from-blue-600 to-blue-700 rounded-2xl p-6 max-w-4xl mx-auto">
-                <div className="flex items-center justify-center gap-3 text-center">
-                    <Phone size={24} className="text-white flex-shrink-0" aria-hidden="true" />
-                    <div>
-                        <p className="text-white font-bold text-lg">
-                            Mental Health Crisis? Call or Text <a href="tel:988" className="underline hover:text-blue-200 transition-colors">988</a>
-                        </p>
-                        <p className="text-blue-100 text-sm">
-                            24/7 Suicide & Crisis Lifeline - You are not alone
-                        </p>
+            {/* Mental Health Hotline */}
+            <section className="bg-gradient-to-br from-rose-50 to-pink-50 border-2 border-rose-300 rounded-2xl p-6 md:p-8 text-center max-w-3xl mx-auto mb-12" aria-labelledby="mental-health-hotline">
+                <div className="bg-rose-600 text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 shadow-md" aria-hidden="true">
+                    <Phone size={32} />
+                </div>
+                <h3 id="mental-health-hotline" className="text-2xl font-bold text-slate-900 mb-3">
+                    Need to Talk to Someone?
+                </h3>
+                <p className="text-slate-600 mb-4">
+                    The transplant journey can be emotionally challenging. Free, confidential support is available 24/7.
+                </p>
+                <div className="mb-4">
+                    <a href="tel:988" className="inline-block text-5xl md:text-6xl font-black text-rose-600 hover:text-rose-700 transition mb-2 tracking-tight">
+                        988
+                    </a>
+                    <p className="text-lg font-bold text-slate-700">National Suicide & Crisis Lifeline</p>
+                    <p className="text-sm text-slate-600 mt-1">24/7 • Free • Confidential</p>
+                </div>
+                <p className="text-sm text-slate-700 max-w-2xl mx-auto mb-6 leading-relaxed">
+                    Seeking help for mental health is a sign of strength, not weakness. The transplant journey is physically and emotionally demanding. Taking care of your mental health is just as important as taking your medications. If you're struggling, reach out—there are people who want to help.
+                </p>
+                <div className="grid sm:grid-cols-2 gap-3 max-w-lg mx-auto text-left text-sm">
+                    <div className="bg-white/80 p-3 rounded-lg">
+                        <p className="font-bold text-slate-900 mb-1">Call or Text</p>
+                        <p className="text-slate-600">Dial or text <strong>988</strong> from any phone</p>
+                    </div>
+                    <div className="bg-white/80 p-3 rounded-lg">
+                        <p className="font-bold text-slate-900 mb-1">Online Chat</p>
+                        <a href="https://988lifeline.org/chat/" target="_blank" rel="noreferrer" className="text-rose-600 font-medium hover:underline flex items-center gap-1">
+                            988lifeline.org/chat <ExternalLink size={12} aria-hidden="true" />
+                        </a>
                     </div>
                 </div>
             </section>
