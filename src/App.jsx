@@ -45,6 +45,7 @@ import APPLICATION_CHECKLIST_DATA from './data/application-checklist.json';
 import FAQS_DATA from './data/faqs.json';
 import { useMetaTags } from './hooks/useMetaTags.js';
 import { seoMetadata } from './data/seo-metadata.js';
+import { fetchPriceStats, submitPriceReport, fetchAllPriceStats } from './lib/priceReportsApi.js';
 
 // Initialize data from imported JSON files
 const MEDICATIONS = MEDICATIONS_DATA;
@@ -1397,8 +1398,20 @@ const Wizard = () => {
 
 // --- PRICE REPORTING HELPERS ---
 const PRICE_REPORTS_KEY = 'transplant_med_price_reports';
+const PRICE_STATS_KEY = 'transplant_med_price_stats';
 const PRICE_ESTIMATES_LAST_UPDATED = '2025-11-24'; // November 2025
 
+// Get cached stats from localStorage (for immediate render)
+const getCachedStats = () => {
+    try {
+        const stored = localStorage.getItem(PRICE_STATS_KEY);
+        return stored ? JSON.parse(stored) : {};
+    } catch (e) {
+        return {};
+    }
+};
+
+// Legacy: Get local price reports (fallback)
 const getPriceReports = () => {
     try {
         const stored = localStorage.getItem(PRICE_REPORTS_KEY);
@@ -1409,38 +1422,46 @@ const getPriceReports = () => {
     }
 };
 
-const savePriceReport = (medicationId, source, price, location, date) => {
+// Save price report - uses API with localStorage fallback
+const savePriceReportAsync = async (medicationId, source, price, location, date) => {
     try {
-        const reports = getPriceReports();
-        const key = `${medicationId}_${source}`;
-
-        if (!reports[key]) {
-            reports[key] = [];
+        // Try API first
+        const result = await submitPriceReport(medicationId, source, price, location, date);
+        if (result.success) {
+            // Refresh stats cache in background
+            syncPriceStatsFromAPI();
+            return true;
         }
-
-        reports[key].push({
-            price: parseFloat(price),
-            location,
-            date,
-            timestamp: new Date().toISOString()
-        });
-
-        // Keep only last 50 reports per medication-source combo
-        if (reports[key].length > 50) {
-            reports[key] = reports[key].slice(-50);
-        }
-
-        localStorage.setItem(PRICE_REPORTS_KEY, JSON.stringify(reports));
-        return true;
+        return false;
     } catch (e) {
         console.error('Error saving price report:', e);
         return false;
     }
 };
 
+// Sync price stats from API to localStorage cache
+const syncPriceStatsFromAPI = async () => {
+    try {
+        const stats = await fetchAllPriceStats();
+        if (stats && Object.keys(stats).length > 0) {
+            localStorage.setItem(PRICE_STATS_KEY, JSON.stringify(stats));
+        }
+    } catch (e) {
+        console.warn('Could not sync price stats from API:', e.message);
+    }
+};
+
+// Get community price stats - uses cached data for immediate render
 const getCommunityPriceStats = (medicationId, source) => {
-    const reports = getPriceReports();
+    // First check API-synced stats cache
+    const cachedStats = getCachedStats();
     const key = `${medicationId}_${source}`;
+    if (cachedStats[key]) {
+        return cachedStats[key];
+    }
+
+    // Fallback to legacy localStorage format
+    const reports = getPriceReports();
     const priceData = reports[key] || [];
 
     if (priceData.length === 0) return null;
@@ -1463,6 +1484,11 @@ const getCommunityPriceStats = (medicationId, source) => {
         total: priceData.length
     };
 };
+
+// Initialize: sync stats from API on app load
+if (typeof window !== 'undefined') {
+    syncPriceStatsFromAPI();
+}
 
 // MedicationSearch Page
 const MedicationSearch = () => {
@@ -1760,7 +1786,7 @@ const PriceReportModal = ({ isOpen, onClose, medicationId, medicationName, sourc
     const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
     const [submitting, setSubmitting] = useState(false);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if (!price || parseFloat(price) <= 0) {
             alert('Please enter a valid price');
@@ -1768,7 +1794,7 @@ const PriceReportModal = ({ isOpen, onClose, medicationId, medicationName, sourc
         }
 
         setSubmitting(true);
-        const success = savePriceReport(medicationId, source, price, location, date);
+        const success = await savePriceReportAsync(medicationId, source, price, location, date);
 
         if (success) {
             onSubmit();
