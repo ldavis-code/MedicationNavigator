@@ -88,6 +88,31 @@
     ]
   },
   {
+    "category": "Did You Know? Drug Pricing",
+    "questions": [
+      {
+        "q": "Why do drug prices seem to change randomly?",
+        "a": "Drug prices aren't random—they follow a calendar! Understanding two key cycles can help you avoid 'sticker shock' at the pharmacy counter: the 'Twice-a-Year' cycle for brand-name drugs and insurance changes, and the 'Monthly' cycle for generic drugs and cash prices."
+      },
+      {
+        "q": "When do brand-name drug prices change?",
+        "a": "Brand-name drugs follow a 'Twice-a-Year' cycle, primarily in January and July. Drug companies typically raise the 'list price' of brand-name medications during these months. Additionally, your insurance plan updates its Formulary (the list of drugs they cover) on January 1st—this is when your copay might change, or a drug might move to a more expensive tier."
+      },
+      {
+        "q": "What should I do before January each year?",
+        "a": "Always check your insurance coverage in December (during open enrollment) to see if your transplant meds will still be covered the same way in the New Year. Your copay might change, or a drug might move to a different tier, so it's important to plan ahead."
+      },
+      {
+        "q": "Why does my generic medication price fluctuate so much?",
+        "a": "Generic drugs follow a 'Monthly' cycle. The cost pharmacies pay to buy generic drugs (like tacrolimus, mycophenolate, or sirolimus) is updated weekly in a national database. The biggest changes often hit during the 3rd or 4th week of the month. If you pay with cash or use a discount card (like GoodRx), your price is tied to these updates—you might pay $40 one month and $65 the next because of a backend update."
+      },
+      {
+        "q": "How can I get better prices on generic medications?",
+        "a": "If you're paying cash, check the price online a few days before you refill. If the price spiked, check a different pharmacy—prices vary wildly from store to store! Also consider asking your doctor for a 90-day supply, which 'locks in' the current price for three months, protecting you from monthly price fluctuations."
+      }
+    ]
+  },
+  {
     "category": "Prescription Discount Cards (GoodRx, SingleCare, etc.)",
     "questions": [
       {
