@@ -142,6 +142,27 @@
     ]
   },
   {
+    "category": "GoodRx Alternatives & Competitors",
+    "questions": [
+      {
+        "q": "What are the direct coupon competitors to GoodRx?",
+        "a": "Several apps and cards work exactly like GoodRx—you show them to the pharmacist and pay a discounted cash price. They are free to use: (1) SingleCare—the biggest direct rival to GoodRx, sometimes offering lower prices on specific drugs. Always compare both apps before filling. (2) Optum Perks—owned by UnitedHealth Group, giving them strong negotiating power for deeper discounts on certain medications. (3) ScriptSave WellRx—works at roughly 65,000 pharmacies and often highlights 'grocery rewards' at supermarket pharmacies. (4) BuzzRx—partners with nonprofits and makes a donation to charity (like ASPCA or Make-A-Wish) every time you fill a prescription. Note: RxSaver was acquired by GoodRx in 2021 and is now part of the same company."
+      },
+      {
+        "q": "What are 'Cost-Plus' and mail order pharmacies?",
+        "a": "These are actual pharmacies that ship drugs to your door, often bypassing middlemen to offer lower prices on generics: (1) Mark Cuban Cost Plus Drug Company—sells generic drugs for cost of manufacturing + 15% markup + pharmacy fee + shipping. Best for maintenance medications where you want the absolute lowest transparent price. (2) Amazon Pharmacy—Prime members get 'RxPass' or Prime savings, with many common generics for a flat monthly fee (e.g., $5/month) or deep discounts with 2-day delivery. (3) Blink Health—a hybrid model where you pay online first to lock in the price, then pick up at the pharmacy or have it shipped. Best for avoiding surprises at the counter."
+      },
+      {
+        "q": "What pharmacy membership programs compete with discount cards?",
+        "a": "Large retail chains have their own membership 'clubs' that can beat GoodRx prices: (1) Costco Member Prescription Program—you often don't need a Costco membership to use their pharmacy, but members get extra discounts. Their cash prices are historically some of the lowest in the industry. (2) Kroger Rx Savings Club—a paid annual membership (approx. $36/year for an individual) that offers hundreds of common generics for free or very low cost. (3) Walgreens Prescription Savings Club—a paid membership offering discounts on thousands of brand and generic medications."
+      },
+      {
+        "q": "Which discount option should I use?",
+        "a": "It depends on your needs: For speed (same-day pickup)—check GoodRx, SingleCare, and Optum Perks apps to compare prices at your local store. For cheapest generics (mail order)—check Mark Cuban Cost Plus Drug Company. For Amazon Prime members—check Amazon Pharmacy first. Remember: For transplant patients, these discount options should only be used in limited scenarios (see 'When should transplant patients use discount cards?' in the Prescription Discount Cards section). Always prioritize hitting your insurance out-of-pocket maximum for long-term savings."
+      }
+    ]
+  },
+  {
     "category": "Using This Site",
     "questions": [
       {
