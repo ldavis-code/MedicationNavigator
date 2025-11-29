@@ -62,7 +62,7 @@ const DisclaimerModal = () => {
           This website is for <strong className="text-slate-900">patients</strong>.{' '}
           It is for <strong className="text-slate-900">educational purposes only</strong>{' '}
           and does not constitute medical advice.{' '}
-          <strong className="text-slate-900">Always consult your transplant team or healthcare provider for medical decisions.</strong>
+          <strong className="text-slate-900">Always consult your healthcare team or provider for medical decisions.</strong>
         </p>
 
         {/* Emergency Notice */}

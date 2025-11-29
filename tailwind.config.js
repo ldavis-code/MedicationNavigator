@@ -6,7 +6,7 @@ export default {
   ],
   theme: {
     extend: {
-      // Accessible color palette for transplant patients with vision changes
+      // Accessible color palette for patients with vision changes
       colors: {
         // High contrast text colors
         'accessible': {
