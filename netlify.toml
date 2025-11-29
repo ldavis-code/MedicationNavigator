@@ -6,12 +6,7 @@
   directory = "netlify/functions"
   node_bundler = "esbuild"
 
-# API routes should not be redirected to index.html
-[[redirects]]
-  from = "/.netlify/functions/*"
-  to = "/.netlify/functions/:splat"
-  status = 200
-
+# SPA fallback - Netlify automatically handles /.netlify/functions/* routes
 [[redirects]]
   from = "/*"
   to = "/index.html"
