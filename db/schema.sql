@@ -1,4 +1,4 @@
--- Neon Database Schema for Transplant Medication Navigator
+-- Neon Database Schema for Medication Navigator
 -- Run this in your Neon SQL Editor: https://console.neon.tech
 
 -- Price Reports Table

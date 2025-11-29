@@ -86,7 +86,7 @@ export function useMetaTags(config) {
 
     // Cleanup function - restore default values
     return () => {
-      document.title = 'Transplant Medication Navigator - Free Medication Assistance Guide for Transplant Patients';
+      document.title = 'Medication Navigator - Free Medication Assistance Guide';
     };
   }, [config]);
 }

@@ -5,7 +5,7 @@
  */
 
 const API_BASE = '/.netlify/functions/price-reports';
-const LOCAL_STORAGE_KEY = 'transplant_med_price_reports';
+const LOCAL_STORAGE_KEY = 'med_nav_price_reports';
 
 // Check if we're in development without the API
 const isDev = import.meta.env.DEV;

@@ -64,7 +64,7 @@
 
    **WRONG:**
    ```xml
-   <loc>https://transplantmedicationnavigator.com/</loc>
+   <loc>https://medicationnavigator.com/</loc>
    ```
 
    **CORRECT:**
@@ -75,7 +75,7 @@
 3. **Use the domain replacement script:**
    ```bash
    # Replace with your actual domain
-   sed -i 's/transplantmedicationnavigator.com/your-actual-domain.com/g' public/sitemap.xml
+   sed -i 's/medicationnavigator.com/your-actual-domain.com/g' public/sitemap.xml
    ```
 
 4. **Rebuild and redeploy:**
@@ -124,7 +124,7 @@ If you still get errors, try removing the `lastmod` tags entirely:
 **If deploying to a temporary domain (like Netlify/Vercel subdomain):**
 
 Edit `public/sitemap.xml` and replace ALL instances of:
-- `https://transplantmedicationnavigator.com/`
+- `https://medicationnavigator.com/`
 
 With your actual domain:
 - `https://your-actual-site.netlify.app/` (or whatever your URL is)
@@ -132,10 +132,10 @@ With your actual domain:
 **Quick replacement command:**
 ```bash
 # Example for Netlify
-sed -i 's|https://transplantmedicationnavigator.com/|https://your-site.netlify.app/|g' public/sitemap.xml
+sed -i 's|https://medicationnavigator.com/|https://your-site.netlify.app/|g' public/sitemap.xml
 
 # Example for Vercel
-sed -i 's|https://transplantmedicationnavigator.com/|https://your-site.vercel.app/|g' public/sitemap.xml
+sed -i 's|https://medicationnavigator.com/|https://your-site.vercel.app/|g' public/sitemap.xml
 ```
 
 ### 3. Update robots.txt

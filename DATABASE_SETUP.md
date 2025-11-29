@@ -8,7 +8,7 @@ This project uses [Neon](https://neon.tech) as a serverless PostgreSQL database 
 
 1. Go to [console.neon.tech](https://console.neon.tech)
 2. Sign up (free tier available)
-3. Create a new project (e.g., "transplant-medication-navigator")
+3. Create a new project (e.g., "medication-navigator")
 4. Copy your connection string (looks like `postgresql://user:pass@ep-xxx.neon.tech/neondb?sslmode=require`)
 
 ### 2. Run the Database Schema
