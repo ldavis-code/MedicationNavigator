@@ -32,18 +32,18 @@ export const CareStage = {
 // Legacy alias for backwards compatibility
 export const TransplantStatus = CareStage;
 
-// Health condition types (expanded for broader population)
+// Health condition types (expanded for broader population) - alphabetized
 export const HealthCondition = {
-    LIVER: 'Liver disease (including hepatitis, cirrhosis, or fatty liver)',
-    KIDNEY: 'Kidney disease',
-    HEART: 'Heart disease or heart failure',
-    DIABETES: 'Diabetes (high blood sugar)',
-    HIGH_BP: 'High blood pressure',
-    CANCER: 'Cancer',
-    TRANSPLANT: 'Transplant recipient (received a new organ)',
     AUTOIMMUNE: 'Autoimmune disease (like lupus, rheumatoid arthritis, or MS)',
-    MENTAL_HEALTH: 'Mental health (depression, anxiety, bipolar)',
+    CANCER: 'Cancer',
+    DIABETES: 'Diabetes (high blood sugar)',
+    HEART: 'Heart disease or heart failure',
+    HIGH_BP: 'High blood pressure',
+    KIDNEY: 'Kidney disease',
+    LIVER: 'Liver disease (including hepatitis, cirrhosis, or fatty liver)',
     LUNG: 'Lung disease (COPD, asthma, pulmonary fibrosis)',
+    MENTAL_HEALTH: 'Mental health (depression, anxiety, bipolar)',
+    TRANSPLANT: 'Transplant recipient (received a new organ)',
     OTHER: 'Other',
 };
 
