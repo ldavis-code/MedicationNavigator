@@ -56,6 +56,7 @@ import FAQS_DATA from './data/faqs.json';
 import { useMetaTags } from './hooks/useMetaTags.js';
 import { seoMetadata } from './data/seo-metadata.js';
 import { fetchPriceStats, submitPriceReport, fetchAllPriceStats } from './lib/priceReportsApi.js';
+import { fetchAllMedicationStrategies, fetchMedicationStrategy, formatPrice, formatPriceRange } from './lib/medicationStrategyApi.js';
 
 // Initialize data from imported JSON files
 const MEDICATIONS = MEDICATIONS_DATA;
@@ -1745,7 +1746,7 @@ const Wizard = () => {
                                     <AlertCircle size={20} aria-hidden="true" /> Important Note
                                 </h2>
                                 <p className="text-slate-700">
-                                    Copay cards from drug companies usually <strong>don't work with Medicare or Medicaid</strong>. But you may qualify for other help programs. Check out Patient Assistance Programs instead.
+                                    Copay cards from drug companies <strong>cannot be used with Medicare, Medicare Advantage, or Medicaid</strong>. This is federal law (the Anti-Kickback Statute). Instead, look into <strong>copay assistance foundations</strong> (like HealthWell or PAN Foundation) which ARE allowed to help Medicare patients.
                                 </p>
                             </section>
                         )}
@@ -1917,6 +1918,22 @@ const MedicationSearch = () => {
     const [linkCopied, setLinkCopied] = useState(false);
     const [priceReportRefresh, setPriceReportRefresh] = useState(0);
     const [isSearching, setIsSearching] = useState(false);
+    const [pharmacyAvailability, setPharmacyAvailability] = useState({});
+
+    // Fetch pharmacy availability from database on mount
+    useEffect(() => {
+        const loadPharmacyData = async () => {
+            try {
+                const data = await fetchAllMedicationStrategies();
+                if (data.pharmacyAvailability) {
+                    setPharmacyAvailability(data.pharmacyAvailability);
+                }
+            } catch (e) {
+                console.warn('Could not load pharmacy availability:', e);
+            }
+        };
+        loadPharmacyData();
+    }, []);
 
     // Fuse.js instance for fuzzy search (typo-tolerant)
     const fuse = useMemo(() => new Fuse(MEDICATIONS, {
@@ -2181,7 +2198,7 @@ const MedicationSearch = () => {
                 ) : (
                     <>
                         {displayListInternal.map(med => (
-                            <MedicationCard key={med.id} med={med} activeTab={activeTab} onRemove={() => removeInternalFromList(med.id)} onPriceReportSubmit={() => setPriceReportRefresh(prev => prev + 1)} />
+                            <MedicationCard key={med.id} med={med} activeTab={activeTab} onRemove={() => removeInternalFromList(med.id)} onPriceReportSubmit={() => setPriceReportRefresh(prev => prev + 1)} pharmacyAvailability={pharmacyAvailability} />
                         ))}
                         {myCustomMeds.map((name, idx) => (
                             <ExternalMedCard key={`${name}-${idx}`} name={name} onRemove={() => removeCustomFromList(name)} />
@@ -2338,17 +2355,51 @@ const PriceReportModal = ({ isOpen, onClose, medicationId, medicationName, sourc
     );
 };
 
-const MedicationCard = ({ med, activeTab, onRemove, onPriceReportSubmit }) => {
+const MedicationCard = ({ med, activeTab, onRemove, onPriceReportSubmit, pharmacyAvailability }) => {
     const [reportModalOpen, setReportModalOpen] = useState(false);
     const [reportModalData, setReportModalData] = useState(null);
+    const [medicationStrategy, setMedicationStrategy] = useState(null);
+    const [strategyLoading, setStrategyLoading] = useState(false);
 
-    // Pharmacy availability - exclude medications not carried by each pharmacy
-    // Excluded: Injectable biologics, IV formulations, hospital-only medications
-    const isCostPlusAvailable = !COST_PLUS_EXCLUSIONS_DATA.includes(med.id) && med.manufacturer !== 'Various';
-    const isBlinkHealthAvailable = !BLINK_HEALTH_EXCLUSIONS_DATA.includes(med.id) && med.manufacturer !== 'Various';
-    const isWalmartAvailable = !WALMART_EXCLUSIONS_DATA.includes(med.id) && med.manufacturer !== 'Various';
-    const isGoodRxAvailable = !GOODRX_EXCLUSIONS_DATA.includes(med.id) && med.manufacturer !== 'Various';
-    const isSingleCareAvailable = !SINGLECARE_EXCLUSIONS_DATA.includes(med.id) && med.manufacturer !== 'Various';
+    // Fetch medication strategy from database when component mounts
+    useEffect(() => {
+        const loadStrategy = async () => {
+            setStrategyLoading(true);
+            try {
+                const data = await fetchMedicationStrategy(med.id);
+                setMedicationStrategy(data);
+            } catch (e) {
+                console.warn('Could not load medication strategy:', e);
+            }
+            setStrategyLoading(false);
+        };
+        loadStrategy();
+    }, [med.id]);
+
+    // Pharmacy availability - use database first, fall back to static exclusions
+    const dbPharmacies = pharmacyAvailability?.[med.id] || medicationStrategy?.pharmacies || {};
+
+    // Check database first, then fall back to static exclusion lists
+    const checkPharmacyAvailable = (pharmacy, exclusionList) => {
+        if (dbPharmacies[pharmacy] !== undefined) {
+            return dbPharmacies[pharmacy]?.available ?? dbPharmacies[pharmacy];
+        }
+        // Fallback to static exclusions
+        return !exclusionList.includes(med.id) && med.manufacturer !== 'Various';
+    };
+
+    const isCostPlusAvailable = checkPharmacyAvailable('costplus', COST_PLUS_EXCLUSIONS_DATA);
+    const isBlinkHealthAvailable = checkPharmacyAvailable('blinkhealth', BLINK_HEALTH_EXCLUSIONS_DATA);
+    const isWalmartAvailable = checkPharmacyAvailable('walmart', WALMART_EXCLUSIONS_DATA);
+    const isGoodRxAvailable = checkPharmacyAvailable('goodrx', GOODRX_EXCLUSIONS_DATA);
+    const isSingleCareAvailable = checkPharmacyAvailable('singlecare', SINGLECARE_EXCLUSIONS_DATA);
+
+    // Get retail price from strategy if available
+    const retailPrice = medicationStrategy?.strategy ?
+        formatPriceRange(medicationStrategy.strategy.retail_price_low, medicationStrategy.strategy.retail_price_high) : null;
+    const retailPriceNote = medicationStrategy?.strategy?.retail_price_note;
+    const commonMistakes = medicationStrategy?.strategy?.common_mistakes || [];
+    const savingsOptions = medicationStrategy?.strategy?.savingsOptions || [];
 
     const papLink = med.papUrl || `https://www.drugs.com/search.php?searchterm=${med.brandName.split('/')[0]}`;
     const papLinkText = med.papUrl ? "Visit Manufacturer Program" : "Search for Program on Drugs.com";
@@ -2415,6 +2466,146 @@ const MedicationCard = ({ med, activeTab, onRemove, onPriceReportSubmit }) => {
                 )}
                 {activeTab === 'ASSISTANCE' && (
                     <div className="space-y-6 fade-in">
+                        {/* Retail Price Banner - from database */}
+                        {retailPrice && (
+                            <div className="bg-red-50 border border-red-200 rounded-lg p-4 flex items-center gap-3">
+                                <DollarSign size={24} className="text-red-600 flex-shrink-0" />
+                                <div>
+                                    <p className="font-bold text-red-800">Retail Price: {retailPrice}/month</p>
+                                    {retailPriceNote && <p className="text-sm text-red-700">{retailPriceNote}</p>}
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Common Mistakes / Warnings - from database */}
+                        {commonMistakes.length > 0 && (
+                            <div className="bg-amber-50 border border-amber-300 rounded-lg p-4">
+                                <h3 className="font-bold text-amber-900 mb-2 flex items-center gap-2">
+                                    <AlertTriangle size={18} /> Important Warnings
+                                </h3>
+                                <ul className="space-y-2">
+                                    {commonMistakes.map((mistake, idx) => (
+                                        <li key={idx} className="text-sm text-amber-800 flex items-start gap-2">
+                                            <AlertCircle size={14} className="mt-0.5 flex-shrink-0" />
+                                            {mistake}
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        )}
+
+                        {/* Database-driven Savings Options */}
+                        {savingsOptions.length > 0 && (
+                            <div className="space-y-4">
+                                <h3 className="font-bold text-slate-900 text-lg flex items-center gap-2">
+                                    <HeartHandshake size={20} className="text-emerald-600" /> Savings Options
+                                </h3>
+                                {savingsOptions.map((option, idx) => (
+                                    <div key={option.id || idx} className={`border rounded-lg overflow-hidden ${
+                                        option.option_type === 'copay_card' ? 'border-blue-200 bg-blue-50/30' :
+                                        option.option_type === 'pap' ? 'border-emerald-200 bg-emerald-50/30' :
+                                        'border-purple-200 bg-purple-50/30'
+                                    }`}>
+                                        <div className="p-4">
+                                            <div className="flex justify-between items-start mb-2">
+                                                <h4 className="font-bold text-slate-900">{option.name}</h4>
+                                                <span className={`px-2 py-1 rounded text-xs font-bold ${
+                                                    option.estimated_cost_cents === 0 ? 'bg-emerald-600 text-white' : 'bg-blue-600 text-white'
+                                                }`}>
+                                                    {formatPrice(option.estimated_cost_cents)}/month
+                                                </span>
+                                            </div>
+                                            {option.description && (
+                                                <p className="text-sm text-slate-700 mb-3">{option.description}</p>
+                                            )}
+                                            {option.estimated_cost_note && (
+                                                <p className="text-xs text-slate-600 mb-3 italic">{option.estimated_cost_note}</p>
+                                            )}
+
+                                            {/* Eligibility */}
+                                            {option.eligibility_criteria?.length > 0 && (
+                                                <div className="mb-3">
+                                                    <p className="text-xs font-bold text-slate-700 mb-1">Eligibility:</p>
+                                                    <ul className="text-xs text-slate-600 space-y-1">
+                                                        {option.eligibility_criteria.map((req, i) => (
+                                                            <li key={i} className="flex items-start gap-1">
+                                                                <CheckCircle size={12} className="mt-0.5 text-emerald-600 flex-shrink-0" />
+                                                                {req}
+                                                            </li>
+                                                        ))}
+                                                    </ul>
+                                                </div>
+                                            )}
+
+                                            {/* Step-by-step Instructions */}
+                                            {option.steps?.length > 0 && (
+                                                <div className="bg-white/50 rounded-lg p-3 mb-3">
+                                                    <p className="text-xs font-bold text-slate-800 mb-2 flex items-center gap-1">
+                                                        <ClipboardList size={14} /> Steps to Apply:
+                                                    </p>
+                                                    <ol className="space-y-2">
+                                                        {option.steps.map((step, i) => (
+                                                            <li key={i} className="flex items-start gap-2 text-sm">
+                                                                <span className="bg-slate-700 text-white w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0">
+                                                                    {step.step_number || i + 1}
+                                                                </span>
+                                                                <div>
+                                                                    <span className="font-medium text-slate-900">{step.action}</span>
+                                                                    {step.details && <p className="text-xs text-slate-600">{step.details}</p>}
+                                                                    {step.url && (
+                                                                        <a href={step.url} target="_blank" rel="noreferrer" className="text-xs text-blue-600 hover:underline flex items-center gap-1 mt-1">
+                                                                            Visit website <ExternalLink size={10} />
+                                                                        </a>
+                                                                    )}
+                                                                    {step.phone && (
+                                                                        <a href={`tel:${step.phone}`} className="text-xs text-blue-600 hover:underline flex items-center gap-1 mt-1">
+                                                                            <Phone size={10} /> {step.phone}
+                                                                        </a>
+                                                                    )}
+                                                                </div>
+                                                            </li>
+                                                        ))}
+                                                    </ol>
+                                                </div>
+                                            )}
+
+                                            {/* Documents Needed */}
+                                            {option.documents_needed?.length > 0 && (
+                                                <div className="mb-3">
+                                                    <p className="text-xs font-bold text-slate-700 mb-1 flex items-center gap-1">
+                                                        <FileText size={12} /> Documents Needed:
+                                                    </p>
+                                                    <ul className="text-xs text-slate-600 space-y-1">
+                                                        {option.documents_needed.map((doc, i) => (
+                                                            <li key={i} className="flex items-start gap-1">
+                                                                <span className="text-slate-400">•</span> {doc}
+                                                            </li>
+                                                        ))}
+                                                    </ul>
+                                                </div>
+                                            )}
+
+                                            {/* Contact Info */}
+                                            <div className="flex flex-wrap gap-2 mt-3 no-print">
+                                                {option.url && (
+                                                    <a href={option.url} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition">
+                                                        Apply Now <ExternalLink size={12} />
+                                                    </a>
+                                                )}
+                                                {option.phone && (
+                                                    <a href={`tel:${option.phone}`} className="inline-flex items-center gap-1 px-3 py-1.5 bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 text-sm font-medium rounded-lg transition">
+                                                        <Phone size={12} /> {option.phone}
+                                                    </a>
+                                                )}
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+
+                        {/* Fallback to static options if no database options */}
+                        {savingsOptions.length === 0 && (
                         <div className="grid md:grid-cols-2 gap-6">
                             <section className="border border-emerald-100 rounded-lg p-4 bg-emerald-50/30">
                                 <h3 className="font-bold text-emerald-800 mb-2 flex items-center gap-2"><Building size={18} aria-hidden="true" /> Manufacturer PAP</h3>
@@ -2427,6 +2618,7 @@ const MedicationCard = ({ med, activeTab, onRemove, onPriceReportSubmit }) => {
                                 <a href="https://fundfinder.panfoundation.org/" target="_blank" rel="noreferrer" className="w-full block text-center bg-white border border-sky-600 text-sky-700 hover:bg-sky-50 py-2 rounded-lg text-sm font-medium transition no-print" aria-label="Check PAN Foundation FundFinder Tool (opens in new tab)">Check FundFinder Tool</a>
                             </section>
                         </div>
+                        )}
                         <div className="bg-gradient-to-r from-indigo-50 to-purple-50 border-2 border-indigo-200 rounded-xl p-5 shadow-sm no-print">
                             <div className="flex items-start gap-4">
                                 <div className="bg-indigo-600 text-white p-2.5 rounded-lg flex-shrink-0" aria-hidden="true">
