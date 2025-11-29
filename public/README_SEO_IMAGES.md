@@ -17,7 +17,7 @@ To complete your SEO setup, you need to create two social media sharing images:
 ## Design Recommendations:
 
 ### Content to Include:
-- **Main Title:** "Transplant Medication Navigator"
+- **Main Title:** "Medication Navigator"
 - **Subtitle:** "Free Medication Assistance Guide"
 - **Visual elements:**
   - Medical/healthcare imagery (pills, heart, medical cross)
@@ -76,7 +76,7 @@ You can also use AI tools to generate the images:
 - Leonardo.ai
 
 **Prompt example:**
-"Create a professional medical website banner for a transplant medication assistance program. Include medical imagery like pills or a heart symbol. Use emerald green and white colors. Clean, modern, trustworthy design. 1200x630 pixels."
+"Create a professional medical website banner for a medication assistance program. Include medical imagery like pills or a heart symbol. Use emerald green and white colors. Clean, modern, trustworthy design. 1200x630 pixels."
 
 ---
 

@@ -182,7 +182,7 @@ const ChatWidget = () => {
         {
             id: 1,
             type: 'assistant',
-            text: "👋 Hi! I'm your Transplant Medication Navigator assistant. I can help you find medication assistance, understand insurance, and navigate our tools.\n\nWhat can I help you with today?",
+            text: "👋 Hi! I'm your Medication Navigator assistant. I can help you find medication assistance, understand insurance, and navigate our tools.\n\nWhat can I help you with today?",
             timestamp: new Date()
         }
     ]);
@@ -389,10 +389,10 @@ const Layout = ({ children }) => {
             {/* Header */}
             <header className="sticky top-0 z-50 bg-white shadow-sm border-b border-slate-200 no-print" role="banner">
                 <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-                    <Link to="/" className="flex items-center gap-2 text-emerald-700 hover:text-emerald-800 transition" aria-label="Transplant Medication Navigator home">
+                    <Link to="/" className="flex items-center gap-2 text-emerald-700 hover:text-emerald-800 transition" aria-label="Medication Navigator home">
                         <HeartHandshake size={28} aria-hidden="true" />
                         <span className="font-bold text-lg md:text-xl leading-tight">
-                            Transplant Med<br className="md:hidden"/> Navigator
+                            Medication<br className="md:hidden"/> Navigator
                         </span>
                     </Link>
 
@@ -468,10 +468,10 @@ const Layout = ({ children }) => {
                         <Clock className="inline-block w-4 h-4 mr-1 -mt-0.5" aria-hidden="true" />
                         Information last updated: {LAST_UPDATED}
                     </p>
-                    <p>© {new Date().getFullYear()} Transplant Medication Navigator. No data is stored on our servers.</p>
+                    <p>© {new Date().getFullYear()} Medication Navigator. No data is stored on our servers.</p>
                     <p className="mt-4 text-slate-300 text-sm">Created by Lorrinda Gray-Davis. est August 2025</p>
                     <p className="mt-2 text-slate-400 text-sm">
-                        <a href="mailto:info@transplantmedicationnavigator.com" className="text-emerald-400 hover:text-emerald-300 underline">info@transplantmedicationnavigator.com</a>
+                        <a href="mailto:info@medicationnavigator.com" className="text-emerald-400 hover:text-emerald-300 underline">info@medicationnavigator.com</a>
                     </p>
                 </div>
             </footer>
@@ -1397,8 +1397,8 @@ const Wizard = () => {
 };
 
 // --- PRICE REPORTING HELPERS ---
-const PRICE_REPORTS_KEY = 'transplant_med_price_reports';
-const PRICE_STATS_KEY = 'transplant_med_price_stats';
+const PRICE_REPORTS_KEY = 'med_nav_price_reports';
+const PRICE_STATS_KEY = 'med_nav_price_stats';
 const PRICE_ESTIMATES_LAST_UPDATED = '2025-11-24'; // November 2025
 
 // Get cached stats from localStorage (for immediate render)

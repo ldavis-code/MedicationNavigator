@@ -1,7 +1,7 @@
 # SEO & Deployment Guide
 ## Getting Your Site on Google & Search Engines
 
-This guide will help you deploy your Transplant Medication Navigator website and get it indexed by search engines.
+This guide will help you deploy your Medication Navigator website and get it indexed by search engines.
 
 ---
 
@@ -28,7 +28,7 @@ Save these in the `/public` folder. Use a design tool like:
 - Figma (free, professional): https://www.figma.com
 
 **Image should include:**
-- Your website name: "Transplant Medication Navigator"
+- Your website name: "Medication Navigator"
 - Tagline: "Free Medication Assistance Guide"
 - Simple medical/health imagery
 - Clean, readable text
@@ -63,7 +63,7 @@ You need to host your site on a public server. Here are the best free options:
 
 4. **Set up custom domain:**
    - In Netlify dashboard, go to Domain Settings
-   - Add `transplantmedicationnavigator.com`
+   - Add `medicationnavigator.com`
    - Follow DNS configuration instructions from your domain registrar
 
 ### Option B: Vercel
@@ -104,14 +104,14 @@ You need to host your site on a public server. Here are the best free options:
 ### Google Search Console
 
 1. **Visit:** https://search.google.com/search-console
-2. **Add Property:** Enter your domain `transplantmedicationnavigator.com`
+2. **Add Property:** Enter your domain `medicationnavigator.com`
 3. **Verify Ownership:** Choose verification method:
    - DNS record (recommended)
    - HTML file upload
    - HTML meta tag
 4. **Submit Sitemap:**
    - Click "Sitemaps" in left menu
-   - Enter: `https://transplantmedicationnavigator.com/sitemap.xml`
+   - Enter: `https://medicationnavigator.com/sitemap.xml`
    - Click Submit
 
 ### Bing Webmaster Tools
@@ -119,7 +119,7 @@ You need to host your site on a public server. Here are the best free options:
 1. **Visit:** https://www.bing.com/webmasters
 2. **Add Site:** Enter your URL
 3. **Verify Ownership:** Similar to Google
-4. **Submit Sitemap:** `https://transplantmedicationnavigator.com/sitemap.xml`
+4. **Submit Sitemap:** `https://medicationnavigator.com/sitemap.xml`
 
 ### Request Indexing (Optional but faster)
 
@@ -183,7 +183,7 @@ Your Vite build is already optimized with:
 ### Content Optimization
 
 Your content already targets good keywords:
-- "transplant medication assistance"
+- "medication assistance"
 - "patient assistance programs"
 - "medication costs"
 - "immunosuppressants"

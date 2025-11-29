@@ -54,7 +54,7 @@ const FAQ = () => {
                 </div>
                 <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">Frequently Asked Questions</h1>
                 <p className="text-xl text-slate-600 max-w-3xl mx-auto">
-                    Find answers to common questions about transplant medications, assistance programs, and using this site.
+                    Find answers to common questions about medications, assistance programs, and using this site.
                 </p>
             </header>
 

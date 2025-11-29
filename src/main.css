@@ -381,7 +381,7 @@ body {
 
     /* ---- Website URL Header ---- */
     body::before {
-        content: "Transplant Medication Navigator - TransplantMedNavigator.com";
+        content: "Medication Navigator - MedicationNavigator.com";
         display: block;
         text-align: center;
         font-size: 10pt;
@@ -393,7 +393,7 @@ body {
 
     /* ---- Print Date Footer ---- */
     body::after {
-        content: "Printed from TransplantMedNavigator.com - Information may change. Always verify with your healthcare provider.";
+        content: "Printed from MedicationNavigator.com - Information may change. Always verify with your healthcare provider.";
         display: block;
         text-align: center;
         font-size: 9pt;

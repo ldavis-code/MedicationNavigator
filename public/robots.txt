@@ -1,11 +1,11 @@
-# robots.txt for Transplant Medication Navigator
+# robots.txt for Medication Navigator
 # Allow all search engines to crawl the site
 
 User-agent: *
 Allow: /
 
 # Sitemap location
-Sitemap: https://transplantmedicationnavigator.com/sitemap.xml
+Sitemap: https://medicationnavigator.com/sitemap.xml
 
 # Optional: Crawl delay (uncomment if needed to reduce server load)
 # Crawl-delay: 1
