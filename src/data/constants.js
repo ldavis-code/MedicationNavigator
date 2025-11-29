@@ -9,23 +9,30 @@ export const Role = {
     SOCIAL_WORKER: 'Social Worker / Coordinator',
 };
 
-// Transplant status
-export const TransplantStatus = {
-    PRE_EVAL: 'Pre-transplant (Evaluation/Waitlist)',
-    POST_ACUTE: 'Post-transplant (Within 1st year)',
-    POST_STABLE: 'Post-transplant (1+ years)',
+// Care stage
+export const CareStage = {
+    PRE_TREATMENT: 'Pre-treatment (Newly Diagnosed/Evaluation)',
+    ACTIVE_TREATMENT: 'Active Treatment (Within 1st year)',
+    MAINTENANCE: 'Maintenance (1+ years ongoing care)',
 };
 
-// Organ types
-export const OrganType = {
-    KIDNEY: 'Kidney',
-    LIVER: 'Liver',
-    HEART: 'Heart',
-    LUNG: 'Lung',
-    PANCREAS: 'Pancreas',
-    MULTI: 'Multi-organ',
+// Legacy alias for backwards compatibility
+export const TransplantStatus = CareStage;
+
+// Health condition types
+export const HealthCondition = {
+    KIDNEY: 'Kidney Disease',
+    LIVER: 'Liver Disease',
+    HEART: 'Heart Condition',
+    LUNG: 'Lung/Respiratory',
+    DIABETES: 'Diabetes',
+    AUTOIMMUNE: 'Autoimmune Condition',
+    CANCER: 'Cancer/Oncology',
     OTHER: 'Other',
 };
+
+// Legacy alias for backwards compatibility
+export const OrganType = HealthCondition;
 
 // Insurance types
 export const InsuranceType = {
@@ -46,9 +53,12 @@ export const FinancialStatus = {
     CRISIS: 'Crisis',
 };
 
-// Transplant stage
-export const TransplantStage = {
-    PRE: 'Pre-transplant',
-    POST: 'Post-transplant',
-    BOTH: 'Both (Pre & Post)',
+// Treatment stage
+export const TreatmentStage = {
+    PRE: 'Pre-treatment',
+    POST: 'Active/Ongoing Treatment',
+    BOTH: 'Both (All Stages)',
 };
+
+// Legacy alias for backwards compatibility
+export const TransplantStage = TreatmentStage;

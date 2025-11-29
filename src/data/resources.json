@@ -8,7 +8,7 @@
   {
     "name": "American Kidney Fund (AKF)",
     "url": "https://www.kidneyfund.org/",
-    "description": "Provides treatment-related financial assistance to dialysis and transplant patients who meet eligibility criteria.",
+    "description": "Provides treatment-related financial assistance to dialysis and kidney disease patients who meet eligibility criteria.",
     "category": "Foundation"
   },
   {
@@ -68,13 +68,13 @@
   {
     "name": "TRIO (Transplant Recipients International Organization)",
     "url": "https://www.trioweb.org/",
-    "description": "The nation's largest organization of transplant recipients, living donors, donor families, and candidates. Offers local chapters, peer mentoring, and educational resources.",
+    "description": "A nonprofit organization dedicated to supporting patients through peer mentoring and educational resources.",
     "category": "Support Group"
   },
   {
     "name": "Donate Life America",
     "url": "https://www.donatelife.net/patient-services/",
-    "description": "Connects transplant recipients with local resources, events, and community support programs across the United States.",
+    "description": "Connects patients with local resources, events, and community support programs across the United States.",
     "category": "Support Group"
   }
 ]

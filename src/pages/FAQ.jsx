@@ -99,7 +99,7 @@ const FAQ = () => {
             <aside className="bg-emerald-50 border border-emerald-200 rounded-xl p-6 md:p-8 text-center">
                 <h2 className="text-xl font-bold text-emerald-900 mb-3">Still have questions?</h2>
                 <p className="text-emerald-800 mb-6">
-                    Your transplant center's social worker or financial coordinator is your best resource for personalized guidance.
+                    Your healthcare facility's social worker or financial coordinator is your best resource for personalized guidance.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                     <Link

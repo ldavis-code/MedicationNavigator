@@ -1,11 +1,11 @@
 {
   "greeting": {
     "keywords": ["hello", "hi", "hey", "help"],
-    "response": "Hello! I'm here to help you navigate transplant medication assistance. I can help you with:\n\n• Understanding insurance coverage\n• Finding patient assistance programs\n• Navigating the My Path wizard\n• Learning about specific medications\n\nWhat would you like to know?"
+    "response": "Hello! I'm here to help you navigate medication assistance. I can help you with:\n\n• Understanding insurance coverage\n• Finding patient assistance programs\n• Navigating the My Path wizard\n• Learning about specific medications\n\nWhat would you like to know?"
   },
   "insurance": {
     "keywords": ["insurance", "medicare", "medicaid", "commercial", "coverage"],
-    "response": "**Insurance Coverage Options:**\n\n• **Medicare**: Check Part B-ID for immunosuppressants if you're a kidney transplant patient\n• **Medicaid**: State-specific coverage - check your state's program\n• **Commercial**: Use specialty pharmacies and copay cards\n• **Uninsured**: Apply for manufacturer Patient Assistance Programs (PAPs)\n\nNeed help with a specific insurance type?"
+    "response": "**Insurance Coverage Options:**\n\n• **Medicare**: Check Part B-ID for immunosuppressants if you have kidney disease\n• **Medicaid**: State-specific coverage - check your state's program\n• **Commercial**: Use specialty pharmacies and copay cards\n• **Uninsured**: Apply for manufacturer Patient Assistance Programs (PAPs)\n\nNeed help with a specific insurance type?"
   },
   "pap": {
     "keywords": ["pap", "patient assistance", "free medication", "afford", "cost"],
@@ -17,15 +17,15 @@
   },
   "specialtyPharmacy": {
     "keywords": ["specialty pharmacy", "mail order", "cvs", "walgreens"],
-    "response": "**Specialty Pharmacy Requirements:**\n\nMost commercial insurance requires transplant meds be filled at designated specialty pharmacies (not retail).\n\n**Common specialty pharmacies:**\n• Accredo\n• CVS Specialty\n• Walgreens Specialty\n• Briova/Optum\n\n**Important:** Using the wrong pharmacy = full price! Call your insurance to confirm which one you must use."
+    "response": "**Specialty Pharmacy Requirements:**\n\nMost commercial insurance requires specialty meds be filled at designated specialty pharmacies (not retail).\n\n**Common specialty pharmacies:**\n• Accredo\n• CVS Specialty\n• Walgreens Specialty\n• Briova/Optum\n\n**Important:** Using the wrong pharmacy = full price! Call your insurance to confirm which one you must use."
   },
   "medications": {
     "keywords": ["tacrolimus", "prograf", "cyclosporine", "mycophenolate", "cellcept", "medication"],
-    "response": "**Common Transplant Medications:**\n\n**Immunosuppressants** (prevent rejection):\n• Tacrolimus (Prograf)\n• Cyclosporine (Neoral)\n• Mycophenolate (CellCept)\n\n**Anti-virals** (prevent infection):\n• Valganciclovir (Valcyte)\n• Acyclovir (Zovirax)\n\nUse our **Search Meds** tool to find pricing, manufacturer PAPs, and assistance programs for specific medications."
+    "response": "**Common Specialty Medications:**\n\n**Immunosuppressants** (for autoimmune/chronic conditions):\n• Tacrolimus (Prograf)\n• Cyclosporine (Neoral)\n• Mycophenolate (CellCept)\n\n**Anti-virals** (prevent infection):\n• Valganciclovir (Valcyte)\n• Acyclovir (Zovirax)\n\nUse our **Search Meds** tool to find pricing, manufacturer PAPs, and assistance programs for specific medications."
   },
   "wizard": {
     "keywords": ["my path", "wizard", "quiz", "start"],
-    "response": "**My Path Wizard Guide:**\n\nThe wizard creates a personalized medication assistance plan based on:\n\n1. Your role (patient/carepartner/social worker)\n2. Transplant status (pre/post)\n3. Organ type\n4. Insurance type\n5. Medications you take\n6. Financial situation\n\nIt takes about 3-5 minutes and your data is never stored. Ready to start?"
+    "response": "**My Path Wizard Guide:**\n\nThe wizard creates a personalized medication assistance plan based on:\n\n1. Your role (patient/carepartner/social worker)\n2. Care stage (pre-treatment/active treatment)\n3. Health condition\n4. Insurance type\n5. Medications you take\n6. Financial situation\n\nIt takes about 3-5 minutes and your data is never stored. Ready to start?"
   },
   "application": {
     "keywords": ["apply", "application", "how to apply", "documents", "forms"],
