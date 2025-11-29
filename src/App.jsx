@@ -1746,7 +1746,7 @@ const Wizard = () => {
                                     <AlertCircle size={20} aria-hidden="true" /> Important Note
                                 </h2>
                                 <p className="text-slate-700">
-                                    Copay cards from drug companies usually <strong>don't work with Medicare or Medicaid</strong>. But you may qualify for other help programs. Check out Patient Assistance Programs instead.
+                                    Copay cards from drug companies <strong>cannot be used with Medicare, Medicare Advantage, or Medicaid</strong>. This is federal law (the Anti-Kickback Statute). Instead, look into <strong>copay assistance foundations</strong> (like HealthWell or PAN Foundation) which ARE allowed to help Medicare patients.
                                 </p>
                             </section>
                         )}

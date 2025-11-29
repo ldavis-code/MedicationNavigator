@@ -223,7 +223,7 @@ CREATE TABLE IF NOT EXISTS savings_options (
     url TEXT,
     phone TEXT,
     priority INTEGER DEFAULT 0, -- display order (higher = show first)
-    insurance_types JSONB DEFAULT '[]'::jsonb, -- ['commercial', 'medicare', 'medicaid', 'uninsured']
+    insurance_types JSONB DEFAULT '[]'::jsonb, -- Valid values: 'commercial', 'medicaid', 'uninsured'. NOTE: copay_card type MUST NEVER include 'medicare' or 'medicare_advantage' - federal anti-kickback law prohibits manufacturer copay assistance for Medicare patients
     is_active BOOLEAN DEFAULT TRUE,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
@@ -267,8 +267,8 @@ VALUES (
     110000, -- $1100
     'without insurance, per month',
     '[
-        "Don''t use the copay card if you''re in the Medicare donut hole—it won''t count toward your out-of-pocket max.",
-        "Copay cards cannot be used with Medicare, Medicaid, or other government insurance.",
+        "Copay cards are NEVER available for Medicare or Medicare Advantage patients—this is federal law (Anti-Kickback Statute). Medicare patients should look into copay assistance foundations instead.",
+        "Copay cards also cannot be used with Medicaid or other government insurance programs.",
         "Patient assistance approval can take 2-4 weeks—apply before you run out of medication.",
         "Some pharmacies charge different prices—always compare before filling."
     ]'::jsonb
