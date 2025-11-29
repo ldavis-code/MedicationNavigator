@@ -28,7 +28,17 @@ import {
     OrganType,
     InsuranceType,
     FinancialStatus,
-    TransplantStage
+    TransplantStage,
+    MedicineJourney,
+    HealthCondition,
+    HasInsurance,
+    InsuranceSource,
+    HasDrugPlan,
+    PharmacyType,
+    AffordabilityLevel,
+    CostBehaviors,
+    CopayRange,
+    HelpTypes
 } from './data/constants.js';
 import MEDICATIONS_DATA from './data/medications.json';
 import DIRECTORY_RESOURCES_DATA from './data/resources.json';
@@ -732,32 +742,40 @@ const WizardHelp = ({ step, answers }) => {
 
     const helpContent = {
         1: {
-            title: "Choosing Your Role",
-            content: "Select the option that best describes you. This helps us tailor the guidance:\n\n• **Patient**: You're receiving healthcare treatment\n• **Carepartner**: You're helping a loved one\n• **Social Worker**: You're assisting patients professionally\n\nAll roles receive the same resources, but the language may be adjusted."
+            title: "About This Question",
+            content: "Let us know who will be using this information. If you're helping someone else with their medicine, we can adjust the questions to fit your situation."
         },
         2: {
-            title: "Care Stage",
-            content: "Your care stage determines which medications are relevant:\n\n• **Pre-treatment**: Shows medications for newly diagnosed patients\n• **Active Treatment (1st year)**: Focus on primary treatment medications\n• **Maintenance (1+ years)**: Long-term maintenance medications\n\nDifferent assistance programs may be available at each stage."
+            title: "Why We Ask This",
+            content: "Whether you're just starting a medicine or have been on it for a while can affect what kind of help is available to you. Some programs are only for new patients."
         },
         3: {
-            title: "Selecting Your Condition",
-            content: "Choose all conditions that apply to your situation:\n\n• **Single condition**: We'll show medications specific to that condition\n• **Multiple conditions**: Select all relevant conditions\n• **Other/Not listed**: Shows general medications\n\nThis filters the medication list to show only relevant options."
+            title: "Health Conditions",
+            content: "Check all the health issues that apply. This helps us find programs made for people with your conditions. If you're not sure about something, that's okay — just check what you know."
         },
         4: {
-            title: "Insurance Type",
-            content: "Your insurance determines which assistance programs you can use:\n\n• **Commercial**: Can use manufacturer copay cards + PAPs\n• **Medicare**: Part B-ID important for kidney disease patients; can use PAPs but NOT copay cards\n• **Medicaid**: May have full coverage; check state formulary\n• **Uninsured**: Manufacturer PAPs are your primary option\n\n💡 Having insurance doesn't mean you can't get additional help!"
+            title: "About Insurance",
+            content: "Your insurance type affects what help you can get. For example, some discount cards only work with private insurance, not government programs like Medicare or Medicaid."
         },
         5: {
-            title: "Selecting Medications",
-            content: "Choose all medications you currently take or expect to take:\n\n• Don't worry if you're not sure - you can always come back\n• Selecting medications gives you direct links to manufacturer programs\n• You can search for specific meds using the Search Meds tool\n\n💡 If you're pre-treatment, the list shows initial care medications. Active treatment shows maintenance medications."
+            title: "Finding Your Medicine",
+            content: "Type the name of your medicine. You can use either the brand name (like Humira) or the generic name (like adalimumab). Look at your pill bottle if you need help spelling it."
         },
         6: {
-            title: "Specialty Pharmacy",
-            content: "**Why this matters:**\n\nCommercial insurance often requires specialty meds be filled at a designated specialty pharmacy (not your local CVS/Walgreens).\n\n**If you use the wrong pharmacy:**\n• Insurance won't cover it\n• You'll pay full price ($1000s)\n\n**What to do:**\nCall your insurance and ask: 'Which specialty pharmacy must I use for my specialty medications?'\n\nCommon ones: Accredo, CVS Specialty, Walgreens Specialty, Optum"
+            title: "Pharmacy Types",
+            content: "A specialty pharmacy handles medicines that need special care, like medicines that must stay cold. Your doctor or insurance company can tell you if your medicine needs a specialty pharmacy."
         },
         7: {
-            title: "Financial Status",
-            content: "**Be honest - this helps us prioritize the best help for you:**\n\n• **Manageable**: We'll show copay savings tips\n• **Challenging**: Focus on PAPs and foundations\n• **Unaffordable**: Urgent PAP applications recommended\n• **Crisis**: Immediate assistance pathways\n\nYour answer is NEVER stored or shared. Many people qualify for help even if costs seem manageable now."
+            title: "Medicine Costs",
+            content: "Being honest about costs helps us find the right programs for you. Many people struggle to pay for medicine — you're not alone, and there are programs that can help."
+        },
+        8: {
+            title: "Types of Help",
+            content: "There are many ways to get help with medicine costs. Copay cards lower what you pay at the pharmacy. Patient assistance programs can give you medicine for free or at low cost."
+        },
+        9: {
+            title: "Your Information",
+            content: "We use your contact information to send you your personalized results and updates about savings programs. We never sell your information."
         }
     };
 
@@ -847,20 +865,52 @@ const MedicationSuggestions = ({ answers, onSelectMedication }) => {
     );
 };
 
-// Wizard Page
+// Wizard Page - Health Quiz (6th Grade Reading Level)
 const Wizard = () => {
     useMetaTags(seoMetadata.wizard);
 
-    const [step, setStep] = useState(1);
+    // Total steps: 0=welcome, 1-8=questions, 9=contact, 10=results
+    const TOTAL_STEPS = 10;
+    const [step, setStep] = useState(0);
+    const [medSearchQuery, setMedSearchQuery] = useState('');
+    const [showMedSuggestions, setShowMedSuggestions] = useState(false);
+
     const [answers, setAnswers] = useState({
+        // Step 1: Who is this for
         role: null,
-        status: null,
-        organs: [],
-        insurance: null,
+        // Step 2: Medicine journey
+        medicineJourney: null,
+        // Step 3: Health conditions
+        healthConditions: [],
+        otherCondition: '',
+        // Step 4: Insurance
+        hasInsurance: null,
+        insuranceSource: null,
+        hasDrugPlan: null,
+        // Step 5: Medications
         medications: [],
-        specialtyPharmacyAware: null,
-        financialStatus: null,
+        medicationText: '',
+        // Step 6: Pharmacy type
+        pharmacyType: null,
+        // Step 7: Paying for medicine
+        affordability: null,
+        costBehaviors: [],
+        copayRange: null,
+        // Step 8: Help needed
+        helpTypes: [],
+        // Step 9: Contact info
+        firstName: '',
+        email: '',
+        phone: '',
+        smsConsent: false,
     });
+
+    // Fuse.js for medication search
+    const fuse = useMemo(() => new Fuse(MEDICATIONS, {
+        keys: ['brandName', 'genericName'],
+        threshold: 0.3,
+        includeScore: true
+    }), []);
 
     const handleSingleSelect = (key, value) => {
         setAnswers({ ...answers, [key]: value });
@@ -874,50 +924,100 @@ const Wizard = () => {
         setAnswers({ ...answers, [key]: updated });
     };
 
+    const handleInputChange = (key, value) => {
+        setAnswers({ ...answers, [key]: value });
+    };
+
     const nextStep = () => setStep(step + 1);
     const prevStep = () => setStep(step - 1);
 
-    // Navigation Logic
-    const handleNextFromInsurance = () => setStep(5);
-    const handleNextFromMeds = () => {
-        if (answers.insurance === InsuranceType.COMMERCIAL) {
-            setStep(6);
+    // Search medications
+    const searchResults = medSearchQuery.length > 1
+        ? fuse.search(medSearchQuery).slice(0, 8).map(r => r.item)
+        : [];
+
+    // Navigation helpers
+    const handleNextFromInsurance = () => {
+        // If no insurance, skip insurance details
+        if (answers.hasInsurance === HasInsurance.NO) {
+            setStep(5);
         } else {
-            setStep(7);
+            // Continue to next sub-question or move on
+            nextStep();
         }
     };
-    const handleNextFromSpecialty = () => setStep(7);
-    const handleNextFromFinancial = () => setStep(8);
+    // Progress bar (shows questions 1-8, not welcome or results)
+    const renderProgress = () => {
+        if (step === 0 || step === 10) return null;
+        const questionNumber = step;
+        const totalQuestions = 9;
+        return (
+            <div className="mb-8 no-print">
+                <div className="flex justify-between text-sm text-slate-600 mb-2">
+                    <span>Question {questionNumber} of {totalQuestions}</span>
+                </div>
+                <div className="w-full bg-slate-200 h-2 rounded-full" role="progressbar" aria-valuenow={(questionNumber / totalQuestions) * 100} aria-valuemin="0" aria-valuemax="100" aria-label={`Question ${questionNumber} of ${totalQuestions}`}>
+                    <div
+                        className="bg-emerald-500 h-2 rounded-full transition-all duration-300"
+                        style={{ width: `${(questionNumber / totalQuestions) * 100}%` }}
+                    ></div>
+                </div>
+            </div>
+        );
+    };
 
-    const renderProgress = () => (
-        <div className="w-full bg-slate-200 h-2 rounded-full mb-8 no-print" role="progressbar" aria-valuenow={(step / 8) * 100} aria-valuemin="0" aria-valuemax="100" aria-label={`Step ${step} of 8`}>
-            <div 
-                className="bg-emerald-500 h-2 rounded-full transition-all duration-300" 
-                style={{ width: `${(step / 8) * 100}%` }}
-            ></div>
-        </div>
-    );
+    // Step 0: Welcome Screen
+    if (step === 0) {
+        return (
+            <div className="max-w-2xl mx-auto text-center py-8">
+                <div className="mb-8">
+                    <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <Pill size={32} className="text-emerald-600" />
+                    </div>
+                    <h1 className="text-3xl font-bold text-slate-900 mb-4">Find Help Paying for Your Medicine</h1>
+                    <p className="text-lg text-slate-600 mb-2">This quiz takes about 5 minutes.</p>
+                    <p className="text-slate-600">Your answers help us find programs that can lower the cost of your medicine.</p>
+                </div>
 
-    // Step 1: Role
+                <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-6 mb-8">
+                    <div className="flex items-center justify-center gap-2 text-emerald-800">
+                        <Lock size={20} />
+                        <span className="font-medium">Your information is private and safe.</span>
+                    </div>
+                </div>
+
+                <button
+                    onClick={nextStep}
+                    className="w-full py-4 bg-emerald-700 hover:bg-emerald-800 text-white font-bold rounded-xl shadow-lg text-lg transition"
+                >
+                    Start Quiz →
+                </button>
+            </div>
+        );
+    }
+
+    // Step 1: Who is this quiz for?
     if (step === 1) {
         return (
             <div className="max-w-2xl mx-auto">
                 {renderProgress()}
-                <h1 className="text-2xl font-bold mb-6">Step 1: Who are you?</h1>
+                <h1 className="text-2xl font-bold mb-2">About You</h1>
+                <p className="text-slate-600 mb-6">Who is this quiz for?</p>
                 <WizardHelp step={step} answers={answers} />
-                <div className="space-y-3" role="radiogroup" aria-label="Select your role">
-                    {Object.values(Role).map((r) => (
+                <p className="text-sm text-slate-500 mb-4">Choose one:</p>
+                <div className="space-y-3" role="radiogroup" aria-label="Select who this quiz is for">
+                    {Object.entries(Role).map(([key, value]) => (
                         <button
-                            key={r}
-                            onClick={() => { handleSingleSelect('role', r); nextStep(); }}
+                            key={key}
+                            onClick={() => { handleSingleSelect('role', key); nextStep(); }}
                             className={`w-full p-4 text-left rounded-xl border-2 transition flex justify-between items-center ${
-                                answers.role === r ? 'border-emerald-500 bg-emerald-50' : 'border-slate-200 hover:border-emerald-200'
+                                answers.role === key ? 'border-emerald-500 bg-emerald-50' : 'border-slate-200 hover:border-emerald-200'
                             }`}
                             role="radio"
-                            aria-checked={answers.role === r}
+                            aria-checked={answers.role === key}
                         >
-                            <span className="font-medium text-lg">{r}</span>
-                            {answers.role === r && <CheckCircle className="text-emerald-600" aria-hidden="true" />}
+                            <span className="font-medium text-lg">{value}</span>
+                            {answers.role === key && <CheckCircle className="text-emerald-600" aria-hidden="true" />}
                         </button>
                     ))}
                 </div>
@@ -925,27 +1025,29 @@ const Wizard = () => {
         );
     }
 
-    // Step 2: Status
+    // Step 2: Medicine Journey
     if (step === 2) {
         return (
             <div className="max-w-2xl mx-auto">
                 {renderProgress()}
                 <button onClick={prevStep} className="text-slate-700 mb-4 flex items-center gap-1 text-sm hover:text-emerald-600 min-h-[44px] min-w-[44px]" aria-label="Go back to previous step"><ChevronLeft size={16} aria-hidden="true" /> Back</button>
-                <h1 className="text-2xl font-bold mb-6">Step 2: Where are you in the process?</h1>
+                <h1 className="text-2xl font-bold mb-2">Your Medicine Journey</h1>
+                <p className="text-slate-600 mb-6">Have you started taking this medicine yet?</p>
                 <WizardHelp step={step} answers={answers} />
-                <div className="space-y-3" role="radiogroup" aria-label="Select your care stage">
-                    {Object.values(TransplantStatus).map((s) => (
+                <p className="text-sm text-slate-500 mb-4">Choose one:</p>
+                <div className="space-y-3" role="radiogroup" aria-label="Select your medicine journey stage">
+                    {Object.entries(MedicineJourney).map(([key, value]) => (
                         <button
-                            key={s}
-                            onClick={() => { handleSingleSelect('status', s); nextStep(); }}
+                            key={key}
+                            onClick={() => { handleSingleSelect('medicineJourney', key); nextStep(); }}
                             className={`w-full p-4 text-left rounded-xl border-2 transition flex justify-between items-center ${
-                                answers.status === s ? 'border-emerald-500 bg-emerald-50' : 'border-slate-200 hover:border-emerald-200'
+                                answers.medicineJourney === key ? 'border-emerald-500 bg-emerald-50' : 'border-slate-200 hover:border-emerald-200'
                             }`}
                             role="radio"
-                            aria-checked={answers.status === s}
+                            aria-checked={answers.medicineJourney === key}
                         >
-                            <span className="font-medium text-lg">{s}</span>
-                            {answers.status === s && <CheckCircle className="text-emerald-600" aria-hidden="true" />}
+                            <span className="font-medium text-lg">{value}</span>
+                            {answers.medicineJourney === key && <CheckCircle className="text-emerald-600" aria-hidden="true" />}
                         </button>
                     ))}
                 </div>
@@ -953,35 +1055,51 @@ const Wizard = () => {
         );
     }
 
-    // Step 3: Organ
+    // Step 3: Health Conditions
     if (step === 3) {
         return (
             <div className="max-w-2xl mx-auto">
                 {renderProgress()}
                 <button onClick={prevStep} className="text-slate-700 mb-4 flex items-center gap-1 text-sm hover:text-emerald-600 min-h-[44px] min-w-[44px]" aria-label="Go back to previous step"><ChevronLeft size={16} aria-hidden="true" /> Back</button>
-                <h1 className="text-2xl font-bold mb-2">Step 3: Health Condition</h1>
-                <p className="text-slate-600 mb-6">Select all that apply.</p>
+                <h1 className="text-2xl font-bold mb-2">Health Conditions</h1>
+                <p className="text-slate-600 mb-6">What health issues do you have?</p>
                 <WizardHelp step={step} answers={answers} />
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8" role="group" aria-label="Select health conditions">
-                    {Object.values(OrganType).map((o) => (
+                <p className="text-sm text-slate-500 mb-4">Check all that apply:</p>
+                <div className="space-y-3 mb-6" role="group" aria-label="Select health conditions">
+                    {Object.entries(HealthCondition).map(([key, value]) => (
                         <button
-                            key={o}
-                            onClick={() => handleMultiSelect('organs', o)}
-                            className={`p-4 text-left rounded-xl border-2 transition flex justify-between items-center ${
-                                answers.organs.includes(o) ? 'border-emerald-500 bg-emerald-50' : 'border-slate-200 hover:border-emerald-200'
+                            key={key}
+                            onClick={() => handleMultiSelect('healthConditions', key)}
+                            className={`w-full p-4 text-left rounded-xl border-2 transition flex justify-between items-center ${
+                                answers.healthConditions.includes(key) ? 'border-emerald-500 bg-emerald-50' : 'border-slate-200 hover:border-emerald-200'
                             }`}
                             role="checkbox"
-                            aria-checked={answers.organs.includes(o)}
+                            aria-checked={answers.healthConditions.includes(key)}
                         >
-                            <span className="font-medium">{o}</span>
-                            {answers.organs.includes(o) && <CheckCircle size={20} className="text-emerald-600" aria-hidden="true" />}
+                            <span className="font-medium">{value}</span>
+                            {answers.healthConditions.includes(key) && <CheckCircle size={20} className="text-emerald-600" aria-hidden="true" />}
                         </button>
                     ))}
                 </div>
+                {answers.healthConditions.includes('OTHER') && (
+                    <div className="mb-6">
+                        <label className="block text-sm font-medium text-slate-700 mb-2">Please describe:</label>
+                        <input
+                            type="text"
+                            value={answers.otherCondition}
+                            onChange={(e) => handleInputChange('otherCondition', e.target.value)}
+                            className="w-full p-3 border-2 border-slate-200 rounded-lg focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 outline-none"
+                            placeholder="Enter your condition..."
+                        />
+                    </div>
+                )}
+                <p className="text-sm text-slate-500 mb-6 bg-slate-50 p-3 rounded-lg">
+                    <strong>Not sure?</strong> That's okay. Just check what you know.
+                </p>
                 <button
-                    disabled={answers.organs.length === 0}
+                    disabled={answers.healthConditions.length === 0}
                     onClick={nextStep}
-                    className="w-full py-3 bg-emerald-700 disabled:bg-slate-300 text-white font-bold rounded-lg disabled:cursor-not-allowed"
+                    className="w-full py-3 bg-emerald-700 disabled:bg-slate-300 text-white font-bold rounded-lg disabled:cursor-not-allowed hover:bg-emerald-800 transition"
                     aria-label="Continue to next step"
                 >
                     Next Step
@@ -990,129 +1108,88 @@ const Wizard = () => {
         );
     }
 
-    // Step 4: Insurance
+    // Step 4: Insurance (Multi-part A, B, C)
     if (step === 4) {
         return (
             <div className="max-w-2xl mx-auto">
                 {renderProgress()}
                 <button onClick={prevStep} className="text-slate-700 mb-4 flex items-center gap-1 text-sm hover:text-emerald-600 min-h-[44px] min-w-[44px]" aria-label="Go back to previous step"><ChevronLeft size={16} aria-hidden="true" /> Back</button>
-                <h1 className="text-2xl font-bold mb-6">Step 4: Primary Insurance</h1>
-                <WizardHelp step={step} answers={answers} />
-                <div className="space-y-3" role="radiogroup" aria-label="Select your insurance type">
-                    {Object.values(InsuranceType).map((i) => (
-                        <button
-                            key={i}
-                            onClick={() => { handleSingleSelect('insurance', i); handleNextFromInsurance(); }}
-                            className={`w-full p-4 text-left rounded-xl border-2 transition flex justify-between items-center ${
-                                answers.insurance === i ? 'border-emerald-500 bg-emerald-50' : 'border-slate-200 hover:border-emerald-200'
-                            }`}
-                            role="radio"
-                            aria-checked={answers.insurance === i}
-                        >
-                            <span className="font-medium text-lg">{i}</span>
-                            {answers.insurance === i && <CheckCircle className="text-emerald-600" aria-hidden="true" />}
-                        </button>
-                    ))}
-                </div>
-            </div>
-        );
-    }
-
-    // Step 5: Meds
-    if (step === 5) {
-        const isPreTreatment = answers.status === TransplantStatus.PRE_EVAL;
-
-        return (
-            <div className="max-w-3xl mx-auto">
-                {renderProgress()}
-                <button onClick={prevStep} className="text-slate-700 mb-4 flex items-center gap-1 text-sm hover:text-emerald-600 min-h-[44px] min-w-[44px]" aria-label="Go back to previous step"><ChevronLeft size={16} aria-hidden="true" /> Back</button>
-                <div className="mb-6">
-                    <h1 className="text-2xl font-bold mb-2">Step 5: Medications</h1>
-                    <p className="text-slate-600">
-                        Showing medications relevant for: <strong className="text-emerald-700">{isPreTreatment ? 'Pre-Treatment' : 'Active Treatment'}</strong>
-                    </p>
-                </div>
+                <h1 className="text-2xl font-bold mb-6">Your Insurance</h1>
                 <WizardHelp step={step} answers={answers} />
 
-                <MedicationSuggestions
-                    answers={answers}
-                    onSelectMedication={(medId) => handleMultiSelect('medications', medId)}
-                />
-
-                <div className="space-y-6 mb-8">
-                    {(() => {
-                        // First, filter all medications by stage and organs
-                        const userOrgans = answers.organs;
-                        const showAllOrgans = userOrgans.includes(OrganType.OTHER) || userOrgans.includes(OrganType.MULTI);
-
-                        let filteredMeds = MEDICATIONS.filter(m => {
-                            // Filter by stage
-                            if (m.stage === TransplantStage.BOTH) return true;
-                            if (isPreTreatment && m.stage === TransplantStage.PRE) return true;
-                            if (!isPreTreatment && m.stage === TransplantStage.POST) return true;
-                            return false;
-                        });
-
-                        // Filter by organs
-                        if (!showAllOrgans) {
-                            filteredMeds = filteredMeds.filter(m => {
-                                return m.commonOrgans.some(o => userOrgans.includes(o));
-                            });
-                        }
-
-                        // Get unique categories from filtered medications
-                        const categories = [...new Set(filteredMeds.map(m => m.category))];
-
-                        // Define category order for better UX
-                        const categoryOrder = CATEGORY_ORDER_DATA;
-
-                        // Sort categories based on defined order, with unknown categories at the end
-                        const sortedCategories = categories.sort((a, b) => {
-                            const indexA = categoryOrder.indexOf(a);
-                            const indexB = categoryOrder.indexOf(b);
-                            if (indexA === -1 && indexB === -1) return a.localeCompare(b);
-                            if (indexA === -1) return 1;
-                            if (indexB === -1) return -1;
-                            return indexA - indexB;
-                        });
-
-                        return sortedCategories.map(cat => {
-                            const medsInCat = filteredMeds.filter(m => m.category === cat);
-
-                            return (
-                                <div key={cat}>
-                                    <h2 className="text-sm font-bold text-slate-700 uppercase tracking-wide mb-2">{cat}s</h2>
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3" role="group" aria-label={`${cat} medications`}>
-                                         {medsInCat.map((m) => (
-                                            <button
-                                            key={m.id}
-                                            onClick={() => handleMultiSelect('medications', m.id)}
-                                            className={`p-3 text-left rounded-lg border transition flex items-start gap-3 ${
-                                                answers.medications.includes(m.id) ? 'border-emerald-500 bg-emerald-50 ring-1 ring-emerald-500' : 'border-slate-200 hover:bg-slate-50'
-                                            }`}
-                                            role="checkbox"
-                                            aria-checked={answers.medications.includes(m.id)}
-                                            aria-label={`${m.brandName} - ${m.genericName}`}
-                                            >
-                                            <div className={`w-5 h-5 mt-1 rounded border flex items-center justify-center flex-shrink-0 ${answers.medications.includes(m.id) ? 'bg-emerald-500 border-emerald-500' : 'border-slate-300 bg-white'}`} aria-hidden="true">
-                                                {answers.medications.includes(m.id) && <CheckCircle size={14} className="text-white" />}
-                                            </div>
-                                            <div>
-                                                <div className="font-bold text-slate-800">{m.brandName}</div>
-                                                <div className="text-sm text-slate-600">{m.genericName}</div>
-                                            </div>
-                                            </button>
-                                        ))}
-                                    </div>
-                                </div>
-                            );
-                        });
-                    })()}
+                {/* Part A: Do you have insurance? */}
+                <div className="mb-8">
+                    <h2 className="font-bold text-lg mb-4">Step A: Do you have health insurance?</h2>
+                    <div className="space-y-3" role="radiogroup" aria-label="Do you have health insurance">
+                        {Object.entries(HasInsurance).map(([key, value]) => (
+                            <button
+                                key={key}
+                                onClick={() => handleSingleSelect('hasInsurance', key)}
+                                className={`w-full p-4 text-left rounded-xl border-2 transition flex justify-between items-center ${
+                                    answers.hasInsurance === key ? 'border-emerald-500 bg-emerald-50' : 'border-slate-200 hover:border-emerald-200'
+                                }`}
+                                role="radio"
+                                aria-checked={answers.hasInsurance === key}
+                            >
+                                <span className="font-medium">{value}</span>
+                                {answers.hasInsurance === key && <CheckCircle className="text-emerald-600" aria-hidden="true" />}
+                            </button>
+                        ))}
+                    </div>
                 </div>
+
+                {/* Part B: Where does it come from? (only if Yes or Not Sure) */}
+                {(answers.hasInsurance === 'YES' || answers.hasInsurance === 'NOT_SURE') && (
+                    <div className="mb-8">
+                        <h2 className="font-bold text-lg mb-4">Step B: Where does your insurance come from?</h2>
+                        <p className="text-sm text-slate-500 mb-4">Choose one:</p>
+                        <div className="space-y-3" role="radiogroup" aria-label="Where does your insurance come from">
+                            {Object.entries(InsuranceSource).map(([key, value]) => (
+                                <button
+                                    key={key}
+                                    onClick={() => handleSingleSelect('insuranceSource', key)}
+                                    className={`w-full p-4 text-left rounded-xl border-2 transition flex justify-between items-center ${
+                                        answers.insuranceSource === key ? 'border-emerald-500 bg-emerald-50' : 'border-slate-200 hover:border-emerald-200'
+                                    }`}
+                                    role="radio"
+                                    aria-checked={answers.insuranceSource === key}
+                                >
+                                    <span className="font-medium">{value}</span>
+                                    {answers.insuranceSource === key && <CheckCircle className="text-emerald-600" aria-hidden="true" />}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+                )}
+
+                {/* Part C: Prescription drug plan? (only if Yes or Not Sure) */}
+                {(answers.hasInsurance === 'YES' || answers.hasInsurance === 'NOT_SURE') && (
+                    <div className="mb-8">
+                        <h2 className="font-bold text-lg mb-4">Step C: Do you have a prescription drug plan?</h2>
+                        <p className="text-sm text-slate-600 mb-4">This helps pay for medicine. It might be part of your insurance or a separate card.</p>
+                        <div className="space-y-3" role="radiogroup" aria-label="Do you have a prescription drug plan">
+                            {Object.entries(HasDrugPlan).map(([key, value]) => (
+                                <button
+                                    key={key}
+                                    onClick={() => handleSingleSelect('hasDrugPlan', key)}
+                                    className={`w-full p-4 text-left rounded-xl border-2 transition flex justify-between items-center ${
+                                        answers.hasDrugPlan === key ? 'border-emerald-500 bg-emerald-50' : 'border-slate-200 hover:border-emerald-200'
+                                    }`}
+                                    role="radio"
+                                    aria-checked={answers.hasDrugPlan === key}
+                                >
+                                    <span className="font-medium">{value}</span>
+                                    {answers.hasDrugPlan === key && <CheckCircle className="text-emerald-600" aria-hidden="true" />}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+                )}
 
                 <button
-                    onClick={handleNextFromMeds}
-                    className="w-full py-3 bg-emerald-700 hover:bg-emerald-800 text-white font-bold rounded-lg shadow-md"
+                    disabled={!answers.hasInsurance || ((answers.hasInsurance === 'YES' || answers.hasInsurance === 'NOT_SURE') && (!answers.insuranceSource || !answers.hasDrugPlan))}
+                    onClick={nextStep}
+                    className="w-full py-3 bg-emerald-700 disabled:bg-slate-300 text-white font-bold rounded-lg disabled:cursor-not-allowed hover:bg-emerald-800 transition"
                     aria-label="Continue to next step"
                 >
                     Next Step
@@ -1121,121 +1198,428 @@ const Wizard = () => {
         );
     }
 
-    // Step 6: Specialty Pharmacy
+    // Step 5: Your Medicine (with search)
+    if (step === 5) {
+        return (
+            <div className="max-w-2xl mx-auto">
+                {renderProgress()}
+                <button onClick={prevStep} className="text-slate-700 mb-4 flex items-center gap-1 text-sm hover:text-emerald-600 min-h-[44px] min-w-[44px]" aria-label="Go back to previous step"><ChevronLeft size={16} aria-hidden="true" /> Back</button>
+                <h1 className="text-2xl font-bold mb-2">Your Medicine</h1>
+                <p className="text-slate-600 mb-6">What medicine do you need help paying for?</p>
+                <WizardHelp step={step} answers={answers} />
+
+                <p className="text-sm text-slate-600 mb-4">Type the name of your medicine below. You can use the brand name or the generic name.</p>
+
+                {/* Search box */}
+                <div className="relative mb-4">
+                    <div className="flex items-center border-2 border-slate-200 rounded-lg focus-within:border-emerald-500 focus-within:ring-1 focus-within:ring-emerald-500">
+                        <Search size={20} className="ml-3 text-slate-400" />
+                        <input
+                            type="text"
+                            value={medSearchQuery}
+                            onChange={(e) => {
+                                setMedSearchQuery(e.target.value);
+                                setShowMedSuggestions(true);
+                            }}
+                            onFocus={() => setShowMedSuggestions(true)}
+                            className="w-full p-3 outline-none rounded-lg"
+                            placeholder="Search for your medicine..."
+                        />
+                    </div>
+
+                    {/* Search results dropdown */}
+                    {showMedSuggestions && searchResults.length > 0 && (
+                        <div className="absolute z-10 w-full mt-1 bg-white border border-slate-200 rounded-lg shadow-lg max-h-64 overflow-y-auto">
+                            {searchResults.map(med => (
+                                <button
+                                    key={med.id}
+                                    onClick={() => {
+                                        handleMultiSelect('medications', med.id);
+                                        setMedSearchQuery('');
+                                        setShowMedSuggestions(false);
+                                    }}
+                                    className={`w-full p-3 text-left hover:bg-slate-50 border-b border-slate-100 last:border-b-0 flex items-center justify-between ${
+                                        answers.medications.includes(med.id) ? 'bg-emerald-50' : ''
+                                    }`}
+                                >
+                                    <div>
+                                        <div className="font-medium text-slate-800">{med.brandName}</div>
+                                        <div className="text-sm text-slate-500">{med.genericName}</div>
+                                    </div>
+                                    {answers.medications.includes(med.id) && <Check size={18} className="text-emerald-600" />}
+                                </button>
+                            ))}
+                        </div>
+                    )}
+                </div>
+
+                <p className="text-sm text-slate-500 mb-6">
+                    <strong>Examples:</strong> Humira, Enbrel, tacrolimus, Harvoni
+                </p>
+
+                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+                    <div className="flex items-start gap-2">
+                        <Lightbulb size={18} className="text-blue-600 mt-0.5" />
+                        <p className="text-sm text-blue-800"><strong>Tip:</strong> Look at your pill bottle or prescription paper if you're not sure how to spell it.</p>
+                    </div>
+                </div>
+
+                {/* Selected medications */}
+                {answers.medications.length > 0 && (
+                    <div className="mb-6">
+                        <h3 className="font-medium text-slate-700 mb-3">Selected medicines:</h3>
+                        <div className="flex flex-wrap gap-2">
+                            {answers.medications.map(id => {
+                                const med = MEDICATIONS.find(m => m.id === id);
+                                return (
+                                    <span key={id} className="bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full text-sm flex items-center gap-2">
+                                        {med?.brandName.split('/')[0]}
+                                        <button
+                                            onClick={() => handleMultiSelect('medications', id)}
+                                            className="hover:text-emerald-600"
+                                            aria-label={`Remove ${med?.brandName}`}
+                                        >
+                                            <X size={14} />
+                                        </button>
+                                    </span>
+                                );
+                            })}
+                        </div>
+                    </div>
+                )}
+
+                {/* Alternative option */}
+                <div className="border-t border-slate-200 pt-6 mb-6">
+                    <p className="font-medium text-slate-700 mb-3">Can't find it?</p>
+                    <div className="p-3 border border-slate-200 rounded-lg">
+                        <label className="block text-slate-600 mb-2">Type the name and we'll help you find it:</label>
+                        <input
+                            type="text"
+                            value={answers.medicationText}
+                            onChange={(e) => handleInputChange('medicationText', e.target.value)}
+                            className="w-full p-2 border border-slate-200 rounded focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 outline-none"
+                            placeholder="Enter medicine name..."
+                        />
+                    </div>
+                </div>
+
+                <button
+                    onClick={nextStep}
+                    className="w-full py-3 bg-emerald-700 hover:bg-emerald-800 text-white font-bold rounded-lg transition"
+                    aria-label="Continue to next step"
+                >
+                    Next Step
+                </button>
+            </div>
+        );
+    }
+
+    // Step 6: Where You Get Your Medicine
     if (step === 6) {
         return (
             <div className="max-w-2xl mx-auto">
                 {renderProgress()}
                 <button onClick={prevStep} className="text-slate-700 mb-4 flex items-center gap-1 text-sm hover:text-emerald-600 min-h-[44px] min-w-[44px]" aria-label="Go back to previous step"><ChevronLeft size={16} aria-hidden="true" /> Back</button>
-                <h1 className="text-2xl font-bold mb-4">Specialty Pharmacy Check</h1>
+                <h1 className="text-2xl font-bold mb-2">Where You Get Your Medicine</h1>
+                <p className="text-slate-600 mb-6">Where do you pick up this medicine?</p>
                 <WizardHelp step={step} answers={answers} />
-                <div className="bg-blue-50 p-4 rounded-lg border border-blue-100 mb-6" role="note">
-                    <p className="text-blue-800">
-                        Most commercial insurance plans require specialty medications to be filled at a specific "Specialty Pharmacy" (mail order), not a local retail pharmacy like CVS or Walgreens.
-                    </p>
-                </div>
-                <h2 className="font-bold text-lg mb-4">Does your plan require you to use a specific Specialty Pharmacy?</h2>
-                
-                <div className="space-y-3 mb-8" role="radiogroup" aria-label="Specialty pharmacy requirement">
-                    {['Yes', 'No', 'Not Sure'].map(opt => (
-                         <button
-                         key={opt}
-                         onClick={() => { 
-                             handleSingleSelect('specialtyPharmacyAware', opt === 'Yes'); 
-                             handleNextFromSpecialty();
-                         }}
-                         className="w-full p-4 text-left rounded-xl border-2 border-slate-200 hover:border-emerald-200 hover:bg-slate-50 transition font-medium"
-                         role="radio"
-                         aria-checked={false}
-                       >
-                         {opt}
-                       </button>
+                <p className="text-sm text-slate-500 mb-4">Choose one:</p>
+                <div className="space-y-3 mb-6" role="radiogroup" aria-label="Where do you get your medicine">
+                    {Object.entries(PharmacyType).map(([key, value]) => (
+                        <button
+                            key={key}
+                            onClick={() => { handleSingleSelect('pharmacyType', key); nextStep(); }}
+                            className={`w-full p-4 text-left rounded-xl border-2 transition flex justify-between items-center ${
+                                answers.pharmacyType === key ? 'border-emerald-500 bg-emerald-50' : 'border-slate-200 hover:border-emerald-200'
+                            }`}
+                            role="radio"
+                            aria-checked={answers.pharmacyType === key}
+                        >
+                            <span className="font-medium">{value}</span>
+                            {answers.pharmacyType === key && <CheckCircle className="text-emerald-600" aria-hidden="true" />}
+                        </button>
                     ))}
+                </div>
+
+                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                    <div className="flex items-start gap-2">
+                        <Lightbulb size={18} className="text-blue-600 mt-0.5" />
+                        <div className="text-sm text-blue-800">
+                            <strong>What's a specialty pharmacy?</strong> Some medicines need special handling or come with extra support. These medicines go through specialty pharmacies. Your doctor's office can tell you if your medicine needs one.
+                        </div>
+                    </div>
                 </div>
             </div>
         );
     }
 
-    // Step 7: Financial Status
+    // Step 7: Paying for Your Medicine
     if (step === 7) {
         return (
             <div className="max-w-2xl mx-auto">
                 {renderProgress()}
-                <button onClick={() => setStep(answers.insurance === InsuranceType.COMMERCIAL ? 6 : 5)} className="text-slate-700 mb-4 flex items-center gap-1 text-sm hover:text-emerald-600 min-h-[44px]" aria-label="Go back to previous step"><ChevronLeft size={16} aria-hidden="true" /> Back</button>
-                <h1 className="text-2xl font-bold mb-2">Find Your Best Options</h1>
-                <p className="text-slate-600 mb-6">How would you describe your current medication costs?</p>
+                <button onClick={prevStep} className="text-slate-700 mb-4 flex items-center gap-1 text-sm hover:text-emerald-600 min-h-[44px] min-w-[44px]" aria-label="Go back to previous step"><ChevronLeft size={16} aria-hidden="true" /> Back</button>
+                <h1 className="text-2xl font-bold mb-6">Paying for Your Medicine</h1>
                 <WizardHelp step={step} answers={answers} />
-                <div className="bg-slate-50 p-4 rounded-lg mb-6 border border-slate-200 text-sm text-slate-600" role="note">
-                    This helps us prioritize the best assistance programs for you. We do not store this answer.
+
+                {/* Part 1: Affordability */}
+                <div className="mb-8">
+                    <h2 className="font-bold text-lg mb-4">Is it hard to pay for your medicine?</h2>
+                    <p className="text-sm text-slate-500 mb-4">Choose one:</p>
+                    <div className="space-y-3" role="radiogroup" aria-label="Is it hard to pay for your medicine">
+                        {Object.entries(AffordabilityLevel).map(([key, value]) => (
+                            <button
+                                key={key}
+                                onClick={() => handleSingleSelect('affordability', key)}
+                                className={`w-full p-4 text-left rounded-xl border-2 transition flex justify-between items-center ${
+                                    answers.affordability === key ? 'border-emerald-500 bg-emerald-50' : 'border-slate-200 hover:border-emerald-200'
+                                }`}
+                                role="radio"
+                                aria-checked={answers.affordability === key}
+                            >
+                                <span className="font-medium">{value}</span>
+                                {answers.affordability === key && <CheckCircle className="text-emerald-600" aria-hidden="true" />}
+                            </button>
+                        ))}
+                    </div>
                 </div>
 
-                <div className="space-y-3" role="radiogroup" aria-label="Select your financial status">
-                    {[
-                        { val: FinancialStatus.MANAGEABLE, label: 'Manageable', desc: 'I can afford my medications but would like to save money' },
-                        { val: FinancialStatus.CHALLENGING, label: 'Challenging', desc: 'Medication costs are a significant burden' },
-                        { val: FinancialStatus.UNAFFORDABLE, label: 'Unaffordable', desc: 'I struggle to pay for my medications' },
-                        { val: FinancialStatus.CRISIS, label: 'Crisis', desc: 'I cannot afford my medications without help' },
-                    ].map(opt => (
-                        <button
-                            key={opt.val}
-                            onClick={() => { handleSingleSelect('financialStatus', opt.val); handleNextFromFinancial(); }}
-                            className={`w-full p-4 text-left rounded-xl border-2 transition ${
-                                answers.financialStatus === opt.val ? 'border-emerald-500 bg-emerald-50' : 'border-slate-200 hover:border-emerald-200'
-                            }`}
-                            role="radio"
-                            aria-checked={answers.financialStatus === opt.val}
-                        >
-                            <div className="flex items-center justify-between mb-1">
-                                <span className="font-bold text-lg text-slate-900">{opt.label}</span>
-                                {answers.financialStatus === opt.val && <CheckCircle className="text-emerald-600" aria-hidden="true" />}
-                            </div>
-                            <div className="text-slate-600 text-sm">{opt.desc}</div>
-                        </button>
-                    ))}
+                {/* Part 2: Cost behaviors */}
+                <div className="mb-8">
+                    <h2 className="font-bold text-lg mb-4">Have you ever done any of these because of cost?</h2>
+                    <p className="text-sm text-slate-500 mb-4">Check all that apply:</p>
+                    <div className="space-y-3" role="group" aria-label="Cost-related behaviors">
+                        {Object.entries(CostBehaviors).map(([key, value]) => (
+                            <button
+                                key={key}
+                                onClick={() => handleMultiSelect('costBehaviors', key)}
+                                className={`w-full p-4 text-left rounded-xl border-2 transition flex justify-between items-center ${
+                                    answers.costBehaviors.includes(key) ? 'border-emerald-500 bg-emerald-50' : 'border-slate-200 hover:border-emerald-200'
+                                }`}
+                                role="checkbox"
+                                aria-checked={answers.costBehaviors.includes(key)}
+                            >
+                                <span className="font-medium">{value}</span>
+                                {answers.costBehaviors.includes(key) && <CheckCircle size={20} className="text-emerald-600" aria-hidden="true" />}
+                            </button>
+                        ))}
+                    </div>
                 </div>
+
+                {/* Part 3: Copay range */}
+                <div className="mb-8">
+                    <h2 className="font-bold text-lg mb-2">How much do you pay right now for this medicine?</h2>
+                    <p className="text-sm text-slate-600 mb-4">This is your copay — what you pay at the pharmacy.</p>
+                    <div className="space-y-3" role="radiogroup" aria-label="Current copay amount">
+                        {Object.entries(CopayRange).map(([key, value]) => (
+                            <button
+                                key={key}
+                                onClick={() => handleSingleSelect('copayRange', key)}
+                                className={`w-full p-4 text-left rounded-xl border-2 transition flex justify-between items-center ${
+                                    answers.copayRange === key ? 'border-emerald-500 bg-emerald-50' : 'border-slate-200 hover:border-emerald-200'
+                                }`}
+                                role="radio"
+                                aria-checked={answers.copayRange === key}
+                            >
+                                <span className="font-medium">{value}</span>
+                                {answers.copayRange === key && <CheckCircle className="text-emerald-600" aria-hidden="true" />}
+                            </button>
+                        ))}
+                    </div>
+                </div>
+
+                <button
+                    disabled={!answers.affordability}
+                    onClick={nextStep}
+                    className="w-full py-3 bg-emerald-700 disabled:bg-slate-300 text-white font-bold rounded-lg disabled:cursor-not-allowed hover:bg-emerald-800 transition"
+                    aria-label="Continue to next step"
+                >
+                    Next Step
+                </button>
             </div>
         );
     }
 
-    // Step 8: Results
+    // Step 8: What Kind of Help Do You Need?
     if (step === 8) {
-        const isKidney = answers.organs.includes(OrganType.KIDNEY);
-        const isMedicare = answers.insurance === InsuranceType.MEDICARE;
-        const isCommercial = answers.insurance === InsuranceType.COMMERCIAL;
-        const isUninsured = answers.insurance === InsuranceType.UNINSURED;
-        const financial = answers.financialStatus;
+        return (
+            <div className="max-w-2xl mx-auto">
+                {renderProgress()}
+                <button onClick={prevStep} className="text-slate-700 mb-4 flex items-center gap-1 text-sm hover:text-emerald-600 min-h-[44px] min-w-[44px]" aria-label="Go back to previous step"><ChevronLeft size={16} aria-hidden="true" /> Back</button>
+                <h1 className="text-2xl font-bold mb-2">What Kind of Help Do You Need?</h1>
+                <p className="text-slate-600 mb-6">What would help you most right now?</p>
+                <WizardHelp step={step} answers={answers} />
+                <p className="text-sm text-slate-500 mb-4">Check all that apply:</p>
+                <div className="space-y-3 mb-8" role="group" aria-label="What kind of help do you need">
+                    {Object.entries(HelpTypes).map(([key, value]) => (
+                        <button
+                            key={key}
+                            onClick={() => handleMultiSelect('helpTypes', key)}
+                            className={`w-full p-4 text-left rounded-xl border-2 transition flex justify-between items-center ${
+                                answers.helpTypes.includes(key) ? 'border-emerald-500 bg-emerald-50' : 'border-slate-200 hover:border-emerald-200'
+                            }`}
+                            role="checkbox"
+                            aria-checked={answers.helpTypes.includes(key)}
+                        >
+                            <span className="font-medium">{value}</span>
+                            {answers.helpTypes.includes(key) && <CheckCircle size={20} className="text-emerald-600" aria-hidden="true" />}
+                        </button>
+                    ))}
+                </div>
+
+                <button
+                    disabled={answers.helpTypes.length === 0}
+                    onClick={nextStep}
+                    className="w-full py-3 bg-emerald-700 disabled:bg-slate-300 text-white font-bold rounded-lg disabled:cursor-not-allowed hover:bg-emerald-800 transition"
+                    aria-label="Continue to next step"
+                >
+                    Next Step
+                </button>
+            </div>
+        );
+    }
+
+    // Step 9: Contact Information
+    if (step === 9) {
+        return (
+            <div className="max-w-2xl mx-auto">
+                {renderProgress()}
+                <button onClick={prevStep} className="text-slate-700 mb-4 flex items-center gap-1 text-sm hover:text-emerald-600 min-h-[44px] min-w-[44px]" aria-label="Go back to previous step"><ChevronLeft size={16} aria-hidden="true" /> Back</button>
+                <h1 className="text-2xl font-bold mb-2">Almost Done!</h1>
+                <p className="text-slate-600 mb-6">Your contact information</p>
+                <p className="text-sm text-slate-500 mb-6">We'll use this to send your personalized results.</p>
+                <WizardHelp step={step} answers={answers} />
+
+                <div className="space-y-4 mb-8">
+                    <div>
+                        <label className="block text-sm font-medium text-slate-700 mb-2">First Name: *</label>
+                        <input
+                            type="text"
+                            value={answers.firstName}
+                            onChange={(e) => handleInputChange('firstName', e.target.value)}
+                            className="w-full p-3 border-2 border-slate-200 rounded-lg focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 outline-none"
+                            placeholder="Enter your first name"
+                            required
+                        />
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-medium text-slate-700 mb-2">Email Address: *</label>
+                        <input
+                            type="email"
+                            value={answers.email}
+                            onChange={(e) => handleInputChange('email', e.target.value)}
+                            className="w-full p-3 border-2 border-slate-200 rounded-lg focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 outline-none"
+                            placeholder="Enter your email"
+                            required
+                        />
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-medium text-slate-700 mb-2">Phone (optional):</label>
+                        <input
+                            type="tel"
+                            value={answers.phone}
+                            onChange={(e) => handleInputChange('phone', e.target.value)}
+                            className="w-full p-3 border-2 border-slate-200 rounded-lg focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 outline-none"
+                            placeholder="Enter your phone number"
+                        />
+                    </div>
+
+                    <label className="flex items-start gap-3 p-4 border border-slate-200 rounded-lg hover:bg-slate-50 cursor-pointer">
+                        <input
+                            type="checkbox"
+                            checked={answers.smsConsent}
+                            onChange={(e) => handleInputChange('smsConsent', e.target.checked)}
+                            className="mt-1 w-5 h-5 text-emerald-600 rounded border-slate-300 focus:ring-emerald-500"
+                        />
+                        <span className="text-slate-700">It's okay to send me text messages about savings programs</span>
+                    </label>
+                </div>
+
+                {/* Privacy Notice */}
+                <div className="bg-slate-50 border border-slate-200 rounded-xl p-6 mb-8">
+                    <h3 className="font-bold text-slate-800 mb-3 flex items-center gap-2">
+                        <Lock size={18} className="text-slate-600" />
+                        Your information is safe with us.
+                    </h3>
+                    <ul className="space-y-2 text-sm text-slate-600">
+                        <li className="flex items-center gap-2">
+                            <Check size={16} className="text-emerald-600" />
+                            We don't sell your information
+                        </li>
+                        <li className="flex items-center gap-2">
+                            <Check size={16} className="text-emerald-600" />
+                            We only use it to help you find savings programs
+                        </li>
+                        <li className="flex items-center gap-2">
+                            <Check size={16} className="text-emerald-600" />
+                            You can delete your information anytime
+                        </li>
+                    </ul>
+                    <a href="/privacy" className="text-emerald-700 text-sm font-medium mt-4 inline-block hover:underline">
+                        See our full privacy policy
+                    </a>
+                </div>
+
+                <button
+                    disabled={!answers.firstName || !answers.email}
+                    onClick={nextStep}
+                    className="w-full py-3 bg-emerald-700 disabled:bg-slate-300 text-white font-bold rounded-lg disabled:cursor-not-allowed hover:bg-emerald-800 transition"
+                    aria-label="See my results"
+                >
+                    See My Results
+                </button>
+            </div>
+        );
+    }
+
+    // Step 10: Results
+    if (step === 10) {
+        // Map new answer structure to determine insurance type for results logic
+        const isUninsured = answers.hasInsurance === 'NO';
+        const isMedicare = answers.insuranceSource === 'MEDICARE';
+        const isMedicaid = answers.insuranceSource === 'MEDICAID';
+        const isCommercial = answers.insuranceSource === 'EMPLOYER' || answers.insuranceSource === 'MARKETPLACE';
+        const isMilitary = answers.insuranceSource === 'MILITARY';
+
+        const isKidney = answers.healthConditions.includes('KIDNEY');
+        const isTransplant = answers.healthConditions.includes('TRANSPLANT');
+
+        // Map affordability to financial status
+        const isStruggling = answers.affordability === 'CANT_AFFORD' || answers.affordability === 'STRUGGLE';
+        const isSometimes = answers.affordability === 'SOMETIMES';
+        const isManageable = answers.affordability === 'MANAGEABLE';
 
         return (
             <article className="max-w-4xl mx-auto space-y-8 pb-12">
                 {/* Header */}
-                <div className={`p-8 rounded-2xl shadow-xl text-white flex justify-between items-start ${
-                    financial === FinancialStatus.CRISIS || financial === FinancialStatus.UNAFFORDABLE 
-                    ? 'bg-indigo-900' 
-                    : 'bg-emerald-900'
+                <div className={`p-8 rounded-2xl shadow-xl text-white flex flex-col sm:flex-row justify-between items-start gap-4 ${
+                    isStruggling ? 'bg-indigo-900' : 'bg-emerald-900'
                 }`}>
                     <div>
-                        <h1 className="text-3xl font-bold mb-2">Your Medication Strategy</h1>
+                        <h1 className="text-3xl font-bold mb-2">Good news! We found help for you.</h1>
                         <p className="opacity-90">
-                            Based on your inputs, here is how to navigate your costs.
+                            {answers.firstName ? `${answers.firstName}, based` : 'Based'} on your answers, here are programs that may lower the cost of your medicine.
                         </p>
                     </div>
-                    <button 
+                    <button
                         onClick={() => window.print()}
                         className="bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-lg font-bold text-sm flex items-center gap-2 border border-white/20 transition no-print"
-                        aria-label="Print your medication plan"
+                        aria-label="Print your results"
                     >
-                        <Printer size={16} aria-hidden="true" /> Print Plan
+                        <Printer size={16} aria-hidden="true" /> Print Results
                     </button>
                 </div>
 
                 {/* Critical Alerts */}
-                {isKidney && isMedicare && (
+                {(isKidney || isTransplant) && isMedicare && (
                     <aside className="bg-white p-6 rounded-xl shadow-sm border-l-4 border-indigo-600" role="alert" aria-labelledby="medicare-alert">
                         <h2 id="medicare-alert" className="text-xl font-bold text-indigo-900 flex items-center gap-2">
                             <AlertCircle aria-hidden="true" /> Important: Medicare Part B-ID
                         </h2>
                         <p className="mt-2 text-slate-700">
-                            Since you have kidney disease and are on Medicare, you may qualify for <strong>Medicare Part B-ID</strong>.
+                            Since you have kidney disease or a transplant and are on Medicare, you may qualify for <strong>Medicare Part B-ID</strong>.
                             This extends coverage for immunosuppressive drugs for life.
                         </p>
                         <a href="https://www.medicare.gov" target="_blank" rel="noreferrer" className="mt-4 inline-block bg-indigo-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-indigo-700 transition no-print">
@@ -1243,14 +1627,14 @@ const Wizard = () => {
                         </a>
                     </aside>
                 )}
-                
+
                 <div className="grid md:grid-cols-2 gap-6">
 
                     {/* Column 1 (Left): Med List & Tools */}
                     <div className="space-y-6">
                         {answers.medications.length > 0 && (
                             <section className="bg-slate-50 p-6 rounded-xl border border-slate-200" aria-labelledby="med-list-heading">
-                                <h2 id="med-list-heading" className="font-bold text-slate-800 mb-4">Your Medication List</h2>
+                                <h2 id="med-list-heading" className="font-bold text-slate-800 mb-4">Your Medicines</h2>
                                 <div className="flex flex-wrap gap-2">
                                     {answers.medications.map(id => {
                                         const med = MEDICATIONS.find(m => m.id === id);
@@ -1258,31 +1642,39 @@ const Wizard = () => {
                                             <span key={id} className="bg-white text-slate-700 px-3 py-1 rounded-full text-sm border border-slate-200 shadow-sm">
                                                 {med?.brandName.split('/')[0]}
                                             </span>
-                                        )
+                                        );
                                     })}
                                 </div>
                                 <div className="mt-4 no-print">
-                                    <Link 
+                                    <Link
                                         to={`/medications?ids=${answers.medications.join(',')}`}
                                         className="w-full block text-center py-2 bg-white border border-emerald-600 text-emerald-700 rounded-lg hover:bg-emerald-50 font-medium text-sm"
                                         aria-label="View price estimates for your selected medications"
                                     >
-                                        View Price Estimates for These Meds
+                                        View Price Estimates for These Medicines
                                     </Link>
                                 </div>
                             </section>
                         )}
 
+                        {answers.medicationText && (
+                            <section className="bg-slate-50 p-6 rounded-xl border border-slate-200">
+                                <h2 className="font-bold text-slate-800 mb-2">You also mentioned:</h2>
+                                <p className="text-slate-700">{answers.medicationText}</p>
+                                <p className="text-sm text-slate-500 mt-2">We'll help you find programs for this medicine.</p>
+                            </section>
+                        )}
+
                         <section className="bg-white p-6 rounded-xl shadow-sm border border-slate-200 break-inside-avoid" aria-labelledby="tools-heading">
                             <h2 id="tools-heading" className="font-bold text-slate-800 mb-4">Helpful Tools</h2>
-                            <p className="text-sm text-slate-600 mb-4">Once you have identified the program you need (PAP or Foundation), use our guide to help you apply.</p>
-                            
-                            <Link to="/application-help" className="flex items-center justify-between p-3 rounded-lg border border-slate-100 hover:bg-slate-50 group transition" aria-label="View application education guide">
+                            <p className="text-sm text-slate-600 mb-4">Use our guides to help you apply for programs.</p>
+
+                            <Link to="/application-help" className="flex items-center justify-between p-3 rounded-lg border border-slate-100 hover:bg-slate-50 group transition" aria-label="View application help guide">
                                 <div className="flex items-center gap-3">
                                     <div className="bg-indigo-100 text-indigo-600 p-2 rounded" aria-hidden="true"><HeartHandshake size={18} /></div>
                                     <div>
-                                        <span className="font-bold text-slate-800 block text-sm">Application Education</span>
-                                        <span className="text-xs text-slate-600">Scripts, checklists, and templates</span>
+                                        <span className="font-bold text-slate-800 block text-sm">How to Apply for Help</span>
+                                        <span className="text-xs text-slate-600">Step-by-step guides and checklists</span>
                                     </div>
                                 </div>
                                 <ArrowRight size={16} className="text-slate-300 group-hover:text-emerald-600 no-print" aria-hidden="true" />
@@ -1293,7 +1685,7 @@ const Wizard = () => {
                                     <div className="bg-amber-100 text-amber-600 p-2 rounded" aria-hidden="true"><Shield size={18} /></div>
                                     <div>
                                         <span className="font-bold text-slate-800 block text-sm">Insurance & Resources</span>
-                                        <span className="text-xs text-slate-600">Medicaid directory, Medicare guides</span>
+                                        <span className="text-xs text-slate-600">Learn about insurance programs</span>
                                     </div>
                                 </div>
                                 <ArrowRight size={16} className="text-slate-300 group-hover:text-emerald-600 no-print" aria-hidden="true" />
@@ -1301,106 +1693,108 @@ const Wizard = () => {
                         </section>
                     </div>
 
-                    {/* Column 2 (Right): Strategy / Action Plan */}
+                    {/* Column 2 (Right): Recommendations based on help types */}
                     <div className="space-y-6">
-                        {financial === FinancialStatus.MANAGEABLE && (
-                            <section className="bg-white p-6 rounded-xl shadow-sm border border-slate-200" aria-labelledby="savings-heading">
-                                <h2 id="savings-heading" className="text-lg font-bold text-emerald-800 border-b pb-2 mb-4 flex items-center gap-2">
-                                    <DollarSign size={20} aria-hidden="true" /> Maximize Your Savings
+                        {/* Copay Card recommendation */}
+                        {(answers.helpTypes.includes('COPAY_CARD') || answers.helpTypes.includes('LOWER_COST')) && isCommercial && (
+                            <section className="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                                <h2 className="text-lg font-bold text-emerald-800 border-b pb-2 mb-4 flex items-center gap-2">
+                                    <DollarSign size={20} aria-hidden="true" /> Copay Cards
                                 </h2>
-                                <ul className="space-y-4 text-slate-700">
-                                    {isCommercial && (
-                                        <li className="flex gap-3 items-start">
-                                            <div className="bg-emerald-100 text-emerald-800 text-xs font-bold px-2 py-1 rounded mt-0.5" aria-label="Priority recommendation">Priority</div>
-                                            <div>
-                                                <strong>Use Manufacturer Copay Cards.</strong>
-                                                <p className="text-sm text-slate-600 mt-1">Even if you can afford the copay, these cards can lower it to as little as $0. Look up each of your brand name meds.</p>
-                                            </div>
-                                        </li>
-                                    )}
-                                    <li className="flex gap-3 items-start">
-                                        <div className="bg-blue-100 text-blue-800 text-xs font-bold px-2 py-1 rounded mt-0.5" aria-label="Comparison tip">Compare</div>
-                                        <div>
-                                            <strong>Check Cash Prices.</strong>
-                                            <p className="text-sm text-slate-600 mt-1">Compare your insurance copay against cash prices at Mark Cuban Cost Plus Drugs or using GoodRx.</p>
-                                        </div>
-                                    </li>
-                                    {isCommercial && (
-                                        <li className="flex gap-3 items-start">
-                                            <div className="bg-slate-100 text-slate-800 text-xs font-bold px-2 py-1 rounded mt-0.5" aria-label="Verification step">Verify</div>
-                                            <div>
-                                                <strong>Specialty Pharmacy.</strong>
-                                                <p className="text-sm text-slate-600 mt-1">Ensure you are using the mandated pharmacy to avoid surprise full-price bills.</p>
-                                            </div>
-                                        </li>
-                                    )}
-                                </ul>
-                                <div className="mt-6 pt-4 border-t border-slate-100">
-                                    <p className="text-sm text-slate-600 italic">Tip: You may still qualify for PAPs based on income, even if costs feel manageable right now.</p>
+                                <p className="text-slate-700 mb-4">
+                                    Since you have insurance from your job, you can use <strong>copay cards</strong> from drug companies. These can lower your cost to $0-$10 per month.
+                                </p>
+                                <div className="bg-emerald-50 p-4 rounded-lg">
+                                    <p className="text-sm text-emerald-800">
+                                        <strong>How to find them:</strong> Search for "[your medicine name] copay card" or check the drug company's website.
+                                    </p>
                                 </div>
                             </section>
                         )}
 
-                        {financial === FinancialStatus.CHALLENGING && (
-                            <section className="bg-white p-6 rounded-xl shadow-sm border border-slate-200" aria-labelledby="burden-heading">
-                                <h2 id="burden-heading" className="text-lg font-bold text-amber-700 border-b pb-2 mb-4 flex items-center gap-2">
-                                    <Shield size={20} aria-hidden="true" /> Reduce Your Burden
+                        {/* PAP recommendation */}
+                        {(answers.helpTypes.includes('PAP') || isStruggling) && (
+                            <section className="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                                <h2 className="text-lg font-bold text-indigo-800 border-b pb-2 mb-4 flex items-center gap-2">
+                                    <HeartHandshake size={20} aria-hidden="true" /> Patient Assistance Programs
                                 </h2>
-                                <ul className="space-y-4 text-slate-700">
+                                <p className="text-slate-700 mb-4">
+                                    Drug companies have programs that give <strong>free or low-cost medicine</strong> to people who need help. These are called Patient Assistance Programs (PAPs).
+                                </p>
+                                <ul className="space-y-3 text-slate-700">
                                     <li className="flex gap-3 items-start">
-                                        <div className="bg-amber-100 text-amber-800 text-xs font-bold px-2 py-1 rounded mt-0.5" aria-label="Step one">Step 1</div>
-                                        <div>
-                                            <strong>Check Manufacturer PAPs.</strong>
-                                            <p className="text-sm text-slate-600 mt-1">Go to the manufacturer website for your brand name meds. If eligible, you could get the med for free.</p>
-                                        </div>
+                                        <Check size={18} className="text-emerald-600 mt-0.5" />
+                                        <span>Most brand-name medicines have a PAP</span>
                                     </li>
                                     <li className="flex gap-3 items-start">
-                                        <div className="bg-sky-100 text-sky-800 text-xs font-bold px-2 py-1 rounded mt-0.5" aria-label="Step two">Step 2</div>
-                                        <div>
-                                            <strong>Apply to Foundations.</strong>
-                                            <p className="text-sm text-slate-600 mt-1">Organizations like HealthWell or PAN Foundation help pay for copays. Apply to them for your specific disease fund.</p>
-                                        </div>
+                                        <Check size={18} className="text-emerald-600 mt-0.5" />
+                                        <span>You apply directly to the drug company</span>
                                     </li>
                                     <li className="flex gap-3 items-start">
-                                        <div className="bg-slate-100 text-slate-800 text-xs font-bold px-2 py-1 rounded mt-0.5" aria-label="Step three">Step 3</div>
-                                        <div>
-                                            <strong>Compare vs. Cash.</strong>
-                                            <p className="text-sm text-slate-600 mt-1">Sometimes the cash price (e.g. Cost Plus Drugs) is cheaper than your insurance copay.</p>
-                                        </div>
+                                        <Check size={18} className="text-emerald-600 mt-0.5" />
+                                        <span>Your doctor may need to help you apply</span>
                                     </li>
                                 </ul>
                             </section>
                         )}
 
-                        {(financial === FinancialStatus.UNAFFORDABLE || financial === FinancialStatus.CRISIS) && (
-                            <section className="bg-white p-6 rounded-xl shadow-sm border-l-4 border-rose-500" role="alert" aria-labelledby="assistance-heading">
-                                <h2 id="assistance-heading" className="text-lg font-bold text-rose-800 border-b pb-2 mb-4 flex items-center gap-2">
-                                    <AlertTriangle size={20} aria-hidden="true" /> Immediate Assistance Path
+                        {/* Medicare/Medicaid specific advice */}
+                        {(isMedicare || isMedicaid) && answers.helpTypes.includes('COPAY_CARD') && (
+                            <section className="bg-amber-50 p-6 rounded-xl border border-amber-200">
+                                <h2 className="text-lg font-bold text-amber-800 mb-3 flex items-center gap-2">
+                                    <AlertCircle size={20} aria-hidden="true" /> Important Note
                                 </h2>
-                                {financial === FinancialStatus.CRISIS && (
-                                    <p className="text-sm text-slate-600 mb-4 bg-slate-50 p-3 rounded">
-                                        You are not alone. Help is available. Please follow these steps in order.
-                                    </p>
-                                )}
+                                <p className="text-slate-700">
+                                    Copay cards from drug companies usually <strong>don't work with Medicare or Medicaid</strong>. But you may qualify for other help programs. Check out Patient Assistance Programs instead.
+                                </p>
+                            </section>
+                        )}
+
+                        {/* Extra Help programs */}
+                        {answers.helpTypes.includes('EXTRA_HELP') && (
+                            <section className="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                                <h2 className="text-lg font-bold text-sky-800 border-b pb-2 mb-4 flex items-center gap-2">
+                                    <Shield size={20} aria-hidden="true" /> Extra Help Programs
+                                </h2>
+                                <p className="text-slate-700 mb-4">
+                                    There are government programs that can help pay for your medicine:
+                                </p>
+                                <ul className="space-y-3 text-slate-700">
+                                    <li className="flex gap-3 items-start">
+                                        <ArrowRight size={18} className="text-sky-600 mt-0.5" />
+                                        <span><strong>Medicare Extra Help</strong> - Helps pay for Part D drug costs</span>
+                                    </li>
+                                    <li className="flex gap-3 items-start">
+                                        <ArrowRight size={18} className="text-sky-600 mt-0.5" />
+                                        <span><strong>State Medicaid</strong> - Free or low-cost coverage based on income</span>
+                                    </li>
+                                    <li className="flex gap-3 items-start">
+                                        <ArrowRight size={18} className="text-sky-600 mt-0.5" />
+                                        <span><strong>Copay Foundations</strong> - Charities that help pay for medicine</span>
+                                    </li>
+                                </ul>
+                            </section>
+                        )}
+
+                        {/* Crisis/Urgent help */}
+                        {isStruggling && (
+                            <section className="bg-white p-6 rounded-xl shadow-sm border-l-4 border-rose-500" role="alert">
+                                <h2 className="text-lg font-bold text-rose-800 border-b pb-2 mb-4 flex items-center gap-2">
+                                    <AlertTriangle size={20} aria-hidden="true" /> Need Help Right Away?
+                                </h2>
+                                <p className="text-sm text-slate-600 mb-4">
+                                    You're not alone. Many people struggle with medicine costs. Here's what to do first:
+                                </p>
                                 <ol className="space-y-4 text-slate-700 list-decimal pl-6">
                                     <li>
-                                        <strong>Manufacturer PAPs (Free Drug).</strong>
-                                        <p className="text-sm text-slate-600 mt-1">
-                                            Most manufacturers have a "Patient Assistance Program". This is your best route for free medication. 
-                                            <br/>
-                                            <Link to={`/medications?ids=${answers.medications.join(',')}`} className="text-rose-700 font-bold underline">Search your med here</Link> to find the manufacturer link.
-                                        </p>
+                                        <strong>Talk to your doctor</strong> — They may have free samples or know about cheaper options.
                                     </li>
                                     <li>
-                                        <strong>Check Medicaid Eligibility.</strong>
-                                        <p className="text-sm text-slate-600 mt-1">If you have low income, check if you qualify for state Medicaid or "Extra Help" (if on Medicare).</p>
+                                        <strong>Call the drug company</strong> — Ask about their Patient Assistance Program for free medicine.
                                     </li>
-                                    {answers.insurance === InsuranceType.IHS && (
-                                        <li>
-                                            <strong>Contact IHS / Tribal Health.</strong>
-                                            <p className="text-sm text-slate-600 mt-1">You likely have coverage for these medications at $0 cost at IHS facilities.</p>
-                                        </li>
-                                    )}
+                                    <li>
+                                        <strong>Check if you qualify for Medicaid</strong> — This is free health insurance for people with lower income.
+                                    </li>
                                 </ol>
                             </section>
                         )}
@@ -1408,7 +1802,7 @@ const Wizard = () => {
                 </div>
 
                 <div className="text-center pt-8 border-t border-slate-100 no-print">
-                    <button onClick={() => setStep(1)} className="text-slate-700 hover:text-emerald-600 text-sm underline min-h-[44px] px-4" aria-label="Restart the wizard from beginning">Restart Wizard</button>
+                    <button onClick={() => setStep(0)} className="text-slate-700 hover:text-emerald-600 text-sm underline min-h-[44px] px-4" aria-label="Start over">Start Over</button>
                 </div>
             </article>
         );
