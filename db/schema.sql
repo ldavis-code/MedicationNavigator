@@ -466,4 +466,133 @@ SELECT
         )
     ) as pharmacies
 FROM pharmacy_availability pa
-GROUP BY pa.medication_id
+GROUP BY pa.medication_id;
+
+-- =====================================================
+-- SYSTEM EXPERIENCE SURVEY TABLES
+-- No PHI collected - all anonymous/aggregated
+-- =====================================================
+
+-- Main survey responses table
+-- Collects anonymous feedback about medication access barriers
+CREATE TABLE IF NOT EXISTS survey_responses (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    session_id VARCHAR(255), -- anonymous session tracking
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    survey_version VARCHAR(20) DEFAULT '1.0',
+
+    -- Cost Barriers
+    skipped_due_to_cost VARCHAR(10), -- 'Yes', 'No'
+    rationed_doses VARCHAR(10),
+    monthly_oop_range VARCHAR(50),
+    cost_spike_month VARCHAR(100),
+
+    -- Access & Delays
+    days_to_fill VARCHAR(50),
+    pharmacy_calls VARCHAR(50),
+    out_of_stock_frequency VARCHAR(50),
+    specialty_delays VARCHAR(10), -- 'Yes', 'No', 'N/A'
+
+    -- Navigation Burden
+    pap_hours_spent VARCHAR(50),
+    pap_applied_vs_approved VARCHAR(50),
+    pap_denial_reason VARCHAR(100),
+    how_found_assistance VARCHAR(100),
+
+    -- Communication Gaps
+    told_cost_before_discharge VARCHAR(10),
+    team_discussed_assistance VARCHAR(10),
+    surprised_by_cost VARCHAR(10),
+    knew_about_copay_cards VARCHAR(10),
+
+    -- Insurance Friction
+    step_therapy_required VARCHAR(10),
+    formulary_change_midyear VARCHAR(10),
+    prior_auth_denials VARCHAR(50),
+    appealed_denial VARCHAR(100),
+
+    -- Demographics (all optional, no PII)
+    condition_category VARCHAR(100),
+    years_managing VARCHAR(50),
+    insurance_type VARCHAR(100),
+    region VARCHAR(50)
+);
+
+-- Indexes for fast aggregation queries
+CREATE INDEX IF NOT EXISTS idx_survey_created ON survey_responses(created_at);
+CREATE INDEX IF NOT EXISTS idx_survey_condition ON survey_responses(condition_category);
+CREATE INDEX IF NOT EXISTS idx_survey_region ON survey_responses(region);
+
+-- =====================================================
+-- CONTEXTUAL MICRO-SURVEYS (per medication)
+-- =====================================================
+
+-- Medication Experience Table
+-- Quick capture when adding a medication to track real-world issues
+CREATE TABLE IF NOT EXISTS medication_experience (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    session_id VARCHAR(255),
+    medication_name VARCHAR(255), -- generic name only
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+
+    -- Quick capture when adding a medication
+    experienced_delay VARCHAR(10),
+    delay_days VARCHAR(50),
+    cost_surprise VARCHAR(10),
+    prior_auth_needed VARCHAR(10),
+    prior_auth_outcome VARCHAR(50),
+    used_assistance_program VARCHAR(10),
+    assistance_type VARCHAR(100) -- 'manufacturer', 'foundation', 'state', etc.
+);
+
+CREATE INDEX IF NOT EXISTS idx_med_exp_medication ON medication_experience(medication_name);
+CREATE INDEX IF NOT EXISTS idx_med_exp_session ON medication_experience(session_id);
+
+-- =====================================================
+-- AGGREGATED STATS VIEWS (for dashboards/reports)
+-- =====================================================
+
+-- Failure Point Summary View
+-- Aggregates survey responses to show common failure points
+CREATE OR REPLACE VIEW failure_point_summary AS
+SELECT
+    COUNT(*) as total_responses,
+
+    -- Cost barriers
+    ROUND(100.0 * COUNT(*) FILTER (WHERE skipped_due_to_cost = 'Yes') / NULLIF(COUNT(*), 0), 1) as pct_skipped_due_to_cost,
+    ROUND(100.0 * COUNT(*) FILTER (WHERE rationed_doses = 'Yes') / NULLIF(COUNT(*), 0), 1) as pct_rationed_doses,
+    ROUND(100.0 * COUNT(*) FILTER (WHERE surprised_by_cost = 'Yes') / NULLIF(COUNT(*), 0), 1) as pct_surprised_by_cost,
+
+    -- Communication failures
+    ROUND(100.0 * COUNT(*) FILTER (WHERE told_cost_before_discharge = 'No') / NULLIF(COUNT(*), 0), 1) as pct_not_told_costs,
+    ROUND(100.0 * COUNT(*) FILTER (WHERE team_discussed_assistance = 'No') / NULLIF(COUNT(*), 0), 1) as pct_no_assistance_discussion,
+
+    -- Insurance friction
+    ROUND(100.0 * COUNT(*) FILTER (WHERE step_therapy_required = 'Yes') / NULLIF(COUNT(*), 0), 1) as pct_step_therapy,
+    ROUND(100.0 * COUNT(*) FILTER (WHERE formulary_change_midyear = 'Yes') / NULLIF(COUNT(*), 0), 1) as pct_formulary_changes
+
+FROM survey_responses;
+
+-- Regional Summary View
+-- Breakdown of survey responses by region
+CREATE OR REPLACE VIEW regional_summary AS
+SELECT
+    region,
+    COUNT(*) as responses,
+    ROUND(100.0 * COUNT(*) FILTER (WHERE skipped_due_to_cost = 'Yes') / NULLIF(COUNT(*), 0), 1) as pct_skipped,
+    ROUND(100.0 * COUNT(*) FILTER (WHERE surprised_by_cost = 'Yes') / NULLIF(COUNT(*), 0), 1) as pct_surprised
+FROM survey_responses
+WHERE region IS NOT NULL
+GROUP BY region;
+
+-- Insurance Type Summary View
+-- Breakdown of survey responses by insurance type
+CREATE OR REPLACE VIEW insurance_summary AS
+SELECT
+    insurance_type,
+    COUNT(*) as responses,
+    ROUND(100.0 * COUNT(*) FILTER (WHERE prior_auth_denials IN ('3-5', '6+')) / NULLIF(COUNT(*), 0), 1) as pct_multiple_denials,
+    ROUND(100.0 * COUNT(*) FILTER (WHERE step_therapy_required = 'Yes') / NULLIF(COUNT(*), 0), 1) as pct_step_therapy
+FROM survey_responses
+WHERE insurance_type IS NOT NULL
+GROUP BY insurance_type
