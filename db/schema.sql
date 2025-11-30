@@ -332,6 +332,87 @@ VALUES
 ON CONFLICT (medication_id, pharmacy) DO NOTHING;
 
 -- ============================================
+-- SEED DATA: Eliquis (Apixaban) Strategy
+-- ============================================
+
+-- Insert Eliquis strategy
+INSERT INTO medication_strategies (medication_id, generic_name, brand_name, category, condition, retail_price_low, retail_price_high, retail_price_note, common_mistakes)
+VALUES (
+    'apixaban',
+    'Apixaban',
+    'Eliquis',
+    'Anticoagulant',
+    'Blood Clot Prevention',
+    50000, -- $500
+    60000, -- $600
+    'without insurance, per month',
+    '[
+        "Copay cards are NEVER available for Medicare or Medicare Advantage patients—this is federal law (Anti-Kickback Statute). Medicare patients should look into Patient Assistance Foundations instead.",
+        "Copay cards also cannot be used with Medicaid or other government insurance programs.",
+        "Do not stop taking Eliquis without talking to your doctor—stopping suddenly increases stroke risk.",
+        "Patient assistance approval can take 2-4 weeks—apply before you run out of medication.",
+        "Generic apixaban is NOT yet available in the US. Be cautious of online pharmacies claiming to sell generic versions."
+    ]'::jsonb
+)
+ON CONFLICT (medication_id) DO NOTHING;
+
+-- Insert Eliquis savings options
+INSERT INTO savings_options (medication_id, option_type, name, description, estimated_cost_cents, estimated_cost_note, eligibility_criteria, steps, documents_needed, url, phone, priority, insurance_types)
+VALUES
+(
+    'apixaban',
+    'copay_card',
+    'Eliquis Free Trial and Savings Card',
+    'Manufacturer copay assistance for commercially insured patients',
+    1000, -- $10/month
+    'if commercially insured, pay as little as $10/month',
+    '["Must have commercial insurance", "Cannot use with Medicare, Medicaid, or government insurance", "US residents only", "Maximum annual benefit may apply"]'::jsonb,
+    '[
+        {"step_number": 1, "action": "Visit the BMS Access Support website", "details": "Go to eliquis.com/savings or call BMS Access Support", "url": "https://www.eliquis.com/savings"},
+        {"step_number": 2, "action": "Check eligibility", "details": "Answer questions about your insurance coverage"},
+        {"step_number": 3, "action": "Activate your card", "details": "Get instant access to your digital savings card or request physical card"},
+        {"step_number": 4, "action": "Present at pharmacy", "details": "Show the card along with your insurance when filling prescription"}
+    ]'::jsonb,
+    '["Insurance card", "Prescription from doctor"]'::jsonb,
+    'https://www.eliquis.com/savings',
+    '1-844-468-1842',
+    100,
+    '["commercial"]'::jsonb
+),
+(
+    'apixaban',
+    'pap',
+    'Bristol Myers Squibb Patient Assistance Foundation',
+    'Free medication for uninsured or underinsured patients who qualify based on income',
+    0, -- Free
+    'if approved based on income',
+    '["No insurance or inadequate prescription coverage", "Income at or below 400% Federal Poverty Level", "US residents only", "Not eligible for or enrolled in government insurance programs that cover medications"]'::jsonb,
+    '[
+        {"step_number": 1, "action": "Call BMS Access Support", "details": "Speak with a representative to start your application", "phone": "1-844-468-1842"},
+        {"step_number": 2, "action": "Complete application", "details": "Fill out the Patient Assistance Foundation application form with your doctor"},
+        {"step_number": 3, "action": "Submit proof of income", "details": "Provide tax return, pay stubs, Social Security statement, or signed income statement"},
+        {"step_number": 4, "action": "Wait for approval", "details": "Typically 2-4 weeks for processing"},
+        {"step_number": 5, "action": "Receive medication", "details": "Medication shipped to your doctor''s office or directly to your home"}
+    ]'::jsonb,
+    '["Completed Patient Assistance Foundation application form", "Proof of income (tax return, pay stubs, or signed statement)", "Prescription from doctor", "Proof of no insurance or coverage denial letter"]'::jsonb,
+    'https://www.bmsaccesssupport.bmscustomerconnect.com/',
+    '1-844-468-1842',
+    90,
+    '["uninsured"]'::jsonb
+)
+ON CONFLICT DO NOTHING;
+
+-- Insert pharmacy availability for Eliquis
+INSERT INTO pharmacy_availability (medication_id, pharmacy, is_available, price_note, url)
+VALUES
+    ('apixaban', 'costplus', FALSE, 'Brand-name anticoagulant not available', NULL),
+    ('apixaban', 'walmart', TRUE, 'Check pharmacy for pricing', 'https://www.walmart.com/cp/pharmacy'),
+    ('apixaban', 'goodrx', TRUE, 'Coupons available, prices vary by pharmacy', 'https://www.goodrx.com/eliquis'),
+    ('apixaban', 'blinkhealth', TRUE, 'Check for current pricing', 'https://www.blinkhealth.com'),
+    ('apixaban', 'singlecare', TRUE, 'Discount card available', 'https://www.singlecare.com/prescription/eliquis')
+ON CONFLICT (medication_id, pharmacy) DO NOTHING;
+
+-- ============================================
 -- MEDICATION STRATEGY VIEW
 -- ============================================
 
