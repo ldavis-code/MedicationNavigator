@@ -139,7 +139,6 @@ export const HelpTypes = {
     PAP: 'Learn about patient assistance programs (free or low-cost medicine from the company)',
     INSURANCE_HELP: 'Help understanding my insurance benefits',
     EXTRA_HELP: 'Find out if I qualify for extra help programs',
-    REMINDER: 'Help remembering to take my medicine',
     TALK_TO_SOMEONE: 'Someone to talk to about my medicine questions',
 };
 
