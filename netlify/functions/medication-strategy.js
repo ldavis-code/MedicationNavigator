@@ -1,6 +1,20 @@
 import { neon } from '@neondatabase/serverless';
 
-// Initialize Neon client
+/**
+ * Medication Strategy API - Pulls medication data from Neon PostgreSQL database
+ *
+ * Returns:
+ * - Medication info (pharmaceutical name, commercial name, category)
+ * - Savings options: copay cards, PAPs, foundations (from savings_options table)
+ * - Pharmacy availability (from pharmacy_availability table)
+ *
+ * Supports lookup by:
+ * - medication_id (e.g., "apixaban")
+ * - pharmaceutical/drug name (e.g., "Apixaban")
+ * - commercial/brand name (e.g., "Eliquis")
+ */
+
+// Initialize Neon PostgreSQL client - connects to cloud database
 const sql = neon(process.env.DATABASE_URL);
 
 // CORS headers for browser requests
@@ -69,7 +83,8 @@ export async function handler(event) {
             // This ensures we get the correct data even if user searched by brand name (e.g., "Eliquis" -> "apixaban")
             const resolvedMedicationId = strategy.medication_id;
 
-            // Get savings options using the resolved medication_id
+            // Get all savings options from Neon database (copay cards, PAPs, foundations, discount programs)
+            // option_type values: 'copay_card', 'pap', 'foundation', 'discount_program'
             const savingsOptions = await sql`
                 SELECT
                     id,

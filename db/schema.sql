@@ -187,11 +187,14 @@ LEFT JOIN subscription_plans sp ON us.plan_id = sp.id;
 
 -- Medication Strategies Table
 -- Core medication data with retail pricing and category info
+-- Note: generic_name stores the pharmaceutical/drug name (e.g., "Apixaban")
+-- brand_name stores the commercial name (e.g., "Eliquis")
+-- These may be the same medication - lookup should match either name
 CREATE TABLE IF NOT EXISTS medication_strategies (
     id SERIAL PRIMARY KEY,
-    medication_id TEXT UNIQUE NOT NULL, -- matches medications.json id (e.g., "ozempic")
-    generic_name TEXT NOT NULL,
-    brand_name TEXT NOT NULL,
+    medication_id TEXT UNIQUE NOT NULL, -- matches medications.json id (e.g., "apixaban")
+    generic_name TEXT NOT NULL, -- pharmaceutical/drug name (e.g., "Apixaban") - NOTE: may not have a true generic available
+    brand_name TEXT NOT NULL, -- commercial/trade name (e.g., "Eliquis")
     category TEXT NOT NULL, -- e.g., "Diabetes", "Immunosuppressant"
     condition TEXT, -- e.g., "Type 2 Diabetes", "Transplant"
     retail_price_low INTEGER, -- in cents (e.g., 90000 = $900)
@@ -206,6 +209,9 @@ CREATE TABLE IF NOT EXISTS medication_strategies (
 CREATE INDEX IF NOT EXISTS idx_medication_strategies_med_id ON medication_strategies(medication_id);
 CREATE INDEX IF NOT EXISTS idx_medication_strategies_category ON medication_strategies(category);
 CREATE INDEX IF NOT EXISTS idx_medication_strategies_condition ON medication_strategies(condition);
+-- Indexes for name-based lookups (supports searching by pharmaceutical or commercial name)
+CREATE INDEX IF NOT EXISTS idx_medication_strategies_generic_name ON medication_strategies(LOWER(generic_name));
+CREATE INDEX IF NOT EXISTS idx_medication_strategies_brand_name ON medication_strategies(LOWER(brand_name));
 
 -- Savings Options Table
 -- Copay cards, PAPs, foundations, discount programs
