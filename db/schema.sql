@@ -419,6 +419,501 @@ VALUES
 ON CONFLICT (medication_id, pharmacy) DO NOTHING;
 
 -- ============================================
+-- SEED DATA: Transplant Immunosuppressant Medications
+-- ============================================
+
+-- ----------------------------------------
+-- Tacrolimus (Prograf / Envarsus XR / Astagraf XL)
+-- Pharmaceutical name: Tacrolimus
+-- Commercial names: Prograf, Envarsus XR, Astagraf XL
+-- ----------------------------------------
+INSERT INTO medication_strategies (medication_id, generic_name, brand_name, category, condition, retail_price_low, retail_price_high, retail_price_note, common_mistakes)
+VALUES (
+    'tacrolimus',
+    'Tacrolimus',
+    'Prograf / Envarsus XR / Astagraf XL',
+    'Immunosuppressant',
+    'Transplant Anti-Rejection',
+    30000, -- $300
+    80000, -- $800
+    'without insurance, per month (varies by formulation)',
+    '[
+        "Copay cards are NEVER available for Medicare or Medicare Advantage patients—this is federal law (Anti-Kickback Statute). Medicare patients should look into Patient Assistance Programs instead.",
+        "Never switch between brand-name formulations (Prograf vs Envarsus XR vs Astagraf XL) without doctor approval—they are NOT interchangeable.",
+        "Generic tacrolimus is available and may be significantly cheaper, but always consult your transplant team before switching.",
+        "Take tacrolimus consistently—either always with food or always without food. Food affects absorption.",
+        "Avoid grapefruit and grapefruit juice—they can dangerously increase tacrolimus levels.",
+        "Patient assistance approval can take 2-4 weeks—apply before you run out of medication."
+    ]'::jsonb
+)
+ON CONFLICT (medication_id) DO NOTHING;
+
+-- Tacrolimus savings options
+INSERT INTO savings_options (medication_id, option_type, name, description, estimated_cost_cents, estimated_cost_note, eligibility_criteria, steps, documents_needed, url, phone, priority, insurance_types)
+VALUES
+(
+    'tacrolimus',
+    'copay_card',
+    'Astellas Copay Assistance Program',
+    'Manufacturer copay assistance for Prograf for commercially insured patients',
+    0, -- $0 copay possible
+    'may pay as little as $0 for Prograf with commercial insurance',
+    '["Must have commercial insurance", "Cannot use with Medicare, Medicaid, or government insurance", "US residents only", "Maximum annual benefit applies"]'::jsonb,
+    '[
+        {"step_number": 1, "action": "Visit Astellas Pharma Support Solutions", "details": "Go to astellaspharmasupportsolutions.com or call for assistance", "url": "https://www.astellaspharmasupportsolutions.com/"},
+        {"step_number": 2, "action": "Check eligibility", "details": "Answer questions about your insurance coverage and medication"},
+        {"step_number": 3, "action": "Enroll in program", "details": "Complete enrollment to receive copay card"},
+        {"step_number": 4, "action": "Present at pharmacy", "details": "Show the copay card along with your insurance when filling prescription"}
+    ]'::jsonb,
+    '["Insurance card", "Prescription from transplant doctor"]'::jsonb,
+    'https://www.astellaspharmasupportsolutions.com/',
+    '1-800-477-6472',
+    100,
+    '["commercial"]'::jsonb
+),
+(
+    'tacrolimus',
+    'pap',
+    'Astellas Patient Assistance Program',
+    'Free medication for uninsured or underinsured patients who qualify based on income',
+    0, -- Free
+    'if approved based on income',
+    '["No insurance or inadequate prescription coverage", "Income at or below 400% Federal Poverty Level", "US residents only", "Not eligible for government programs that cover medications"]'::jsonb,
+    '[
+        {"step_number": 1, "action": "Call Astellas Pharma Support Solutions", "details": "Speak with a representative to start your application", "phone": "1-800-477-6472"},
+        {"step_number": 2, "action": "Complete application", "details": "Fill out the Patient Assistance Program application with your doctor"},
+        {"step_number": 3, "action": "Submit proof of income", "details": "Provide tax return, pay stubs, or signed income statement"},
+        {"step_number": 4, "action": "Wait for approval", "details": "Typically 2-4 weeks for processing"},
+        {"step_number": 5, "action": "Receive medication", "details": "Medication shipped to your doctor''s office or home"}
+    ]'::jsonb,
+    '["Completed PAP application form", "Proof of income (tax return, pay stubs, or signed statement)", "Prescription from transplant doctor", "Proof of no insurance or coverage denial letter"]'::jsonb,
+    'https://www.astellaspharmasupportsolutions.com/',
+    '1-800-477-6472',
+    90,
+    '["uninsured"]'::jsonb
+)
+ON CONFLICT DO NOTHING;
+
+-- Tacrolimus pharmacy availability
+INSERT INTO pharmacy_availability (medication_id, pharmacy, is_available, price_note, url)
+VALUES
+    ('tacrolimus', 'costplus', TRUE, 'Generic tacrolimus available', 'https://costplusdrugs.com/medications/tacrolimus-1mg-capsule/'),
+    ('tacrolimus', 'walmart', TRUE, 'Generic available, check pricing', 'https://www.walmart.com/cp/pharmacy'),
+    ('tacrolimus', 'goodrx', TRUE, 'Coupons available for generic', 'https://www.goodrx.com/tacrolimus'),
+    ('tacrolimus', 'blinkhealth', TRUE, 'Check for current pricing', 'https://www.blinkhealth.com'),
+    ('tacrolimus', 'singlecare', TRUE, 'Discount card available', 'https://www.singlecare.com/prescription/tacrolimus')
+ON CONFLICT (medication_id, pharmacy) DO NOTHING;
+
+-- ----------------------------------------
+-- Mycophenolate (CellCept)
+-- Pharmaceutical name: Mycophenolate Mofetil
+-- Commercial name: CellCept
+-- ----------------------------------------
+INSERT INTO medication_strategies (medication_id, generic_name, brand_name, category, condition, retail_price_low, retail_price_high, retail_price_note, common_mistakes)
+VALUES (
+    'mycophenolate',
+    'Mycophenolate Mofetil',
+    'CellCept',
+    'Immunosuppressant',
+    'Transplant Anti-Rejection',
+    20000, -- $200
+    50000, -- $500
+    'without insurance, per month',
+    '[
+        "Copay cards are NEVER available for Medicare or Medicare Advantage patients—this is federal law (Anti-Kickback Statute).",
+        "Generic mycophenolate mofetil is available and may be significantly cheaper than brand-name CellCept.",
+        "Take on an empty stomach (1 hour before or 2 hours after meals) for best absorption.",
+        "Do not open, crush, or chew capsules—the powder can be harmful if inhaled or touches skin.",
+        "Women of childbearing potential: This medication can cause birth defects. Discuss contraception with your doctor.",
+        "Patient assistance approval can take 2-4 weeks—apply before you run out of medication."
+    ]'::jsonb
+)
+ON CONFLICT (medication_id) DO NOTHING;
+
+-- Mycophenolate savings options
+INSERT INTO savings_options (medication_id, option_type, name, description, estimated_cost_cents, estimated_cost_note, eligibility_criteria, steps, documents_needed, url, phone, priority, insurance_types)
+VALUES
+(
+    'mycophenolate',
+    'copay_card',
+    'Genentech CellCept Co-pay Card Program',
+    'Manufacturer copay assistance for CellCept for commercially insured patients',
+    500, -- $5 copay
+    'may pay as little as $5 per prescription with commercial insurance',
+    '["Must have commercial insurance", "Cannot use with Medicare, Medicaid, or government insurance", "US residents only", "Maximum annual benefit of $10,000"]'::jsonb,
+    '[
+        {"step_number": 1, "action": "Visit Genentech Access Solutions", "details": "Go to genentech-access.com or call for assistance", "url": "https://www.genentech-access.com/patient/brands/cellcept.html"},
+        {"step_number": 2, "action": "Check eligibility", "details": "Answer questions about your insurance and prescription"},
+        {"step_number": 3, "action": "Enroll in program", "details": "Complete enrollment to receive copay card"},
+        {"step_number": 4, "action": "Present at pharmacy", "details": "Show the copay card along with your insurance when filling prescription"}
+    ]'::jsonb,
+    '["Insurance card", "Prescription from transplant doctor"]'::jsonb,
+    'https://www.genentech-access.com/patient/brands/cellcept.html',
+    '1-866-422-2377',
+    100,
+    '["commercial"]'::jsonb
+),
+(
+    'mycophenolate',
+    'pap',
+    'Genentech Patient Foundation',
+    'Free medication for uninsured or underinsured patients who qualify based on income',
+    0, -- Free
+    'if approved based on income',
+    '["No insurance or inadequate prescription coverage", "Income at or below 500% Federal Poverty Level", "US residents only", "Not eligible for government programs"]'::jsonb,
+    '[
+        {"step_number": 1, "action": "Call Genentech Access Solutions", "details": "Speak with a representative to start your application", "phone": "1-866-422-2377"},
+        {"step_number": 2, "action": "Complete application", "details": "Fill out the Patient Foundation application with your doctor"},
+        {"step_number": 3, "action": "Submit proof of income", "details": "Provide tax return, pay stubs, or signed income statement"},
+        {"step_number": 4, "action": "Wait for approval", "details": "Typically 2-3 weeks for processing"},
+        {"step_number": 5, "action": "Receive medication", "details": "Medication shipped to your doctor''s office"}
+    ]'::jsonb,
+    '["Completed Patient Foundation application", "Proof of income", "Prescription from transplant doctor", "Proof of no insurance or coverage denial"]'::jsonb,
+    'https://www.genentech-access.com/patient.html',
+    '1-866-422-2377',
+    90,
+    '["uninsured"]'::jsonb
+)
+ON CONFLICT DO NOTHING;
+
+-- Mycophenolate pharmacy availability
+INSERT INTO pharmacy_availability (medication_id, pharmacy, is_available, price_note, url)
+VALUES
+    ('mycophenolate', 'costplus', TRUE, 'Generic mycophenolate available', 'https://costplusdrugs.com/medications/mycophenolatemofetil-500mg-tablet/'),
+    ('mycophenolate', 'walmart', TRUE, 'Generic available, check pricing', 'https://www.walmart.com/cp/pharmacy'),
+    ('mycophenolate', 'goodrx', TRUE, 'Coupons available for generic', 'https://www.goodrx.com/mycophenolate'),
+    ('mycophenolate', 'blinkhealth', TRUE, 'Check for current pricing', 'https://www.blinkhealth.com'),
+    ('mycophenolate', 'singlecare', TRUE, 'Discount card available', 'https://www.singlecare.com/prescription/mycophenolate-mofetil')
+ON CONFLICT (medication_id, pharmacy) DO NOTHING;
+
+-- ----------------------------------------
+-- Cyclosporine (Neoral / Sandimmune / Gengraf)
+-- Pharmaceutical name: Cyclosporine
+-- Commercial names: Neoral, Sandimmune, Gengraf
+-- ----------------------------------------
+INSERT INTO medication_strategies (medication_id, generic_name, brand_name, category, condition, retail_price_low, retail_price_high, retail_price_note, common_mistakes)
+VALUES (
+    'cyclosporine',
+    'Cyclosporine',
+    'Neoral / Sandimmune / Gengraf',
+    'Immunosuppressant',
+    'Transplant Anti-Rejection',
+    25000, -- $250
+    60000, -- $600
+    'without insurance, per month (varies by formulation)',
+    '[
+        "Copay cards are NEVER available for Medicare or Medicare Advantage patients—this is federal law (Anti-Kickback Statute).",
+        "Neoral and Sandimmune are NOT interchangeable—never switch without doctor approval.",
+        "Generic cyclosporine is available but consult your transplant team before switching.",
+        "Avoid grapefruit and grapefruit juice—they can dangerously increase cyclosporine levels.",
+        "Take consistently with or without food. Mixing with milk or orange juice can help with taste.",
+        "Patient assistance approval can take 2-4 weeks—apply before you run out of medication."
+    ]'::jsonb
+)
+ON CONFLICT (medication_id) DO NOTHING;
+
+-- Cyclosporine savings options
+INSERT INTO savings_options (medication_id, option_type, name, description, estimated_cost_cents, estimated_cost_note, eligibility_criteria, steps, documents_needed, url, phone, priority, insurance_types)
+VALUES
+(
+    'cyclosporine',
+    'copay_card',
+    'Novartis Copay Assistance',
+    'Manufacturer copay assistance for Neoral for commercially insured patients',
+    0, -- $0 possible
+    'eligible patients may pay $0 with commercial insurance',
+    '["Must have commercial insurance", "Cannot use with Medicare, Medicaid, or government insurance", "US residents only"]'::jsonb,
+    '[
+        {"step_number": 1, "action": "Visit Novartis Patient Assistance", "details": "Go to patient.novartis.com or call for assistance", "url": "https://www.novartis.com/us-en/patients-and-caregivers/patient-assistance"},
+        {"step_number": 2, "action": "Check eligibility", "details": "Answer questions about your insurance coverage"},
+        {"step_number": 3, "action": "Enroll in program", "details": "Complete enrollment for copay assistance"},
+        {"step_number": 4, "action": "Present at pharmacy", "details": "Show the copay card when filling prescription"}
+    ]'::jsonb,
+    '["Insurance card", "Prescription from transplant doctor"]'::jsonb,
+    'https://www.novartis.com/us-en/patients-and-caregivers/patient-assistance',
+    '1-800-277-2254',
+    100,
+    '["commercial"]'::jsonb
+),
+(
+    'cyclosporine',
+    'pap',
+    'Novartis Patient Assistance Foundation',
+    'Free medication for uninsured or underinsured patients who qualify based on income',
+    0, -- Free
+    'if approved based on income',
+    '["No insurance or inadequate prescription coverage", "Income at or below 400% Federal Poverty Level", "US residents only"]'::jsonb,
+    '[
+        {"step_number": 1, "action": "Call Novartis Patient Assistance", "details": "Speak with a representative", "phone": "1-800-277-2254"},
+        {"step_number": 2, "action": "Complete application", "details": "Fill out the PAF application with your doctor"},
+        {"step_number": 3, "action": "Submit proof of income", "details": "Provide tax return, pay stubs, or signed statement"},
+        {"step_number": 4, "action": "Wait for approval", "details": "Typically 2-4 weeks for processing"},
+        {"step_number": 5, "action": "Receive medication", "details": "Medication shipped to your doctor''s office"}
+    ]'::jsonb,
+    '["Completed PAF application", "Proof of income", "Prescription from doctor", "Insurance denial letter if applicable"]'::jsonb,
+    'https://www.novartis.com/us-en/patients-and-caregivers/patient-assistance',
+    '1-800-277-2254',
+    90,
+    '["uninsured"]'::jsonb
+)
+ON CONFLICT DO NOTHING;
+
+-- Cyclosporine pharmacy availability
+INSERT INTO pharmacy_availability (medication_id, pharmacy, is_available, price_note, url)
+VALUES
+    ('cyclosporine', 'costplus', TRUE, 'Generic cyclosporine available', 'https://costplusdrugs.com/medications/cyclosporinemodified-100mg-capsule/'),
+    ('cyclosporine', 'walmart', TRUE, 'Generic available, check pricing', 'https://www.walmart.com/cp/pharmacy'),
+    ('cyclosporine', 'goodrx', TRUE, 'Coupons available for generic', 'https://www.goodrx.com/cyclosporine'),
+    ('cyclosporine', 'blinkhealth', TRUE, 'Check for current pricing', 'https://www.blinkhealth.com'),
+    ('cyclosporine', 'singlecare', TRUE, 'Discount card available', 'https://www.singlecare.com/prescription/cyclosporine')
+ON CONFLICT (medication_id, pharmacy) DO NOTHING;
+
+-- ----------------------------------------
+-- Sirolimus (Rapamune)
+-- Pharmaceutical name: Sirolimus
+-- Commercial name: Rapamune
+-- ----------------------------------------
+INSERT INTO medication_strategies (medication_id, generic_name, brand_name, category, condition, retail_price_low, retail_price_high, retail_price_note, common_mistakes)
+VALUES (
+    'sirolimus',
+    'Sirolimus',
+    'Rapamune',
+    'Immunosuppressant',
+    'Transplant Anti-Rejection',
+    80000, -- $800
+    150000, -- $1500
+    'without insurance, per month',
+    '[
+        "Copay cards are NEVER available for Medicare or Medicare Advantage patients—this is federal law (Anti-Kickback Statute).",
+        "Generic sirolimus is available—ask your transplant team if it''s appropriate for you.",
+        "Take consistently either with or without food.",
+        "Avoid grapefruit and grapefruit juice—they increase sirolimus levels.",
+        "Can impair wound healing—inform surgeons and dentists that you take this medication.",
+        "Patient assistance approval can take 2-4 weeks—apply before you run out."
+    ]'::jsonb
+)
+ON CONFLICT (medication_id) DO NOTHING;
+
+-- Sirolimus savings options
+INSERT INTO savings_options (medication_id, option_type, name, description, estimated_cost_cents, estimated_cost_note, eligibility_criteria, steps, documents_needed, url, phone, priority, insurance_types)
+VALUES
+(
+    'sirolimus',
+    'copay_card',
+    'Pfizer Oncology Together Co-Pay Savings',
+    'Manufacturer copay assistance for Rapamune for commercially insured patients',
+    0, -- $0 possible
+    'eligible patients may pay $0 with commercial insurance',
+    '["Must have commercial insurance", "Cannot use with Medicare, Medicaid, or government insurance", "US residents only", "Maximum annual benefit applies"]'::jsonb,
+    '[
+        {"step_number": 1, "action": "Visit Pfizer RxPathways", "details": "Go to pfizerrxpathways.com or call for assistance", "url": "https://www.pfizerrxpathways.com/"},
+        {"step_number": 2, "action": "Check eligibility", "details": "Answer questions about your insurance and prescription"},
+        {"step_number": 3, "action": "Enroll in savings program", "details": "Complete enrollment to receive copay card"},
+        {"step_number": 4, "action": "Present at pharmacy", "details": "Show the copay card when filling prescription"}
+    ]'::jsonb,
+    '["Insurance card", "Prescription from transplant doctor"]'::jsonb,
+    'https://www.pfizerrxpathways.com/',
+    '1-877-744-5675',
+    100,
+    '["commercial"]'::jsonb
+),
+(
+    'sirolimus',
+    'pap',
+    'Pfizer Patient Assistance Program',
+    'Free medication for uninsured or underinsured patients who qualify based on income',
+    0, -- Free
+    'if approved based on income',
+    '["No insurance or inadequate prescription coverage", "Income at or below 400% Federal Poverty Level", "US residents only"]'::jsonb,
+    '[
+        {"step_number": 1, "action": "Call Pfizer RxPathways", "details": "Speak with a representative", "phone": "1-877-744-5675"},
+        {"step_number": 2, "action": "Complete application", "details": "Fill out the PAP application with your doctor"},
+        {"step_number": 3, "action": "Submit proof of income", "details": "Provide tax return, pay stubs, or signed statement"},
+        {"step_number": 4, "action": "Wait for approval", "details": "Typically 2-4 weeks for processing"},
+        {"step_number": 5, "action": "Receive medication", "details": "Medication shipped to your doctor''s office or home"}
+    ]'::jsonb,
+    '["Completed PAP application", "Proof of income", "Prescription from doctor", "Proof of no insurance or denial letter"]'::jsonb,
+    'https://www.pfizerrxpathways.com/',
+    '1-877-744-5675',
+    90,
+    '["uninsured"]'::jsonb
+)
+ON CONFLICT DO NOTHING;
+
+-- Sirolimus pharmacy availability
+INSERT INTO pharmacy_availability (medication_id, pharmacy, is_available, price_note, url)
+VALUES
+    ('sirolimus', 'costplus', TRUE, 'Generic sirolimus available', 'https://costplusdrugs.com/medications/sirolimus-1mg-tablet/'),
+    ('sirolimus', 'walmart', TRUE, 'Generic available, check pricing', 'https://www.walmart.com/cp/pharmacy'),
+    ('sirolimus', 'goodrx', TRUE, 'Coupons available for generic', 'https://www.goodrx.com/sirolimus'),
+    ('sirolimus', 'blinkhealth', TRUE, 'Check for current pricing', 'https://www.blinkhealth.com'),
+    ('sirolimus', 'singlecare', TRUE, 'Discount card available', 'https://www.singlecare.com/prescription/sirolimus')
+ON CONFLICT (medication_id, pharmacy) DO NOTHING;
+
+-- ----------------------------------------
+-- Everolimus (Zortress)
+-- Pharmaceutical name: Everolimus
+-- Commercial name: Zortress
+-- ----------------------------------------
+INSERT INTO medication_strategies (medication_id, generic_name, brand_name, category, condition, retail_price_low, retail_price_high, retail_price_note, common_mistakes)
+VALUES (
+    'everolimus',
+    'Everolimus',
+    'Zortress',
+    'Immunosuppressant',
+    'Transplant Anti-Rejection',
+    100000, -- $1000
+    200000, -- $2000
+    'without insurance, per month',
+    '[
+        "Copay cards are NEVER available for Medicare or Medicare Advantage patients—this is federal law (Anti-Kickback Statute).",
+        "Zortress (for transplant) is different from Afinitor (for cancer)—do not confuse them.",
+        "Take consistently at the same time each day, either with or without food.",
+        "Avoid grapefruit and grapefruit juice—they increase everolimus levels.",
+        "Can impair wound healing—inform surgeons and dentists that you take this medication.",
+        "Patient assistance approval can take 2-4 weeks—apply before you run out."
+    ]'::jsonb
+)
+ON CONFLICT (medication_id) DO NOTHING;
+
+-- Everolimus savings options
+INSERT INTO savings_options (medication_id, option_type, name, description, estimated_cost_cents, estimated_cost_note, eligibility_criteria, steps, documents_needed, url, phone, priority, insurance_types)
+VALUES
+(
+    'everolimus',
+    'copay_card',
+    'Novartis Zortress Copay Card',
+    'Manufacturer copay assistance for Zortress for commercially insured patients',
+    0, -- $0 possible
+    'eligible patients may pay $0 with commercial insurance',
+    '["Must have commercial insurance", "Cannot use with Medicare, Medicaid, or government insurance", "US residents only"]'::jsonb,
+    '[
+        {"step_number": 1, "action": "Visit Novartis Patient Assistance", "details": "Go to patient.novartis.com or call for assistance", "url": "https://www.novartis.com/us-en/patients-and-caregivers/patient-assistance"},
+        {"step_number": 2, "action": "Check eligibility", "details": "Answer questions about your insurance coverage"},
+        {"step_number": 3, "action": "Enroll in program", "details": "Complete enrollment for copay assistance"},
+        {"step_number": 4, "action": "Present at pharmacy", "details": "Show the copay card when filling prescription"}
+    ]'::jsonb,
+    '["Insurance card", "Prescription from transplant doctor"]'::jsonb,
+    'https://www.novartis.com/us-en/patients-and-caregivers/patient-assistance',
+    '1-800-277-2254',
+    100,
+    '["commercial"]'::jsonb
+),
+(
+    'everolimus',
+    'pap',
+    'Novartis Patient Assistance Foundation',
+    'Free medication for uninsured or underinsured patients who qualify based on income',
+    0, -- Free
+    'if approved based on income',
+    '["No insurance or inadequate prescription coverage", "Income at or below 400% Federal Poverty Level", "US residents only"]'::jsonb,
+    '[
+        {"step_number": 1, "action": "Call Novartis Patient Assistance", "details": "Speak with a representative", "phone": "1-800-277-2254"},
+        {"step_number": 2, "action": "Complete application", "details": "Fill out the PAF application with your doctor"},
+        {"step_number": 3, "action": "Submit proof of income", "details": "Provide tax return, pay stubs, or signed statement"},
+        {"step_number": 4, "action": "Wait for approval", "details": "Typically 2-4 weeks for processing"},
+        {"step_number": 5, "action": "Receive medication", "details": "Medication shipped to your doctor''s office"}
+    ]'::jsonb,
+    '["Completed PAF application", "Proof of income", "Prescription from doctor", "Insurance denial letter if applicable"]'::jsonb,
+    'https://www.novartis.com/us-en/patients-and-caregivers/patient-assistance',
+    '1-800-277-2254',
+    90,
+    '["uninsured"]'::jsonb
+)
+ON CONFLICT DO NOTHING;
+
+-- Everolimus pharmacy availability
+INSERT INTO pharmacy_availability (medication_id, pharmacy, is_available, price_note, url)
+VALUES
+    ('everolimus', 'costplus', FALSE, 'Brand-name Zortress not available', NULL),
+    ('everolimus', 'walmart', TRUE, 'Check pharmacy for pricing', 'https://www.walmart.com/cp/pharmacy'),
+    ('everolimus', 'goodrx', TRUE, 'Coupons available, prices vary', 'https://www.goodrx.com/zortress'),
+    ('everolimus', 'blinkhealth', TRUE, 'Check for current pricing', 'https://www.blinkhealth.com'),
+    ('everolimus', 'singlecare', TRUE, 'Discount card available', 'https://www.singlecare.com/prescription/everolimus')
+ON CONFLICT (medication_id, pharmacy) DO NOTHING;
+
+-- ----------------------------------------
+-- Belatacept (Nulojix)
+-- Pharmaceutical name: Belatacept
+-- Commercial name: Nulojix
+-- ----------------------------------------
+INSERT INTO medication_strategies (medication_id, generic_name, brand_name, category, condition, retail_price_low, retail_price_high, retail_price_note, common_mistakes)
+VALUES (
+    'belatacept',
+    'Belatacept',
+    'Nulojix',
+    'Immunosuppressant',
+    'Transplant Anti-Rejection',
+    300000, -- $3000
+    500000, -- $5000
+    'without insurance, per infusion',
+    '[
+        "Copay cards are NEVER available for Medicare or Medicare Advantage patients—this is federal law (Anti-Kickback Statute).",
+        "Nulojix is given as an IV infusion at a healthcare facility—not a pill you take at home.",
+        "You must have documentation of immunity to Epstein-Barr virus (EBV) before starting treatment.",
+        "Increased risk of certain cancers and infections—report any unusual symptoms to your doctor.",
+        "Patient assistance approval can take 2-4 weeks—apply before your next scheduled infusion."
+    ]'::jsonb
+)
+ON CONFLICT (medication_id) DO NOTHING;
+
+-- Belatacept savings options
+INSERT INTO savings_options (medication_id, option_type, name, description, estimated_cost_cents, estimated_cost_note, eligibility_criteria, steps, documents_needed, url, phone, priority, insurance_types)
+VALUES
+(
+    'belatacept',
+    'copay_card',
+    'BMS Access Support Copay Assistance',
+    'Manufacturer copay assistance for Nulojix for commercially insured patients',
+    0, -- $0 possible
+    'eligible patients may pay $0 per infusion with commercial insurance',
+    '["Must have commercial insurance", "Cannot use with Medicare, Medicaid, or government insurance", "US residents only"]'::jsonb,
+    '[
+        {"step_number": 1, "action": "Visit BMS Access Support", "details": "Go to bmsaccesssupport.com or call for assistance", "url": "https://www.bmsaccesssupport.bmscustomerconnect.com/"},
+        {"step_number": 2, "action": "Check eligibility", "details": "Answer questions about your insurance coverage"},
+        {"step_number": 3, "action": "Enroll in program", "details": "Complete enrollment for copay assistance"},
+        {"step_number": 4, "action": "Coordinate with infusion center", "details": "Ensure your infusion center has your copay card information on file"}
+    ]'::jsonb,
+    '["Insurance card", "Prescription from transplant doctor"]'::jsonb,
+    'https://www.bmsaccesssupport.bmscustomerconnect.com/',
+    '1-800-861-0048',
+    100,
+    '["commercial"]'::jsonb
+),
+(
+    'belatacept',
+    'pap',
+    'Bristol Myers Squibb Patient Assistance Foundation',
+    'Free medication for uninsured or underinsured patients who qualify based on income',
+    0, -- Free
+    'if approved based on income',
+    '["No insurance or inadequate prescription coverage", "Income at or below 400% Federal Poverty Level", "US residents only"]'::jsonb,
+    '[
+        {"step_number": 1, "action": "Call BMS Access Support", "details": "Speak with a representative", "phone": "1-800-861-0048"},
+        {"step_number": 2, "action": "Complete application", "details": "Fill out the PAF application with your doctor"},
+        {"step_number": 3, "action": "Submit proof of income", "details": "Provide tax return, pay stubs, or signed statement"},
+        {"step_number": 4, "action": "Wait for approval", "details": "Typically 2-4 weeks for processing"},
+        {"step_number": 5, "action": "Receive medication", "details": "Medication sent to your infusion center"}
+    ]'::jsonb,
+    '["Completed PAF application", "Proof of income", "Prescription from doctor", "Proof of no insurance or denial letter"]'::jsonb,
+    'https://www.bmsaccesssupport.bmscustomerconnect.com/',
+    '1-800-861-0048',
+    90,
+    '["uninsured"]'::jsonb
+)
+ON CONFLICT DO NOTHING;
+
+-- Belatacept pharmacy availability (infusion medication - different availability)
+INSERT INTO pharmacy_availability (medication_id, pharmacy, is_available, price_note, url)
+VALUES
+    ('belatacept', 'costplus', FALSE, 'Infusion medication - not available at retail pharmacies', NULL),
+    ('belatacept', 'walmart', FALSE, 'Infusion medication - administered at healthcare facilities', NULL),
+    ('belatacept', 'goodrx', FALSE, 'Infusion medication - contact specialty pharmacy', 'https://www.goodrx.com/nulojix'),
+    ('belatacept', 'blinkhealth', FALSE, 'Infusion medication - not available', NULL),
+    ('belatacept', 'singlecare', FALSE, 'Infusion medication - not available at retail', NULL)
+ON CONFLICT (medication_id, pharmacy) DO NOTHING;
+
+-- ============================================
 -- MEDICATION STRATEGY VIEW
 -- ============================================
 
