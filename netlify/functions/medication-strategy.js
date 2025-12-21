@@ -30,7 +30,11 @@ export async function handler(event) {
 
         // Fetch single medication strategy with all details
         if (medicationId) {
-            // Get medication strategy
+            // Normalize the input for flexible matching
+            const searchTerm = medicationId.toLowerCase().trim();
+
+            // Get medication strategy - match by medication_id, generic_name, or brand_name (case-insensitive)
+            // This handles cases where "Eliquis" and "apixaban" refer to the same medication
             const strategies = await sql`
                 SELECT
                     medication_id,
@@ -43,7 +47,11 @@ export async function handler(event) {
                     retail_price_note,
                     common_mistakes
                 FROM medication_strategies
-                WHERE medication_id = ${medicationId}
+                WHERE (
+                    LOWER(medication_id) = ${searchTerm}
+                    OR LOWER(generic_name) = ${searchTerm}
+                    OR LOWER(brand_name) = ${searchTerm}
+                )
                 AND is_active = TRUE
             `;
 
@@ -57,7 +65,11 @@ export async function handler(event) {
 
             const strategy = strategies[0];
 
-            // Get savings options
+            // Use the resolved medication_id for subsequent queries
+            // This ensures we get the correct data even if user searched by brand name (e.g., "Eliquis" -> "apixaban")
+            const resolvedMedicationId = strategy.medication_id;
+
+            // Get savings options using the resolved medication_id
             const savingsOptions = await sql`
                 SELECT
                     id,
@@ -73,12 +85,12 @@ export async function handler(event) {
                     phone,
                     insurance_types
                 FROM savings_options
-                WHERE medication_id = ${medicationId}
+                WHERE medication_id = ${resolvedMedicationId}
                 AND is_active = TRUE
                 ORDER BY priority DESC
             `;
 
-            // Get pharmacy availability
+            // Get pharmacy availability using the resolved medication_id
             const pharmacies = await sql`
                 SELECT
                     pharmacy,
@@ -87,7 +99,7 @@ export async function handler(event) {
                     price_note,
                     url
                 FROM pharmacy_availability
-                WHERE medication_id = ${medicationId}
+                WHERE medication_id = ${resolvedMedicationId}
             `;
 
             // Convert pharmacies array to object
